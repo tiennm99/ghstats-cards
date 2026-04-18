@@ -28,6 +28,10 @@ Cards rendered:
 
 Live dracula sample ships in [`output/dracula/`](./output/dracula).
 
+## In the wild
+
+- [**tiennm99/tiennm99**](https://github.com/tiennm99/tiennm99) — author's profile README, refreshed daily via `tiennm99/ghstats@v1`. Two-per-row layout, dracula theme.
+
 ## Use as a GitHub Action (recommended)
 
 Drop this in `.github/workflows/ghstats.yml` in your **profile repo** (the one
