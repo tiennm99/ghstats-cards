@@ -1,6 +1,7 @@
 package github
 
 import (
+	"context"
 	"errors"
 	"sort"
 	"time"
@@ -58,8 +59,10 @@ type profileGQL struct {
 }
 
 // FetchOptions tunes which repos contribute to the profile's aggregates.
-// All defaults are conservative (no forks, no private) so public-facing
-// READMEs don't accidentally leak work-repo signal.
+// Zero value excludes both forks and private repos; the CLI flips both to
+// true by default (private is a no-op when the token lacks repo scope, so
+// it's safe to opt in). Callers using FetchOptions{} literal get the
+// conservative behavior regardless of CLI defaults.
 type FetchOptions struct {
 	IncludeForks   bool
 	IncludePrivate bool
@@ -68,7 +71,7 @@ type FetchOptions struct {
 // FetchProfile collects profile, stats and repos-per-language data for the
 // given user. Owned repos are paginated up to 10 pages (1000 repos) as a
 // safety cap. Forks and private repos are filtered client-side per opts.
-func (c *Client) FetchProfile(login string, opts FetchOptions) (*Profile, error) {
+func (c *Client) FetchProfile(ctx context.Context, login string, opts FetchOptions) (*Profile, error) {
 	if login == "" {
 		return nil, errors.New("empty user")
 	}
@@ -87,7 +90,7 @@ func (c *Client) FetchProfile(login string, opts FetchOptions) (*Profile, error)
 		}
 
 		var resp profileGQL
-		if err := c.query(profileQuery, vars, &resp); err != nil {
+		if err := c.query(ctx, profileQuery, vars, &resp); err != nil {
 			return nil, err
 		}
 		if resp.User == nil {
@@ -115,7 +118,7 @@ func (c *Client) FetchProfile(login string, opts FetchOptions) (*Profile, error)
 			cc := u.ContributionsCollection
 			p.TotalCommits = cc.TotalCommitContributions
 			p.TotalReviews = cc.TotalPullRequestReviewContributions
-			p.TotalContributions = cc.ContributionCalendar.TotalContributions + cc.RestrictedContributionsCount
+			p.TotalContributionsLastYear = cc.ContributionCalendar.TotalContributions + cc.RestrictedContributionsCount
 			p.ContributionYears = append([]int(nil), cc.ContributionYears...)
 
 			// Flatten week → day into a linear daily series sorted by date.
