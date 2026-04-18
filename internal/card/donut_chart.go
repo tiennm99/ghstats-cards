@@ -14,17 +14,17 @@ import (
 // shown; smaller slices are grouped into "Other".
 func renderDonutCard(title string, stats []github.LangStat, t theme.Theme) []byte {
 	const (
-		width     = 500
-		height    = 220
-		topN      = 6
-		cx        = 380  // donut centre x
-		cy        = 120  // donut centre y
-		outerR    = 70.0 // donut outer radius
-		innerR    = 38.0 // donut hole
-		legendX   = 30
-		legendY0  = 70
-		legendDY  = 22
-		swatchSz  = 12
+		width    = 340
+		height   = 200
+		topN     = 5
+		cx       = 250  // donut centre x
+		cy       = 110  // donut centre y
+		outerR   = 55.0 // donut outer radius
+		innerR   = 30.0 // donut hole
+		legendX  = 20
+		legendY0 = 55
+		legendDY = 20
+		swatchSz = 10
 	)
 
 	stats = collapseOther(stats, topN)
@@ -50,10 +50,10 @@ func renderDonutCard(title string, stats []github.LangStat, t theme.Theme) []byt
 		y := legendY0 + i*legendDY
 		fmt.Fprintf(&b, `
   <rect x="%d" y="%d" width="%d" height="%d" fill="%s" stroke="%s" stroke-width="1"/>
-  <text x="%d" y="%d" font-size="13" fill="%s">%s %.2f%%</text>`,
+  <text x="%d" y="%d" font-size="11" fill="%s">%s %.2f%%</text>`,
 			legendX, y-swatchSz+2, swatchSz, swatchSz,
 			colorOrAccent(s.Color, t.Accent), t.Background,
-			legendX+swatchSz+8, y, t.Text,
+			legendX+swatchSz+6, y, t.Text,
 			escapeXML(s.Name), pct)
 	}
 

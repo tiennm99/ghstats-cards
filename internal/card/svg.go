@@ -55,8 +55,8 @@ func formatInt(n int) string {
 // header returns the opening <svg> tag + background rect + title text.
 func header(width, height int, bg, stroke string, strokeOpacity float64, titleColor, title string) string {
 	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" font-family="'Segoe UI', Ubuntu, Sans-Serif">
-  <rect x="0.5" y="0.5" width="%d" height="%d" rx="8" fill="%s" stroke="%s" stroke-opacity="%.2f"/>
-  <text x="25" y="35" font-size="18" font-weight="600" fill="%s">%s</text>`,
+  <rect x="0.5" y="0.5" width="%d" height="%d" rx="6" fill="%s" stroke="%s" stroke-opacity="%.2f"/>
+  <text x="20" y="30" font-size="15" font-weight="600" fill="%s">%s</text>`,
 		width, height, width, height,
 		width-1, height-1, bg, stroke, strokeOpacity,
 		titleColor, escapeXML(title))

@@ -21,12 +21,12 @@ type profileRow struct {
 
 func (profileCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	const (
-		width    = 500
-		height   = 220
-		rowX     = 25
-		rowY0    = 70
-		rowDY    = 24
-		iconSize = 14
+		width    = 340
+		height   = 200
+		rowX     = 20
+		rowY0    = 60
+		rowDY    = 20
+		iconSize = 12
 		maxRows  = 7
 	)
 
@@ -46,9 +46,9 @@ func (profileCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 		// icon glyph: translate to row position, scale down, fill with muted.
 		fmt.Fprintf(&b, `
   <g transform="translate(%d,%.2f) scale(%.3f)" fill="%s">%s</g>
-  <text x="%d" y="%d" font-size="13" fill="%s">%s</text>`,
+  <text x="%d" y="%d" font-size="12" fill="%s">%s</text>`,
 			rowX, float64(y-iconSize+2), scale, t.Muted, r.icon,
-			rowX+iconSize+10, y, t.Text, escapeXML(r.value))
+			rowX+iconSize+8, y, t.Text, escapeXML(r.value))
 	}
 
 	b.WriteString(footer)

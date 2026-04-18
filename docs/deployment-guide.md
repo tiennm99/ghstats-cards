@@ -110,7 +110,12 @@ runs:
 3. On green, GHCR push + cross-platform binary artifacts happen automatically.
 4. Docker base images and third-party actions are SHA-pinned (with version
    comments) so mutable-tag changes upstream can't rewrite a released image.
-5. Update any public Actions marketplace metadata if the major version changed.
+5. **Marketplace publishing (one-time per repo):** GitHub only exposes the
+   "Publish this Action to the GitHub Marketplace" toggle on the Release
+   web UI — there is no CLI flag. Open the newly created release at
+   `https://github.com/tiennm99/ghstats/releases/tag/vX.Y.Z/edit`, tick the
+   marketplace checkbox, accept the terms, and re-publish. Subsequent
+   releases inherit marketplace visibility automatically.
 
 ## Rollback
 

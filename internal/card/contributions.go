@@ -37,12 +37,12 @@ type monthBucket struct {
 // contribution cards; only title + data differ.
 func renderContributions(title string, days []github.DailyContribution, t theme.Theme) []byte {
 	const (
-		width    = 500
-		height   = 220
-		leftPad  = 35
-		rightPad = 35
-		topPad   = 60
-		chartH   = 120
+		width    = 340
+		height   = 200
+		leftPad  = 28
+		rightPad = 28
+		topPad   = 45
+		chartH   = 105
 	)
 	chartW := width - leftPad - rightPad
 

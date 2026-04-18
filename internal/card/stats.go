@@ -21,13 +21,13 @@ type statRow struct {
 
 func (statsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	const (
-		width    = 500
-		height   = 220
-		rowX     = 25
-		rowY0    = 70
-		rowDY    = 24
-		iconSize = 14
-		valueX   = 475 // right-aligned x anchor
+		width    = 340
+		height   = 200
+		rowX     = 20
+		rowY0    = 55
+		rowDY    = 20
+		iconSize = 12
+		valueX   = 320 // right-aligned x anchor
 	)
 
 	rows := []statRow{
@@ -48,10 +48,10 @@ func (statsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 		y := rowY0 + i*rowDY
 		fmt.Fprintf(&b, `
   <g transform="translate(%d,%.2f) scale(%.3f)" fill="%s">%s</g>
-  <text x="%d" y="%d" font-size="13" fill="%s">%s</text>
-  <text x="%d" y="%d" font-size="13" font-weight="600" fill="%s" text-anchor="end">%s</text>`,
+  <text x="%d" y="%d" font-size="12" fill="%s">%s</text>
+  <text x="%d" y="%d" font-size="12" font-weight="600" fill="%s" text-anchor="end">%s</text>`,
 			rowX, float64(y-iconSize+2), scale, t.Muted, r.icon,
-			rowX+iconSize+10, y, t.Text, escapeXML(r.label),
+			rowX+iconSize+8, y, t.Text, escapeXML(r.label),
 			valueX, y, t.Accent, escapeXML(r.value))
 	}
 

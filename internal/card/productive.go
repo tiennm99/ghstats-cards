@@ -40,13 +40,13 @@ var xTickHours = [...]int{0, 6, 12, 18, 23}
 // hover titles. Shared by the last-year and all-time productive-time cards.
 func renderProductiveTime(title string, data [24]int, t theme.Theme) []byte {
 	const (
-		width    = 500
-		height   = 220
-		leftAxis = 50
-		rightPad = 25
-		topPad   = 60
+		width    = 340
+		height   = 200
+		leftAxis = 35
+		rightPad = 15
+		topPad   = 45
 		chartH   = 110
-		barGap   = 2
+		barGap   = 1
 	)
 	chartW := width - leftAxis - rightPad
 	barW := float64(chartW-barGap*23) / 24.0
