@@ -11,9 +11,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/tiennm99/ghstats/internal/card"
-	"github.com/tiennm99/ghstats/internal/github"
-	"github.com/tiennm99/ghstats/internal/theme"
+	"github.com/tiennm99/ghstats-cards/internal/card"
+	"github.com/tiennm99/ghstats-cards/internal/github"
+	"github.com/tiennm99/ghstats-cards/internal/theme"
 )
 
 func main() {

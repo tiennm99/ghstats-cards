@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: tiennm99/ghstats@v1
+      - uses: tiennm99/ghstats-cards@v1
         with:
           user: ${{ github.repository_owner }}
           token: ${{ secrets.GHSTATS_TOKEN }}
@@ -77,7 +77,7 @@ Install:
 
 ```sh
 # Linux x86_64 example
-curl -L https://github.com/tiennm99/ghstats/releases/latest/download/ghstats_linux_amd64.tar.gz \
+curl -L https://github.com/tiennm99/ghstats-cards/releases/latest/download/ghstats_linux_amd64.tar.gz \
   | tar xz
 ./ghstats -user YOUR_USERNAME
 ```
@@ -85,21 +85,21 @@ curl -L https://github.com/tiennm99/ghstats/releases/latest/download/ghstats_lin
 ## 3. go install
 
 ```sh
-go install github.com/tiennm99/ghstats@latest
+go install github.com/tiennm99/ghstats-cards@latest
 ```
 
 Requires Go 1.26+. Puts the binary in `$(go env GOPATH)/bin`.
 
 ## Docker image
 
-Published to `ghcr.io/tiennm99/ghstats:<tag>` on each `v*` release via `.github/workflows/release.yml` (buildx, multi-tag: exact version, major.minor, major, latest).
+Published to `ghcr.io/tiennm99/ghstats-cards:<tag>` on each `v*` release via `.github/workflows/release.yml` (buildx, multi-tag: exact version, major.minor, major, latest).
 
 The Action itself uses a runner-built image by default (`image: Dockerfile` in `action.yml`). To switch to the pre-built image for faster cold starts, edit `action.yml`:
 
 ```yaml
 runs:
   using: docker
-  image: docker://ghcr.io/tiennm99/ghstats:v1
+  image: docker://ghcr.io/tiennm99/ghstats-cards:v1
 ```
 
 ## Release process
@@ -113,7 +113,7 @@ runs:
 5. **Marketplace publishing (one-time per repo):** GitHub only exposes the
    "Publish this Action to the GitHub Marketplace" toggle on the Release
    web UI — there is no CLI flag. Open the newly created release at
-   `https://github.com/tiennm99/ghstats/releases/tag/vX.Y.Z/edit`, tick the
+   `https://github.com/tiennm99/ghstats-cards/releases/tag/vX.Y.Z/edit`, tick the
    marketplace checkbox, accept the terms, and re-publish. Subsequent
    releases inherit marketplace visibility automatically.
 

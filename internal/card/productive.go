@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/tiennm99/ghstats/internal/github"
-	"github.com/tiennm99/ghstats/internal/theme"
+	"github.com/tiennm99/ghstats-cards/internal/github"
+	"github.com/tiennm99/ghstats-cards/internal/theme"
 )
 
 type productiveCard struct{}

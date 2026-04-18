@@ -5,8 +5,8 @@ import (
 	"math"
 	"strings"
 
-	"github.com/tiennm99/ghstats/internal/github"
-	"github.com/tiennm99/ghstats/internal/theme"
+	"github.com/tiennm99/ghstats-cards/internal/github"
+	"github.com/tiennm99/ghstats-cards/internal/theme"
 )
 
 // renderDonutCard draws a donut chart with a left-side legend. Shared by the

@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/tiennm99/ghstats/internal/github"
-	"github.com/tiennm99/ghstats/internal/theme"
+	"github.com/tiennm99/ghstats-cards/internal/github"
+	"github.com/tiennm99/ghstats-cards/internal/theme"
 )
 
 // Card renders one SVG for a Profile under the given theme.
