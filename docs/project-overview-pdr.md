@@ -1,0 +1,68 @@
+# ghstats — Product Development Requirements
+
+## One-liner
+
+Single-binary Go CLI + GitHub Action that renders 9 themed SVG cards summarising a GitHub user's public (and optionally private) profile, for embedding in a profile README.
+
+## Users
+
+- **Primary**: GitHub users maintaining a profile README who want auto-updating stat cards without a self-hosted service.
+- **Secondary**: Tools integrating profile summaries (dashboards, portfolio sites).
+
+## Non-goals
+
+- WakaTime-style editor telemetry.
+- Cloning repos or running linguist locally (lowlighter/metrics territory). A future `-accurate-languages` mode may add per-commit REST classification; clone-mode is out of scope for v1.
+- Real-time / per-request API server. ghstats is a scheduled batch renderer.
+
+## Value proposition vs alternatives
+
+| Tool | Language | Runs as | Solves per-commit attribution? |
+| --- | --- | --- | --- |
+| anuraghazra/github-readme-stats | JS | hosted service | No (byte-size only) |
+| vn7n24fzkq/github-profile-summary-cards | TS | Action + hosted | No (primary-language-per-repo) |
+| lowlighter/metrics (indepth) | JS | Action | Yes (clones + linguist-js) |
+| **ghstats** | Go | Action + CLI | Partial (byte-weighted today; REST-per-commit planned) |
+
+Distinguishing traits:
+- **Single binary**: no Node, no Ruby, no Docker needed for CLI usage.
+- **Seed-list sampling**: commit-history probes land on repos the user actually committed in (via `contributionsCollection.commitContributionsByRepository`), not top-starred or owned-only.
+- **All-time variants**: for every time-bounded card (most-commit-language, productive-time, contributions), there's a lifetime counterpart.
+- **Public-safe defaults**: forks and private repos are **off** by default; users opt in.
+
+## Functional requirements
+
+| # | Requirement |
+| --- | --- |
+| F1 | Render 9 cards per selected theme (see `docs/system-architecture.md`) |
+| F2 | Support 60+ themes ported from github-profile-summary-cards |
+| F3 | Handle the full username→profile→cards flow in a single invocation |
+| F4 | Package as GitHub Action with `commit_changes` auto-commit of output |
+| F5 | Expose `-include-forks` / `-include-private` toggles |
+| F6 | Apply byte-weighted commit-to-language attribution |
+| F7 | Render smooth area charts for time-series (Catmull-Rom) |
+| F8 | Support IANA timezones for productive-time (display `UTC±N.NN`) |
+
+## Non-functional requirements
+
+| Axis | Target |
+| --- | --- |
+| Runtime (scheduled Action) | < 60 s for typical user |
+| GraphQL calls per run | < 100 |
+| REST calls per run | 0 (may grow with future modes) |
+| Dependencies | stdlib only (no Go module deps required) |
+| Binary size | < 15 MB stripped |
+| SVG output correctness | XML-escaped, no script injection from user data |
+
+## Success metrics
+
+- Cards render identically across `dracula`, `github`, `github_dark`, `nord_bright`, `tokyonight`.
+- Test suite covers rendering, XML escaping, number formatting, language sort.
+- `go vet ./...` and `go test ./...` clean on every commit.
+
+## Open questions / tracked roadmap items
+
+- Per-commit REST classification (`-accurate-languages`)
+- Partial bare clone mode for lifetime all-repo language stats
+- `-exclude-repo` flag to drop known noise repos
+- Expose `ownerAffiliations` beyond OWNER (COLLABORATOR, ORGANIZATION_MEMBER)
