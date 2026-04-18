@@ -1,48 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="220" viewBox="0 0 500 220" font-family="'Segoe UI', Ubuntu, Sans-Serif">
-  <rect x="0.5" y="0.5" width="499" height="219" rx="8" fill="#282a36" stroke="#282a36" stroke-opacity="1.00"/>
-  <text x="25" y="35" font-size="18" font-weight="600" fill="#ff79c6">Contributions (last year)</text>
-  <line x1="35" y1="60" x2="35" y2="180" stroke="#6272a4"/>
-  <line x1="465" y1="60" x2="465" y2="180" stroke="#6272a4"/>
-  <line x1="31" y1="180" x2="35" y2="180" stroke="#6272a4"/>
-  <text x="29" y="183" font-size="10" fill="#6272a4" text-anchor="end">0</text>
-  <line x1="465" y1="180" x2="469" y2="180" stroke="#6272a4"/>
-  <text x="471" y="183" font-size="10" fill="#6272a4" text-anchor="start">0</text>
-  <line x1="31" y1="156" x2="35" y2="156" stroke="#6272a4"/>
-  <text x="29" y="159" font-size="10" fill="#6272a4" text-anchor="end">100</text>
-  <line x1="465" y1="156" x2="469" y2="156" stroke="#6272a4"/>
-  <text x="471" y="159" font-size="10" fill="#6272a4" text-anchor="start">100</text>
-  <line x1="31" y1="132" x2="35" y2="132" stroke="#6272a4"/>
-  <text x="29" y="135" font-size="10" fill="#6272a4" text-anchor="end">200</text>
-  <line x1="465" y1="132" x2="469" y2="132" stroke="#6272a4"/>
-  <text x="471" y="135" font-size="10" fill="#6272a4" text-anchor="start">200</text>
-  <line x1="31" y1="108" x2="35" y2="108" stroke="#6272a4"/>
-  <text x="29" y="111" font-size="10" fill="#6272a4" text-anchor="end">300</text>
-  <line x1="465" y1="108" x2="469" y2="108" stroke="#6272a4"/>
-  <text x="471" y="111" font-size="10" fill="#6272a4" text-anchor="start">300</text>
-  <line x1="31" y1="84" x2="35" y2="84" stroke="#6272a4"/>
-  <text x="29" y="87" font-size="10" fill="#6272a4" text-anchor="end">400</text>
-  <line x1="465" y1="84" x2="469" y2="84" stroke="#6272a4"/>
-  <text x="471" y="87" font-size="10" fill="#6272a4" text-anchor="start">400</text>
-  <line x1="31" y1="60" x2="35" y2="60" stroke="#6272a4"/>
-  <text x="29" y="63" font-size="10" fill="#6272a4" text-anchor="end">500</text>
-  <line x1="465" y1="60" x2="469" y2="60" stroke="#6272a4"/>
-  <text x="471" y="63" font-size="10" fill="#6272a4" text-anchor="start">500</text>
-  <line x1="35" y1="180" x2="465" y2="180" stroke="#6272a4"/>
-  <line x1="35" y1="180" x2="35" y2="184" stroke="#6272a4"/>
-  <text x="35" y="196" font-size="10" fill="#6272a4" text-anchor="middle">04/25</text>
-  <line x1="106" y1="180" x2="106" y2="184" stroke="#6272a4"/>
-  <text x="106" y="196" font-size="10" fill="#6272a4" text-anchor="middle">06/25</text>
-  <line x1="178" y1="180" x2="178" y2="184" stroke="#6272a4"/>
-  <text x="178" y="196" font-size="10" fill="#6272a4" text-anchor="middle">08/25</text>
-  <line x1="250" y1="180" x2="250" y2="184" stroke="#6272a4"/>
-  <text x="250" y="196" font-size="10" fill="#6272a4" text-anchor="middle">10/25</text>
-  <line x1="321" y1="180" x2="321" y2="184" stroke="#6272a4"/>
-  <text x="321" y="196" font-size="10" fill="#6272a4" text-anchor="middle">12/25</text>
-  <line x1="393" y1="180" x2="393" y2="184" stroke="#6272a4"/>
-  <text x="393" y="196" font-size="10" fill="#6272a4" text-anchor="middle">02/26</text>
-  <line x1="465" y1="180" x2="465" y2="184" stroke="#6272a4"/>
-  <text x="465" y="196" font-size="10" fill="#6272a4" text-anchor="middle">04/26</text>
-  <path d="M35.00,164.16 C40.97,162.96 58.89,156.12 70.83,156.96 C82.78,157.80 94.72,167.40 106.67,169.20 C118.61,171.00 130.56,168.84 142.50,167.76 C154.44,166.68 166.39,162.20 178.33,162.72 C190.28,163.24 202.22,172.72 214.17,170.88 C226.11,169.04 238.06,160.20 250.00,151.68 C261.94,143.16 273.89,122.00 285.83,119.76 C297.78,117.52 309.72,129.64 321.67,138.24 C333.61,146.84 345.56,168.64 357.50,171.36 C369.44,174.08 381.39,164.40 393.33,154.56 C405.28,144.72 417.22,129.04 429.17,112.32 C441.11,95.60 459.03,63.92 465.00,54.24 L465.00,180.00 L35.00,180.00 Z" fill="#bd93f9" fill-opacity="0.25" stroke="none"/>
-  <path d="M35.00,164.16 C40.97,162.96 58.89,156.12 70.83,156.96 C82.78,157.80 94.72,167.40 106.67,169.20 C118.61,171.00 130.56,168.84 142.50,167.76 C154.44,166.68 166.39,162.20 178.33,162.72 C190.28,163.24 202.22,172.72 214.17,170.88 C226.11,169.04 238.06,160.20 250.00,151.68 C261.94,143.16 273.89,122.00 285.83,119.76 C297.78,117.52 309.72,129.64 321.67,138.24 C333.61,146.84 345.56,168.64 357.50,171.36 C369.44,174.08 381.39,164.40 393.33,154.56 C405.28,144.72 417.22,129.04 429.17,112.32 C441.11,95.60 459.03,63.92 465.00,54.24" fill="none" stroke="#bd93f9" stroke-width="2"/>
-  <text x="250" y="214" font-size="11" fill="#6272a4" text-anchor="middle">mm/yy</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="200" viewBox="0 0 340 200" font-family="'Segoe UI', Ubuntu, Sans-Serif">
+  <rect x="0.5" y="0.5" width="339" height="199" rx="6" fill="#282a36" stroke="#282a36" stroke-opacity="1.00"/>
+  <text x="20" y="30" font-size="15" font-weight="600" fill="#ff79c6">Contributions (last year)</text>
+  <line x1="28" y1="45" x2="28" y2="150" stroke="#6272a4"/>
+  <line x1="312" y1="45" x2="312" y2="150" stroke="#6272a4"/>
+  <line x1="24" y1="150" x2="28" y2="150" stroke="#6272a4"/>
+  <text x="22" y="153" font-size="10" fill="#6272a4" text-anchor="end">0</text>
+  <line x1="312" y1="150" x2="316" y2="150" stroke="#6272a4"/>
+  <text x="318" y="153" font-size="10" fill="#6272a4" text-anchor="start">0</text>
+  <line x1="24" y1="129" x2="28" y2="129" stroke="#6272a4"/>
+  <text x="22" y="132" font-size="10" fill="#6272a4" text-anchor="end">100</text>
+  <line x1="312" y1="129" x2="316" y2="129" stroke="#6272a4"/>
+  <text x="318" y="132" font-size="10" fill="#6272a4" text-anchor="start">100</text>
+  <line x1="24" y1="108" x2="28" y2="108" stroke="#6272a4"/>
+  <text x="22" y="111" font-size="10" fill="#6272a4" text-anchor="end">200</text>
+  <line x1="312" y1="108" x2="316" y2="108" stroke="#6272a4"/>
+  <text x="318" y="111" font-size="10" fill="#6272a4" text-anchor="start">200</text>
+  <line x1="24" y1="87" x2="28" y2="87" stroke="#6272a4"/>
+  <text x="22" y="90" font-size="10" fill="#6272a4" text-anchor="end">300</text>
+  <line x1="312" y1="87" x2="316" y2="87" stroke="#6272a4"/>
+  <text x="318" y="90" font-size="10" fill="#6272a4" text-anchor="start">300</text>
+  <line x1="24" y1="66" x2="28" y2="66" stroke="#6272a4"/>
+  <text x="22" y="69" font-size="10" fill="#6272a4" text-anchor="end">400</text>
+  <line x1="312" y1="66" x2="316" y2="66" stroke="#6272a4"/>
+  <text x="318" y="69" font-size="10" fill="#6272a4" text-anchor="start">400</text>
+  <line x1="24" y1="45" x2="28" y2="45" stroke="#6272a4"/>
+  <text x="22" y="48" font-size="10" fill="#6272a4" text-anchor="end">500</text>
+  <line x1="312" y1="45" x2="316" y2="45" stroke="#6272a4"/>
+  <text x="318" y="48" font-size="10" fill="#6272a4" text-anchor="start">500</text>
+  <line x1="28" y1="150" x2="312" y2="150" stroke="#6272a4"/>
+  <line x1="28" y1="150" x2="28" y2="154" stroke="#6272a4"/>
+  <text x="28" y="166" font-size="10" fill="#6272a4" text-anchor="middle">04/25</text>
+  <line x1="75" y1="150" x2="75" y2="154" stroke="#6272a4"/>
+  <text x="75" y="166" font-size="10" fill="#6272a4" text-anchor="middle">06/25</text>
+  <line x1="122" y1="150" x2="122" y2="154" stroke="#6272a4"/>
+  <text x="122" y="166" font-size="10" fill="#6272a4" text-anchor="middle">08/25</text>
+  <line x1="170" y1="150" x2="170" y2="154" stroke="#6272a4"/>
+  <text x="170" y="166" font-size="10" fill="#6272a4" text-anchor="middle">10/25</text>
+  <line x1="217" y1="150" x2="217" y2="154" stroke="#6272a4"/>
+  <text x="217" y="166" font-size="10" fill="#6272a4" text-anchor="middle">12/25</text>
+  <line x1="264" y1="150" x2="264" y2="154" stroke="#6272a4"/>
+  <text x="264" y="166" font-size="10" fill="#6272a4" text-anchor="middle">02/26</text>
+  <line x1="312" y1="150" x2="312" y2="154" stroke="#6272a4"/>
+  <text x="312" y="166" font-size="10" fill="#6272a4" text-anchor="middle">04/26</text>
+  <path d="M28.00,136.14 C31.94,135.09 43.78,129.10 51.67,129.84 C59.56,130.58 67.44,138.98 75.33,140.55 C83.22,142.12 91.11,140.23 99.00,139.29 C106.89,138.34 114.78,134.42 122.67,134.88 C130.56,135.34 138.44,143.63 146.33,142.02 C154.22,140.41 162.11,132.68 170.00,125.22 C177.89,117.77 185.78,99.25 193.67,97.29 C201.56,95.33 209.44,105.94 217.33,113.46 C225.22,120.99 233.11,140.06 241.00,142.44 C248.89,144.82 256.78,136.35 264.67,127.74 C272.56,119.13 280.44,105.94 288.33,90.78 C296.22,75.62 308.06,45.80 312.00,36.81 L312.00,150.00 L28.00,150.00 Z" fill="#bd93f9" fill-opacity="0.25" stroke="none"/>
+  <path d="M28.00,136.14 C31.94,135.09 43.78,129.10 51.67,129.84 C59.56,130.58 67.44,138.98 75.33,140.55 C83.22,142.12 91.11,140.23 99.00,139.29 C106.89,138.34 114.78,134.42 122.67,134.88 C130.56,135.34 138.44,143.63 146.33,142.02 C154.22,140.41 162.11,132.68 170.00,125.22 C177.89,117.77 185.78,99.25 193.67,97.29 C201.56,95.33 209.44,105.94 217.33,113.46 C225.22,120.99 233.11,140.06 241.00,142.44 C248.89,144.82 256.78,136.35 264.67,127.74 C272.56,119.13 280.44,105.94 288.33,90.78 C296.22,75.62 308.06,45.80 312.00,36.81" fill="none" stroke="#bd93f9" stroke-width="2"/>
+  <text x="170" y="184" font-size="11" fill="#6272a4" text-anchor="middle">mm/yy</text>
 </svg>
