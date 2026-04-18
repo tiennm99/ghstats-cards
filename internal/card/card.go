@@ -27,6 +27,9 @@ var allCards = []Card{
 	statsCard{},
 	productiveCard{},
 	contributionsCard{},
+	mostCommitLanguageAllTimeCard{},
+	productiveAllTimeCard{},
+	contributionsAllTimeCard{},
 }
 
 // RenderAll writes every card into outDir/<themeID>/.

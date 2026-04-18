@@ -13,6 +13,18 @@ type contributionsCard struct{}
 
 func (contributionsCard) Filename() string { return "5-contributions.svg" }
 
+func (contributionsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
+	return renderContributions("Contributions (last year)", p.DailyContributions, t), nil
+}
+
+type contributionsAllTimeCard struct{}
+
+func (contributionsAllTimeCard) Filename() string { return "8-contributions-all-time.svg" }
+
+func (contributionsAllTimeCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
+	return renderContributions("Contributions (all time)", p.DailyContributionsAllTime, t), nil
+}
+
 // monthBucket holds a calendar month's aggregate contribution count.
 type monthBucket struct {
 	Year  int
@@ -20,7 +32,10 @@ type monthBucket struct {
 	Count int
 }
 
-func (contributionsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
+// renderContributions draws a smooth filled area chart with y-axis labels on
+// both sides and YY/MM labels on the x-axis. Shared by last-year and all-time
+// contribution cards; only title + data differ.
+func renderContributions(title string, days []github.DailyContribution, t theme.Theme) []byte {
 	const (
 		width    = 500
 		height   = 220
@@ -32,14 +47,14 @@ func (contributionsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	chartW := width - leftPad - rightPad
 
 	var b strings.Builder
-	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, "Contributions (last year)"))
+	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, title))
 
-	buckets := aggregateByMonth(p.DailyContributions)
+	buckets := aggregateByMonth(days)
 	if len(buckets) < 2 {
 		fmt.Fprintf(&b, `
   <text x="25" y="90" font-size="13" fill="%s">No contribution data available.</text>`, t.Muted)
 		b.WriteString(footer)
-		return []byte(b.String()), nil
+		return []byte(b.String())
 	}
 
 	// Y scale based on max monthly count; nice ticks for labels.
@@ -87,16 +102,18 @@ func (contributionsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 			rightX+6, y+3, t.Muted, label)
 	}
 
-	// X axis baseline + month labels (every other month to avoid overlap).
+	// X axis baseline + month labels. Stride is chosen so roughly xLabelTarget
+	// labels span the full width regardless of bucket count — keeps the axis
+	// readable whether we plot 12 months (last year) or 100+ months (all time).
 	fmt.Fprintf(&b, `
   <line x1="%d" y1="%d" x2="%d" y2="%d" stroke="%s"/>`,
 		leftPad, topPad+chartH, leftPad+chartW, topPad+chartH, t.Muted)
 	for i, bk := range buckets {
-		if i%2 != 0 && i != len(buckets)-1 {
+		if !xAxisLabelVisible(i, len(buckets)) {
 			continue
 		}
 		x := int(pts[i][0])
-		label := fmt.Sprintf("%02d/%02d", bk.Year%100, int(bk.Month))
+		label := fmt.Sprintf("%02d/%02d", int(bk.Month), bk.Year%100)
 		fmt.Fprintf(&b, `
   <line x1="%d" y1="%d" x2="%d" y2="%d" stroke="%s"/>
   <text x="%d" y="%d" font-size="10" fill="%s" text-anchor="middle">%s</text>`,
@@ -112,8 +129,36 @@ func (contributionsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 		path, t.Accent,
 		catmullRomLinePath(pts), t.Accent)
 
+	// Axis caption — documents the tick label format.
+	fmt.Fprintf(&b, `
+  <text x="%d" y="%d" font-size="11" fill="%s" text-anchor="middle">mm/yy</text>`,
+		leftPad+chartW/2, topPad+chartH+34, t.Muted)
+
 	b.WriteString(footer)
-	return []byte(b.String()), nil
+	return []byte(b.String())
+}
+
+// xAxisLabelVisible returns true when the bucket at position i should get a
+// printed month label. Targets ~xLabelTarget labels evenly distributed across
+// the axis, always pinning the first and last so the span is obvious.
+const xLabelTarget = 6
+
+func xAxisLabelVisible(i, n int) bool {
+	if n <= xLabelTarget {
+		return true // few enough points — label all of them
+	}
+	if i == 0 || i == n-1 {
+		return true
+	}
+	stride := (n - 1) / (xLabelTarget - 1)
+	if stride < 1 {
+		stride = 1
+	}
+	// Skip labels that are too close to the pinned last point.
+	if n-1-i < stride/2 {
+		return false
+	}
+	return i%stride == 0
 }
 
 // aggregateByMonth bins the daily series into consecutive month buckets

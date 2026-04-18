@@ -21,7 +21,7 @@ func main() {
 		themesFlag = flag.String("themes", "dracula", "comma-separated theme ids, or 'all'")
 		tzName     = flag.String("tz", "Local", "timezone for productive-time card (IANA name, e.g. Asia/Saigon)")
 		topRepos   = flag.Int("top-repos", 10, "owned repos to sample for productive-time heatmap (0 to skip)")
-		perRepo    = flag.Int("commits-per-repo", 100, "max commits sampled per repo")
+		perRepo    = flag.Int("commits-per-repo", 500, "max commits sampled per repo (covers both last-year and all-time aggregates)")
 		listThemes = flag.Bool("list-themes", false, "print available theme ids and exit")
 	)
 	flag.Parse()
@@ -57,6 +57,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "error: fetch profile: %v\n", err)
 		os.Exit(1)
 	}
+	profile.UTCOffsetLabel = utcOffsetLabel(loc)
 
 	if *topRepos > 0 && profile.ID != "" {
 		repos := profile.TopRepos
@@ -67,6 +68,11 @@ func main() {
 			fmt.Fprintf(os.Stderr, "warn: productive-time + commits-per-language fetch: %v\n", err)
 		}
 	}
+	if len(profile.ContributionYears) > 0 {
+		if err := client.FetchContributionsAllTime(profile); err != nil {
+			fmt.Fprintf(os.Stderr, "warn: all-time contributions fetch: %v\n", err)
+		}
+	}
 
 	for _, t := range selected {
 		if err := card.RenderAll(profile, t, *out); err != nil {
@@ -75,6 +81,15 @@ func main() {
 		}
 		fmt.Printf("wrote %s/%s/\n", *out, t.ID)
 	}
+}
+
+// utcOffsetLabel formats the location's current offset from UTC as "UTC±N.NN"
+// (two-decimal hours) so half-hour zones like India (UTC+5.30) or Nepal
+// (UTC+5.75) render cleanly. Matches github-profile-summary-cards' style.
+func utcOffsetLabel(loc *time.Location) string {
+	_, offsetSec := time.Now().In(loc).Zone()
+	hours := float64(offsetSec) / 3600.0
+	return fmt.Sprintf("UTC%+.2f", hours)
 }
 
 func resolveThemes(spec string) ([]theme.Theme, error) {

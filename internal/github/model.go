@@ -19,14 +19,15 @@ type Profile struct {
 	PublicRepos int
 
 	// Totals for the stats card.
-	TotalStars         int
-	TotalForks         int
-	TotalCommits       int
-	TotalPRs           int
-	TotalIssues        int
-	TotalReviews       int
-	TotalContributedTo int
-	TotalContributions int // lifetime contributions from calendar + restricted
+	TotalStars          int
+	TotalForks          int
+	TotalCommits        int // last year, from contributionsCollection
+	TotalCommitsAllTime int // sum across contributionYears
+	TotalPRs            int
+	TotalIssues         int
+	TotalReviews        int
+	TotalContributedTo  int
+	TotalContributions  int // lifetime contributions from calendar + restricted
 
 	// Count of owned repos grouped by primary language, sorted desc by Value.
 	ReposByLanguage []LangStat
@@ -36,16 +37,39 @@ type Profile struct {
 	CommitsByLanguage []LangStat
 
 	// Commit counts grouped by hour-of-day (0-23) in the configured timezone.
-	Productive [24]int
+	// Productive is the last-year slice; ProductiveAllTime is the lifetime
+	// slice derived from the same paginated commit history so we pay for
+	// pagination once.
+	Productive        [24]int
+	ProductiveAllTime [24]int
+
+	// CommitsByLanguageAllTime is the lifetime counterpart of
+	// CommitsByLanguage, computed from the same commit stream.
+	CommitsByLanguageAllTime []LangStat
 
 	// DailyContributions is the raw per-day contribution calendar covering
 	// the most recent year. The area chart aggregates it into monthly
 	// buckets; kept granular here so any downstream card can re-bin freely.
 	DailyContributions []DailyContribution
 
+	// DailyContributionsAllTime concatenates contribution calendars across
+	// every year the user has been active (user.contributionYears), so the
+	// all-time area chart can show history beyond the default 1-year window.
+	DailyContributionsAllTime []DailyContribution
+
 	// TopRepos are owned repos sorted by stargazer count desc. Populated by
 	// FetchProfile and consumed by FetchProductive.
 	TopRepos []RepoInfo
+
+	// ContributionYears lists every calendar year the user has been active
+	// on GitHub, newest first. Used by FetchContributionsAllTime to iterate
+	// per-year contributionsCollection queries.
+	ContributionYears []int
+
+	// UTCOffsetLabel is the configured timezone rendered as "UTC±N.NN" for
+	// display on time-based cards (e.g. "UTC+7.00" for Asia/Saigon). Filled
+	// by the CLI after loading -tz.
+	UTCOffsetLabel string
 }
 
 // DailyContribution is a single day in the contributions calendar.

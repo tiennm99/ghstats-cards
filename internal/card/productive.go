@@ -12,27 +12,50 @@ type productiveCard struct{}
 
 func (productiveCard) Filename() string { return "4-productive-time.svg" }
 
+func (productiveCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
+	return renderProductiveTime(productiveTitle("last year", p.UTCOffsetLabel), p.Productive, t), nil
+}
+
+type productiveAllTimeCard struct{}
+
+func (productiveAllTimeCard) Filename() string { return "7-productive-time-all-time.svg" }
+
+func (productiveAllTimeCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
+	return renderProductiveTime(productiveTitle("all time", p.UTCOffsetLabel), p.ProductiveAllTime, t), nil
+}
+
+// productiveTitle formats the window qualifier together with the UTC offset.
+// Omits the offset when unknown so the card still renders from a raw Profile.
+func productiveTitle(window, utcLabel string) string {
+	if utcLabel == "" {
+		return "Commits by Hour (" + window + ")"
+	}
+	return "Commits by Hour (" + window + ", " + utcLabel + ")"
+}
+
 // Hour ticks to label on the x-axis; same set the reference project uses.
 var xTickHours = [...]int{0, 6, 12, 18, 23}
 
-func (productiveCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
+// renderProductiveTime draws a 24-hour bar chart with two-sided axes and
+// hover titles. Shared by the last-year and all-time productive-time cards.
+func renderProductiveTime(title string, data [24]int, t theme.Theme) []byte {
 	const (
-		width      = 500
-		height     = 220
-		leftAxis   = 50
-		rightPad   = 25
-		topPad     = 60
-		chartH     = 110
-		barGap     = 2
+		width    = 500
+		height   = 220
+		leftAxis = 50
+		rightPad = 25
+		topPad   = 60
+		chartH   = 110
+		barGap   = 2
 	)
 	chartW := width - leftAxis - rightPad
 	barW := float64(chartW-barGap*23) / 24.0
 
 	var b strings.Builder
-	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, "Commits by Hour (last year)"))
+	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, title))
 
 	max := 0
-	for _, v := range p.Productive {
+	for _, v := range data {
 		if v > max {
 			max = v
 		}
@@ -74,7 +97,7 @@ func (productiveCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 
 	// Bars.
 	for h := 0; h < 24; h++ {
-		count := p.Productive[h]
+		count := data[h]
 		barH := float64(chartH) * float64(count) / yMax
 		x := float64(leftAxis) + barW*float64(h) + float64(barGap*h)
 		y := float64(topPad+chartH) - barH
@@ -89,5 +112,5 @@ func (productiveCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 		leftAxis+chartW/2, topPad+chartH+34, t.Muted)
 
 	b.WriteString(footer)
-	return []byte(b.String()), nil
+	return []byte(b.String())
 }

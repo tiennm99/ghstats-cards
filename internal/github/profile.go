@@ -28,12 +28,13 @@ type profileGQL struct {
 		RepositoriesContributedTo struct{ TotalCount int } `json:"repositoriesContributedTo"`
 
 		ContributionsCollection struct {
-			TotalCommitContributions            int `json:"totalCommitContributions"`
-			TotalIssueContributions             int `json:"totalIssueContributions"`
-			TotalPullRequestContributions       int `json:"totalPullRequestContributions"`
-			TotalPullRequestReviewContributions int `json:"totalPullRequestReviewContributions"`
-			TotalRepositoryContributions        int `json:"totalRepositoryContributions"`
-			RestrictedContributionsCount        int `json:"restrictedContributionsCount"`
+			ContributionYears                   []int `json:"contributionYears"`
+			TotalCommitContributions            int   `json:"totalCommitContributions"`
+			TotalIssueContributions             int   `json:"totalIssueContributions"`
+			TotalPullRequestContributions       int   `json:"totalPullRequestContributions"`
+			TotalPullRequestReviewContributions int   `json:"totalPullRequestReviewContributions"`
+			TotalRepositoryContributions        int   `json:"totalRepositoryContributions"`
+			RestrictedContributionsCount        int   `json:"restrictedContributionsCount"`
 			ContributionCalendar                struct {
 				TotalContributions int `json:"totalContributions"`
 				Weeks              []struct {
@@ -107,6 +108,7 @@ func (c *Client) FetchProfile(login string) (*Profile, error) {
 			p.TotalCommits = cc.TotalCommitContributions
 			p.TotalReviews = cc.TotalPullRequestReviewContributions
 			p.TotalContributions = cc.ContributionCalendar.TotalContributions + cc.RestrictedContributionsCount
+			p.ContributionYears = append([]int(nil), cc.ContributionYears...)
 
 			// Flatten week → day into a linear daily series sorted by date.
 			for _, w := range cc.ContributionCalendar.Weeks {

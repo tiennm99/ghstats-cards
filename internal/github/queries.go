@@ -24,6 +24,7 @@ query($login: String!, $after: String) {
       contributionTypes: [COMMIT, PULL_REQUEST, ISSUE, PULL_REQUEST_REVIEW]
     ) { totalCount }
     contributionsCollection {
+      contributionYears
       totalCommitContributions
       totalIssueContributions
       totalPullRequestContributions
@@ -69,14 +70,34 @@ query($login: String!, $after: String) {
 // repo, filtered to commits authored by the target user. Used to build the
 // productive-time heatmap.
 const commitHistoryQuery = `
-query($login: String!, $repo: String!, $userId: ID!, $since: GitTimestamp!, $after: String) {
+query($login: String!, $repo: String!, $userId: ID!, $after: String) {
   repository(owner: $login, name: $repo) {
     defaultBranchRef {
       target {
         ... on Commit {
-          history(first: 100, after: $after, author: { id: $userId }, since: $since) {
+          history(first: 100, after: $after, author: { id: $userId }) {
             pageInfo { hasNextPage endCursor }
             nodes { committedDate }
+          }
+        }
+      }
+    }
+  }
+}`
+
+// contributionYearQuery fetches a single year's contribution calendar days
+// plus the commit total for that year. Looped in Go over user.contributionYears
+// to build the all-time contribution series and lifetime commit count.
+const contributionYearQuery = `
+query($login: String!, $from: DateTime!, $to: DateTime!) {
+  user(login: $login) {
+    contributionsCollection(from: $from, to: $to) {
+      totalCommitContributions
+      contributionCalendar {
+        weeks {
+          contributionDays {
+            contributionCount
+            date
           }
         }
       }

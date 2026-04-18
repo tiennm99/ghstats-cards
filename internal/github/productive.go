@@ -29,29 +29,24 @@ type productiveGQL struct {
 // magnitude is irrelevant because the card renders percentages.
 const scaleFactor = 10_000
 
-// FetchProductive fills p.Productive with a 24-hour commit histogram over the
-// last year and p.CommitsByLanguage with commit counts distributed across each
-// repo's language byte breakdown. Commits are gathered from the given repos
-// (usually p.TopRepos[:N]); each repo is sampled up to maxPerRepo commits to
-// keep the cost bounded.
+// FetchProductive paginates the default-branch commit history (authored by
+// the target user) for each repo up to maxPerRepo commits, and fills two
+// parallel sets of aggregates on the Profile:
 //
-// Attribution model: each commit contributes a whole scaleFactor unit,
-// partitioned across the repo's languages proportional to linguist byte
-// counts. A repo that is 60% Go / 40% Python credits 0.6 to Go and 0.4 to
-// Python per commit — a strict upgrade over the previous primary-language-
-// only model. Prose languages (Markdown, AsciiDoc, …) remain excluded by
-// linguist itself, so blog-style repos still skew toward their detected
-// code fraction; fixing that requires per-commit file classification.
+//   - Last-year: p.Productive (24h histogram) and p.CommitsByLanguage
+//   - All-time:  p.ProductiveAllTime and p.CommitsByLanguageAllTime
 //
-// The timezone loc is applied to CommittedDate so the heatmap reflects when
-// the user actually commits, not UTC.
+// One pagination pass populates both, so the all-time cards come at no extra
+// API cost beyond the pages already required for the last-year bucket.
+// loc is applied to CommittedDate so the heatmap reflects the user's tz.
 func (c *Client) FetchProductive(p *Profile, repos []RepoInfo, loc *time.Location, maxPerRepo int) error {
 	if loc == nil {
 		loc = time.UTC
 	}
-	since := time.Now().AddDate(-1, 0, 0).UTC().Format(time.RFC3339)
+	yearAgo := time.Now().AddDate(-1, 0, 0)
 
-	commitsByLang := map[string]int64{}
+	lastYearLang := map[string]int64{}
+	allTimeLang := map[string]int64{}
 	langColor := map[string]string{}
 
 	for _, repo := range repos {
@@ -65,7 +60,6 @@ func (c *Client) FetchProductive(p *Profile, repos []RepoInfo, loc *time.Locatio
 				"login":  p.Login,
 				"repo":   repo.Name,
 				"userId": p.ID,
-				"since":  since,
 			}
 			if cursor != nil {
 				vars["after"] = *cursor
@@ -85,8 +79,13 @@ func (c *Client) FetchProductive(p *Profile, repos []RepoInfo, loc *time.Locatio
 				if err != nil {
 					continue
 				}
-				p.Productive[t.In(loc).Hour()]++
-				attributeCommit(repo, commitsByLang, langColor)
+				tl := t.In(loc)
+				p.ProductiveAllTime[tl.Hour()]++
+				attributeCommit(repo, allTimeLang, langColor)
+				if tl.After(yearAgo) {
+					p.Productive[tl.Hour()]++
+					attributeCommit(repo, lastYearLang, langColor)
+				}
 				seen++
 			}
 			if !h.PageInfo.HasNextPage {
@@ -97,7 +96,8 @@ func (c *Client) FetchProductive(p *Profile, repos []RepoInfo, loc *time.Locatio
 		}
 	}
 
-	p.CommitsByLanguage = sortLangStats(commitsByLang, langColor)
+	p.CommitsByLanguage = sortLangStats(lastYearLang, langColor)
+	p.CommitsByLanguageAllTime = sortLangStats(allTimeLang, langColor)
 	return nil
 }
 
