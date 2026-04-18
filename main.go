@@ -2,10 +2,13 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/tiennm99/ghstats/internal/card"
@@ -24,6 +27,7 @@ func main() {
 		perRepo        = flag.Int("commits-per-repo", 500, "max commits sampled per repo (covers both last-year and all-time aggregates)")
 		includeForks   = flag.Bool("include-forks", true, "include forked repos in stats and commit probing")
 		includePrivate = flag.Bool("include-private", true, "include private repos (requires PAT with repo scope; silently no-op otherwise)")
+		timeout        = flag.Duration("timeout", 30*time.Minute, "overall deadline for fetch phase (0 = no limit)")
 		listThemes     = flag.Bool("list-themes", false, "print available theme ids and exit")
 	)
 	flag.Parse()
@@ -58,8 +62,23 @@ func main() {
 		IncludePrivate: *includePrivate,
 	}
 
+	// Overall fetch budget. Ctrl-C cancels in-flight HTTP requests cleanly.
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	if *timeout > 0 {
+		var cancelTimeout context.CancelFunc
+		ctx, cancelTimeout = context.WithTimeout(ctx, *timeout)
+		defer cancelTimeout()
+	}
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sig
+		cancel()
+	}()
+
 	client := github.NewClient(*token)
-	profile, err := client.FetchProfile(*user, opts)
+	profile, err := client.FetchProfile(ctx, *user, opts)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: fetch profile: %v\n", err)
 		os.Exit(1)
@@ -70,7 +89,7 @@ func main() {
 	// plus the all-time contribution calendar; must precede FetchProductive so
 	// commit-history probes land on repos where the user actually committed.
 	if len(profile.ContributionYears) > 0 {
-		if err := client.FetchContributionsAllTime(profile, opts); err != nil {
+		if err := client.FetchContributionsAllTime(ctx, profile, opts); err != nil {
 			fmt.Fprintf(os.Stderr, "warn: all-time contributions fetch: %v\n", err)
 		}
 	}
@@ -80,7 +99,7 @@ func main() {
 		if *topRepos > 0 && len(repos) > *topRepos {
 			repos = repos[:*topRepos]
 		}
-		if err := client.FetchProductive(profile, repos, loc, *perRepo); err != nil {
+		if err := client.FetchProductive(ctx, profile, repos, loc, *perRepo); err != nil {
 			fmt.Fprintf(os.Stderr, "warn: productive-time + commits-per-language fetch: %v\n", err)
 		}
 	}
