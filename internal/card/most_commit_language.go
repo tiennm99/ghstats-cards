@@ -1,8 +1,8 @@
 package card
 
 import (
-	"github.com/tiennm99/ghstats-cards/internal/github"
-	"github.com/tiennm99/ghstats-cards/internal/theme"
+	"github.com/tiennm99/ghstats/internal/github"
+	"github.com/tiennm99/ghstats/internal/theme"
 )
 
 type mostCommitLanguageCard struct{}

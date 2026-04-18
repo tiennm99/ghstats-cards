@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/tiennm99/ghstats-cards/internal/github"
-	"github.com/tiennm99/ghstats-cards/internal/theme"
+	"github.com/tiennm99/ghstats/internal/github"
+	"github.com/tiennm99/ghstats/internal/theme"
 )
 
 func TestRenderAll(t *testing.T) {
