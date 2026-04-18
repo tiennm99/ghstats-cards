@@ -10,5 +10,5 @@ type mostCommitLanguageCard struct{}
 func (mostCommitLanguageCard) Filename() string { return "2-most-commit-language.svg" }
 
 func (mostCommitLanguageCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
-	return renderLanguageCard("Most Commit Language (last year)", p.CommitsByLanguage, t), nil
+	return renderDonutCard("Most Commit Language (last year)", p.CommitsByLanguage, t), nil
 }

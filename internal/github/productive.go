@@ -23,7 +23,7 @@ type productiveGQL struct {
 	} `json:"repository"`
 }
 
-// FetchProductive fills p.Productive with a [7][24] commit histogram over the
+// FetchProductive fills p.Productive with a 24-hour commit histogram over the
 // last year and p.CommitsByLanguage with commit counts attributed to each
 // repo's primary language. Commits are gathered from the given repos (usually
 // p.TopRepos[:N]); each repo is sampled up to maxPerRepo commits to keep the
@@ -71,8 +71,7 @@ func (c *Client) FetchProductive(p *Profile, repos []RepoInfo, loc *time.Locatio
 				if err != nil {
 					continue
 				}
-				tl := t.In(loc)
-				p.Productive[int(tl.Weekday())][tl.Hour()]++
+				p.Productive[t.In(loc).Hour()]++
 				if repo.PrimaryLanguage != "" {
 					commitsByLang[repo.PrimaryLanguage]++
 					if _, ok := langColor[repo.PrimaryLanguage]; !ok {

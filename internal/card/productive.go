@@ -12,71 +12,82 @@ type productiveCard struct{}
 
 func (productiveCard) Filename() string { return "4-productive-time.svg" }
 
-var weekdayLabels = [7]string{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}
+// Hour ticks to label on the x-axis; same set the reference project uses.
+var xTickHours = [...]int{0, 6, 12, 18, 23}
 
 func (productiveCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	const (
-		width    = 650
-		height   = 240
-		cellSize = 18
-		cellGap  = 3
-		gridX    = 55
-		gridY    = 60
+		width      = 500
+		height     = 220
+		leftAxis   = 50
+		rightPad   = 25
+		topPad     = 60
+		chartH     = 110
+		barGap     = 2
 	)
+	chartW := width - leftAxis - rightPad
+	barW := float64(chartW-barGap*23) / 24.0
 
 	var b strings.Builder
-	b.WriteString(header(width, height, t.Background, t.Title, "Productive Time (last year, by hour)"))
+	b.WriteString(header(width, height, t.Background, t.Title, "Commits by Hour (last year)"))
 
 	max := 0
-	for _, row := range p.Productive {
-		for _, v := range row {
-			if v > max {
-				max = v
-			}
+	for _, v := range p.Productive {
+		if v > max {
+			max = v
 		}
 	}
+	yMax := float64(max)
+	if yMax == 0 {
+		yMax = 1
+	}
+	ticks := niceTicks(yMax, 5)
+	if len(ticks) > 0 {
+		yMax = ticks[len(ticks)-1]
+	}
 
-	// Weekday labels.
-	for i, d := range weekdayLabels {
-		y := gridY + i*(cellSize+cellGap) + cellSize - 4
+	// Y-axis: vertical line + tick marks with labels.
+	fmt.Fprintf(&b, `
+  <line x1="%d" y1="%d" x2="%d" y2="%d" stroke="%s"/>`,
+		leftAxis, topPad, leftAxis, topPad+chartH, t.Muted)
+	for _, v := range ticks {
+		y := topPad + chartH - int(float64(chartH)*v/yMax)
 		fmt.Fprintf(&b, `
-  <text x="25" y="%d" font-size="11" fill="%s">%s</text>`,
-			y, t.Muted, d)
+  <line x1="%d" y1="%d" x2="%d" y2="%d" stroke="%s"/>
+  <text x="%d" y="%d" font-size="10" fill="%s" text-anchor="end">%s</text>`,
+			leftAxis-4, y, leftAxis, y, t.Muted,
+			leftAxis-6, y+3, t.Muted, escapeXML(formatTick(v)))
 	}
 
-	// Hour labels along top (every 3 hours).
-	for h := 0; h < 24; h += 3 {
-		x := gridX + h*(cellSize+cellGap)
+	// X-axis: horizontal line + tick labels.
+	fmt.Fprintf(&b, `
+  <line x1="%d" y1="%d" x2="%d" y2="%d" stroke="%s"/>`,
+		leftAxis, topPad+chartH, leftAxis+chartW, topPad+chartH, t.Muted)
+	for _, h := range xTickHours {
+		x := leftAxis + int(barW*float64(h)+float64(barGap*h)+barW/2)
 		fmt.Fprintf(&b, `
-  <text x="%d" y="55" font-size="10" fill="%s">%02dh</text>`,
-			x, t.Muted, h)
+  <line x1="%d" y1="%d" x2="%d" y2="%d" stroke="%s"/>
+  <text x="%d" y="%d" font-size="10" fill="%s" text-anchor="middle">%d</text>`,
+			x, topPad+chartH, x, topPad+chartH+4, t.Muted,
+			x, topPad+chartH+16, t.Muted, h)
 	}
 
-	// Cells.
-	for d := 0; d < 7; d++ {
-		for h := 0; h < 24; h++ {
-			count := p.Productive[d][h]
-			opacity := heatOpacity(count, max)
-			x := gridX + h*(cellSize+cellGap)
-			y := gridY + d*(cellSize+cellGap)
-			fmt.Fprintf(&b, `
-  <rect x="%d" y="%d" width="%d" height="%d" rx="3" fill="%s" fill-opacity="%.2f"><title>%s %02d:00 — %d commits</title></rect>`,
-				x, y, cellSize, cellSize, t.Accent, opacity,
-				weekdayLabels[d], h, count)
-		}
+	// Bars.
+	for h := 0; h < 24; h++ {
+		count := p.Productive[h]
+		barH := float64(chartH) * float64(count) / yMax
+		x := float64(leftAxis) + barW*float64(h) + float64(barGap*h)
+		y := float64(topPad+chartH) - barH
+		fmt.Fprintf(&b, `
+  <rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" rx="2" fill="%s"><title>%02d:00 — %d commits</title></rect>`,
+			x, y, barW, barH, t.Accent, h, count)
 	}
+
+	// X-axis caption.
+	fmt.Fprintf(&b, `
+  <text x="%d" y="%d" font-size="11" fill="%s" text-anchor="middle">hour of day</text>`,
+		leftAxis+chartW/2, topPad+chartH+34, t.Muted)
 
 	b.WriteString(footer)
 	return []byte(b.String()), nil
-}
-
-// heatOpacity returns the fill-opacity for a cell. Zero is almost transparent
-// so the grid is still visible; max-count maps to fully opaque.
-func heatOpacity(count, max int) float64 {
-	if max == 0 {
-		return 0.08
-	}
-	const floor = 0.10
-	ratio := float64(count) / float64(max)
-	return floor + (1.0-floor)*ratio
 }

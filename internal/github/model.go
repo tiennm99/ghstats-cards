@@ -35,8 +35,8 @@ type Profile struct {
 	// primary language, sorted desc. Populated by FetchProductive.
 	CommitsByLanguage []LangStat
 
-	// Commit-count histogram indexed by [day-of-week 0=Sunday][hour-of-day 0-23].
-	Productive [7][24]int
+	// Commit counts grouped by hour-of-day (0-23) in the configured timezone.
+	Productive [24]int
 
 	// TopRepos are owned repos sorted by stargazer count desc. Populated by
 	// FetchProfile and consumed by FetchProductive.

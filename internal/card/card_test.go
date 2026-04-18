@@ -29,8 +29,8 @@ func TestRenderAll(t *testing.T) {
 			{Name: "Python", Color: "#3572A5", Value: 150},
 		},
 	}
-	p.Productive[2][14] = 7
-	p.Productive[5][9] = 3
+	p.Productive[9] = 3
+	p.Productive[14] = 7
 
 	th, ok := theme.Lookup("dracula")
 	if !ok {
