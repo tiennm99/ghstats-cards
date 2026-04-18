@@ -130,8 +130,7 @@ access token with `read:user` and `repo`, save it as a repo secret (e.g.
 
 ## Credits & inspiration
 
-- [**github-profile-summary-cards**](https://github.com/vn7n24fzkq/github-profile-summary-cards) by [@vn7n24fzkq](https://github.com/vn7n24fzkq) — card layout, chart styles, theme palette, and output structure.
-- [**profile-summary-for-github**](https://github.com/tipsy/profile-summary-for-github) by [@tipsy](https://github.com/tipsy) — the original profile-summary generator.
+- [**github-profile-summary-cards**](https://github.com/vn7n24fzkq/github-profile-summary-cards) by [@vn7n24fzkq](https://github.com/vn7n24fzkq) — card layout, chart styles, theme palette, Octicon selection, and output structure.
 
 ## License
 

@@ -18,7 +18,7 @@ func (statsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 		height = 220
 	)
 
-	items := []kv{
+	items := []struct{ label, value string }{
 		{"Total Stars", formatInt(p.TotalStars)},
 		{"Total Commits (last year)", formatInt(p.TotalCommits)},
 		{"Total PRs", formatInt(p.TotalPRs)},
