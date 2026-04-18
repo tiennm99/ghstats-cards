@@ -104,10 +104,13 @@ runs:
 
 ## Release process
 
-1. Ensure `go vet ./...` and `go test ./...` pass on `main`.
-2. Tag: `git tag -a v1.2.0 -m "..." && git push origin v1.2.0`.
-3. `release.yml` handles GHCR push + binary artifacts automatically.
-4. Update any public Actions marketplace metadata if the major version changed.
+1. Tag: `git tag -a v1.2.0 -m "..." && git push origin v1.2.0`.
+2. `release.yml` runs `go vet` + `go test` as a gate before the docker and
+   binaries jobs. If tests fail, no artifacts ship.
+3. On green, GHCR push + cross-platform binary artifacts happen automatically.
+4. Docker base images and third-party actions are SHA-pinned (with version
+   comments) so mutable-tag changes upstream can't rewrite a released image.
+5. Update any public Actions marketplace metadata if the major version changed.
 
 ## Rollback
 
@@ -125,13 +128,16 @@ runs:
 
 No REST calls today. Future `-accurate-languages` mode will push toward 1000+ REST per run; schedule that mode less frequently (weekly, not daily).
 
+The client auto-handles rate-limit responses: on 429 or 403 with `X-RateLimit-Remaining: 0`, it sleeps up to 5 minutes (honoring `Retry-After` / `X-RateLimit-Reset`) and retries once. A reset window longer than 5 min surfaces as an error so CI can reschedule instead of burning runner time. Use the `-timeout` flag (default 30m) to cap total fetch duration; `SIGINT`/`SIGTERM` cancels in-flight requests cleanly.
+
 ## Troubleshooting
 
 | Symptom | Check |
 | --- | --- |
 | "error: fetch profile: graphql: Could not resolve to a User" | Username typo |
 | "http 401" | Token expired or lacks `read:user` |
-| "http 403: rate limit exceeded" | PAT scope too narrow; token quota consumed by another workflow |
+| "rate limit resets in 42m (>5m0s max wait)" | Client refused to sleep through a long window; reschedule the Action |
+| "http 403" on non-rate-limit path | PAT scope too narrow |
 | Blank contribution chart | User has 0 contributions in their window; expected |
 | Private repo data missing | `-include-private=true` not set, or PAT lacks `repo` |
 | Nothing committed by the Action | Check `permissions: contents: write` in the workflow |

@@ -46,15 +46,15 @@ ghstats/
 
 ### `internal/github`
 
-All network I/O. Exposes a `*Client` with three fetchers:
+All network I/O. Exposes a `*Client` with three fetchers; every call takes a `context.Context` so pagination aborts cleanly on timeout or Ctrl-C:
 
 | Fetcher | Input | Populates |
 | --- | --- | --- |
-| `FetchProfile(login, opts)` | username, visibility flags | Profile basics, totals, owned-repos aggregation, last-year daily calendar, `TopRepos` |
-| `FetchContributionsAllTime(p, opts)` | Profile | `SeedRepos`, `DailyContributionsAllTime`, `TotalCommitsAllTime` |
-| `FetchProductive(p, repos, loc, cap)` | Profile + seed + tz + cap | `Productive`, `CommitsByLanguage`, `ProductiveAllTime`, `CommitsByLanguageAllTime` |
+| `FetchProfile(ctx, login, opts)` | username, visibility flags | Profile basics, totals, owned-repos aggregation, last-year daily calendar, `TopRepos` |
+| `FetchContributionsAllTime(ctx, p, opts)` | Profile | `SeedRepos`, `DailyContributionsAllTime`, `TotalCommitsAllTime` |
+| `FetchProductive(ctx, p, repos, loc, cap)` | Profile + seed + tz + cap | `Productive`, `CommitsByLanguage`, `ProductiveAllTime`, `CommitsByLanguageAllTime` |
 
-Call order in `main.go`: Profile → AllTime → Productive.
+Call order in `main.go`: Profile → AllTime → Productive. `Client.query` handles GitHub rate limits transparently — on 429 or 403 with `X-RateLimit-Remaining: 0`, it honors `Retry-After` / `X-RateLimit-Reset` (capped at 5 minutes) and retries once.
 
 ### `internal/card`
 

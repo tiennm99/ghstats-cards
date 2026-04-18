@@ -59,6 +59,8 @@ Cap rows at what fits: 7 for profile, 7 for stats (commits row splits into lifet
 
 Language colors come from linguist via GraphQL (`repo.languages.edges[].node.color`). Missing colors fall back to `theme.Accent`.
 
+When there's **exactly one slice** (one language at 100%), the renderer emits two concentric `<circle>` elements instead of a pie arc, because SVG's `A` command from point P back to the same P draws nothing. Regression guarded by `TestDonutSingleSlice`.
+
 ## Bar-chart cards (productive time)
 
 | Metric | Value |

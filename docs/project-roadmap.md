@@ -35,9 +35,24 @@
 - Each commit distributes fractionally across repo's language bytes, not just primary.
 - Improves mixed-code repo accuracy; still inaccurate for Markdown-heavy repos (linguist prose-exclusion).
 
+## Phase 6 — Code-review remediation (✅ done)
+
+Follow-up after the full-project review (`plans/reports/code-review-260418-2223-full-project.md`):
+
+- Donut chart's single-slice (100%) rendering no longer produces an empty arc.
+- `FetchContributionsAllTime` warns on stderr when a year returns nil user data.
+- `attributeCommit` receives a precomputed per-repo byte total instead of re-summing every commit.
+- `Profile.TotalContributions` → `TotalContributionsLastYear` (accurate semantics).
+- `context.Context` threaded through all fetchers; `-timeout` flag (default 30m); Ctrl-C cancels in-flight requests.
+- Rate-limit awareness: on 429 or exhausted primary limit, honor `Retry-After` / `X-RateLimit-Reset` up to 5 min and retry once.
+- Release workflow gates docker + binaries on a test job; no more shipping broken tags.
+- Docker base images and third-party GitHub Actions pinned to SHA with version comments.
+- Stats card label "Contributed to (non-fork)" corrected to "Contributed to" (the query doesn't filter forks).
+- Tests: fixed stale XML-escape assertion, added `TestDonutSingleSlice`, added `TestUTCOffsetLabel` for half-hour zones.
+
 ---
 
-## Phase 6 — Per-commit file classification (planned)
+## Phase 7 — Per-commit file classification (planned)
 
 **Goal**: fix the Markdown-blog misattribution case (and any repo where linguist's byte view disagrees with what files user actually edited).
 
@@ -49,7 +64,7 @@
 
 **Status**: designed, not implemented.
 
-## Phase 7 — Partial bare clone for lifetime all-repo stats (planned)
+## Phase 8 — Partial bare clone for lifetime all-repo stats (planned)
 
 **Goal**: lifetime language stats across **every** repo a user has committed in, without the 500-commits-per-repo cap.
 
@@ -61,7 +76,7 @@
 
 **Status**: researched only; behind `-deep` flag when landed.
 
-## Phase 8 — User-configurable repo exclusion (planned)
+## Phase 9 — User-configurable repo exclusion (planned)
 
 **Goal**: let users drop throwaway repos (experiments, forks they stashed) from stats without disabling forks globally.
 
@@ -71,7 +86,7 @@
 
 **Status**: pending user demand.
 
-## Phase 9 — Expand ownerAffiliations (planned)
+## Phase 10 — Expand ownerAffiliations (planned)
 
 **Goal**: catch work done in org repos where user is a collaborator, not owner (e.g., company monorepos).
 
@@ -97,3 +112,4 @@ All in `plans/reports/`:
 - `researcher-260418-2001-accurate-language-stats.md` — metrics vs GRS vs go-enry feasibility
 - `researcher-260418-2012-profile-stats-survey.md` — follow-up survey across 6 more tools
 - `analysis-260418-2140-most-commit-language-all-time.md` — hand-reconstruction of tiennm99's card output, showing exactly why each language lands where
+- `code-review-260418-2223-full-project.md` — adversarial review of the whole codebase; findings all closed in Phase 6
