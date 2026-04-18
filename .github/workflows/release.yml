@@ -92,3 +92,26 @@ jobs:
       - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
           files: dist/ghstats_*.*
+
+  # Move the floating major-version tag (e.g. v1) to this release's commit so
+  # consumers using `uses: tiennm99/ghstats@v1` automatically pick up each new
+  # minor/patch release. Force-push is expected here — that's the point of a
+  # floating tag.
+  update-major-tag:
+    needs: [test, docker, binaries]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+      - name: Retag major version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          major="${TAG%%.*}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f "$major" "$TAG"
+          git push -f origin "$major"
