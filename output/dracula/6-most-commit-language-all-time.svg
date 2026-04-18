@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="220" viewBox="0 0 500 220" font-family="'Segoe UI', Ubuntu, Sans-Serif">
+  <rect x="0.5" y="0.5" width="499" height="219" rx="8" fill="#282a36" stroke="#282a36" stroke-opacity="1.00"/>
+  <text x="25" y="35" font-size="18" font-weight="600" fill="#ff79c6">Most Commit Language (all time)</text>
+  <rect x="30" y="60" width="12" height="12" fill="#f1e05a" stroke="#282a36" stroke-width="1"/>
+  <text x="50" y="70" font-size="13" fill="#ffb86c">JavaScript 24.96%</text>
+  <rect x="30" y="82" width="12" height="12" fill="#3572A5" stroke="#282a36" stroke-width="1"/>
+  <text x="50" y="92" font-size="13" fill="#ffb86c">Python 22.68%</text>
+  <rect x="30" y="104" width="12" height="12" fill="#178600" stroke="#282a36" stroke-width="1"/>
+  <text x="50" y="114" font-size="13" fill="#ffb86c">C# 19.54%</text>
+  <rect x="30" y="126" width="12" height="12" fill="#00ADD8" stroke="#282a36" stroke-width="1"/>
+  <text x="50" y="136" font-size="13" fill="#ffb86c">Go 12.65%</text>
+  <rect x="30" y="148" width="12" height="12" fill="#ff3e00" stroke="#282a36" stroke-width="1"/>
+  <text x="50" y="158" font-size="13" fill="#ffb86c">Svelte 11.40%</text>
+  <rect x="30" y="170" width="12" height="12" fill="#bd93f9" stroke="#282a36" stroke-width="1"/>
+  <text x="50" y="180" font-size="13" fill="#ffb86c">Other 8.77%</text>
+  <path d="M380.00,50.00 A70.00,70.00 0 0 1 450.00,119.81 L418.00,119.90 A38.00,38.00 0 0 0 380.00,82.00 Z" fill="#f1e05a" stroke="#282a36" stroke-width="1.5"/>
+  <path d="M450.00,119.81 A70.00,70.00 0 0 1 390.34,189.23 L385.61,157.58 A38.00,38.00 0 0 0 418.00,119.90 Z" fill="#3572A5" stroke="#282a36" stroke-width="1.5"/>
+  <path d="M390.34,189.23 A70.00,70.00 0 0 1 318.27,153.01 L346.49,137.92 A38.00,38.00 0 0 0 385.61,157.58 Z" fill="#178600" stroke="#282a36" stroke-width="1.5"/>
+  <path d="M318.27,153.01 A70.00,70.00 0 0 1 313.20,99.09 L343.74,108.65 A38.00,38.00 0 0 0 346.49,137.92 Z" fill="#00ADD8" stroke="#282a36" stroke-width="1.5"/>
+  <path d="M313.20,99.09 A70.00,70.00 0 0 1 343.34,60.37 L360.10,87.63 A38.00,38.00 0 0 0 343.74,108.65 Z" fill="#ff3e00" stroke="#282a36" stroke-width="1.5"/>
+  <path d="M343.34,60.37 A70.00,70.00 0 0 1 380.00,50.00 L380.00,82.00 A38.00,38.00 0 0 0 360.10,87.63 Z" fill="#bd93f9" stroke="#282a36" stroke-width="1.5"/>
+</svg>
