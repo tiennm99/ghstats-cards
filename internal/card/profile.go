@@ -20,7 +20,7 @@ func (profileCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	)
 
 	var b strings.Builder
-	b.WriteString(header(width, height, t.Background, t.Title, title(p)))
+	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, title(p)))
 
 	// Key-value lines; skip empty fields to avoid blank rows.
 	y := 75

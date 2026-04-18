@@ -29,7 +29,7 @@ func (productiveCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	barW := float64(chartW-barGap*23) / 24.0
 
 	var b strings.Builder
-	b.WriteString(header(width, height, t.Background, t.Title, "Commits by Hour (last year)"))
+	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, "Commits by Hour (last year)"))
 
 	max := 0
 	for _, v := range p.Productive {

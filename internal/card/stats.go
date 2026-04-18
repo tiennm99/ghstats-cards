@@ -28,7 +28,7 @@ func (statsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	}
 
 	var b strings.Builder
-	b.WriteString(header(width, height, t.Background, t.Title, "Stats"))
+	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, "Stats"))
 
 	// 2×3 grid: columns at 25 and 265, rows every 42px starting at y=80.
 	for i, it := range items {

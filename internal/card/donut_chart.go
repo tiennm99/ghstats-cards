@@ -30,7 +30,7 @@ func renderDonutCard(title string, stats []github.LangStat, t theme.Theme) []byt
 	stats = collapseOther(stats, topN)
 
 	var b strings.Builder
-	b.WriteString(header(width, height, t.Background, t.Title, title))
+	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, title))
 
 	if len(stats) == 0 {
 		fmt.Fprintf(&b, `

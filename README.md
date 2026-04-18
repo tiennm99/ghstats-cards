@@ -37,7 +37,7 @@ jobs:
         with:
           user: ${{ github.repository_owner }}
           token: ${{ secrets.GHSTATS_TOKEN }}   # classic PAT with read:user + repo
-          themes: dracula,github-dark,tokyonight
+          themes: dracula,github_dark,tokyonight
           tz: Asia/Saigon
           commit_changes: "true"
 ```
@@ -87,7 +87,7 @@ Then:
 
 ```sh
 export GITHUB_TOKEN=ghp_xxx
-ghstats -user tiennm99 -themes dracula,github-dark -tz Asia/Saigon -out output
+ghstats -user tiennm99 -themes dracula,github_dark -tz Asia/Saigon -out output
 ```
 
 | Flag                | Default         | Description                                       |
@@ -103,10 +103,11 @@ ghstats -user tiennm99 -themes dracula,github-dark -tz Asia/Saigon -out output
 
 ## Themes
 
-Run `ghstats -list-themes` for the full list. Built-ins include `default`,
-`dark`, `dracula`, `github`, `github-dark`, `tokyonight`, `onedark`, `nord`,
-`gruvbox`, `radical`, `synthwave`, `monokai`, `solarized-dark`,
-`solarized-light`, `transparent`, and more.
+Run `ghstats -list-themes` for the full list (60+ themes ported from
+github-profile-summary-cards). Built-ins include `default`, `dark`, `dracula`,
+`github`, `github_dark`, `tokyonight`, `onedark`, `nord_dark`, `nord_bright`,
+`gruvbox`, `radical`, `synthwave`, `monokai`, `solarized`, `solarized_dark`,
+`transparent`, and more.
 
 ## Output
 
@@ -129,9 +130,8 @@ access token with `read:user` and `repo`, save it as a repo secret (e.g.
 
 ## Credits & inspiration
 
-- [**github-profile-summary-cards**](https://github.com/vn7n24fzkq/github-profile-summary-cards) by [@vn7n24fzkq](https://github.com/vn7n24fzkq) — card layout, theme set, and output structure.
+- [**github-profile-summary-cards**](https://github.com/vn7n24fzkq/github-profile-summary-cards) by [@vn7n24fzkq](https://github.com/vn7n24fzkq) — card layout, chart styles, theme palette, and output structure.
 - [**profile-summary-for-github**](https://github.com/tipsy/profile-summary-for-github) by [@tipsy](https://github.com/tipsy) — the original profile-summary generator.
-- [**github-readme-stats**](https://github.com/anuraghazra/github-readme-stats) by [@anuraghazra](https://github.com/anuraghazra) — theme palette reference.
 
 ## License
 
