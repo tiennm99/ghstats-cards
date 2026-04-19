@@ -3,10 +3,10 @@
   <text x="20" y="30" font-size="15" font-weight="600" fill="#268bd2">Streak</text>
   <text x="56" y="95" font-size="28" font-weight="700" fill="#859900" text-anchor="middle">21</text>
   <text x="56" y="120" font-size="12" fill="#839496" text-anchor="middle">Current streak</text>
-  <text x="56" y="140" font-size="10" fill="#b58900" text-anchor="middle">Mar 30 — Apr 19, 2026</text>
+  <text x="56" y="140" font-size="10" fill="#b58900" text-anchor="middle">Mar 30 — Apr 19</text>
   <text x="169" y="95" font-size="28" font-weight="700" fill="#859900" text-anchor="middle">23</text>
   <text x="169" y="120" font-size="12" fill="#839496" text-anchor="middle">Longest streak</text>
-  <text x="169" y="140" font-size="10" fill="#b58900" text-anchor="middle">Jul 19 — Aug 10, 2025</text>
+  <text x="169" y="140" font-size="10" fill="#b58900" text-anchor="middle">Jul 19 — Aug 10</text>
   <text x="282" y="95" font-size="28" font-weight="700" fill="#859900" text-anchor="middle">584</text>
   <text x="282" y="120" font-size="12" fill="#839496" text-anchor="middle">Active days</text>
   <text x="282" y="140" font-size="10" fill="#b58900" text-anchor="middle">of 3,031 total (19%)</text>

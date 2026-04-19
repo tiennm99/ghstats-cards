@@ -13,7 +13,7 @@
   <line x1="31" y1="67" x2="35" y2="67" stroke="#38a0ff"/>
   <text x="29" y="70" font-size="10" fill="#38a0ff" text-anchor="end">800</text>
   <line x1="31" y1="45" x2="35" y2="45" stroke="#38a0ff"/>
-  <text x="29" y="48" font-size="10" fill="#38a0ff" text-anchor="end">1000</text>
+  <text x="29" y="48" font-size="10" fill="#38a0ff" text-anchor="end">1k</text>
   <line x1="35" y1="155" x2="325" y2="155" stroke="#38a0ff"/>
   <rect x="35.00" y="149.50" width="30.44" height="5.50" rx="2" fill="#728fab"><title>2018 — 50 commits</title></rect>
   <text x="50.22" y="169" font-size="10" fill="#38a0ff" text-anchor="middle">2018</text>
@@ -27,6 +27,6 @@
   <rect x="229.67" y="114.30" width="30.44" height="40.70" rx="2" fill="#728fab"><title>2024 — 370 commits</title></rect>
   <text x="244.89" y="169" font-size="10" fill="#38a0ff" text-anchor="middle">2024</text>
   <rect x="262.11" y="34.44" width="30.44" height="120.56" rx="2" fill="#bddfff"><title>2025 — 1096 commits</title></rect>
-  <rect x="294.56" y="44.67" width="30.44" height="110.33" rx="2" fill="#728fab"><title>2026 — 1003 commits</title></rect>
+  <rect x="294.56" y="44.12" width="30.44" height="110.88" rx="2" fill="#728fab"><title>2026 — 1008 commits</title></rect>
   <text x="309.78" y="169" font-size="10" fill="#38a0ff" text-anchor="middle">2026</text>
 </svg>
