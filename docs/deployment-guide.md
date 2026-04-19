@@ -120,14 +120,10 @@ runs:
    next Action run without a workflow edit.
 5. Docker base images and third-party actions are SHA-pinned (with version
    comments) so mutable-tag changes upstream can't rewrite a released image.
-6. **Marketplace publishing (one-time per repo):** GitHub only exposes the
-   "Publish this Action to the GitHub Marketplace" toggle on the Release
-   web UI — there is no CLI flag. Open the newly created release at
-   `https://github.com/tiennm99/ghstats/releases/tag/vX.Y.Z/edit`, tick the
-   marketplace checkbox, accept the terms, and re-publish. Subsequent
-   releases inherit marketplace visibility automatically. The Marketplace
-   listing name is `ghstats-cards` (set in `action.yml`) because the bare
-   `ghstats` is already taken on the Marketplace.
+6. **Marketplace:** the repo is already published on the GitHub Marketplace
+   as [`ghstats-cards`](https://github.com/marketplace/actions/ghstats-cards)
+   (the bare `ghstats` listing was taken). New releases inherit marketplace
+   visibility automatically — no manual step per release.
 
 ## Rollback
 
