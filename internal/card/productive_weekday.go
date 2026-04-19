@@ -13,7 +13,7 @@ type productiveWeekdayCard struct{}
 func (productiveWeekdayCard) Filename() string { return "productive-weekday.svg" }
 
 func (productiveWeekdayCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
-	return renderWeekday(weekdayTitle("last year", p.UTCOffsetLabel), p.Weekday, t), nil
+	return renderWeekday(weekdayTitle("last year"), p.Weekday, t), nil
 }
 
 type productiveWeekdayAllTimeCard struct{}
@@ -21,14 +21,14 @@ type productiveWeekdayAllTimeCard struct{}
 func (productiveWeekdayAllTimeCard) Filename() string { return "productive-weekday-all-time.svg" }
 
 func (productiveWeekdayAllTimeCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
-	return renderWeekday(weekdayTitle("all time", p.UTCOffsetLabel), p.WeekdayAllTime, t), nil
+	return renderWeekday(weekdayTitle("all time"), p.WeekdayAllTime, t), nil
 }
 
-func weekdayTitle(window, utcLabel string) string {
-	if utcLabel == "" {
-		return "Commits by Weekday (" + window + ")"
-	}
-	return "Commits by Weekday (" + window + ", " + utcLabel + ")"
+// weekdayTitle skips the UTC offset — the data aggregates into day-of-week
+// buckets, so exact clock precision isn't informative and dropping it keeps
+// the title short enough to render at the full 15 px.
+func weekdayTitle(window string) string {
+	return "Commits by Weekday (" + window + ")"
 }
 
 // Index 0 = Sunday to match time.Weekday (which is what FetchProductive stores).

@@ -113,13 +113,27 @@ func main() {
 	}
 }
 
-// utcOffsetLabel formats the location's current offset from UTC as "UTC±N.NN"
-// (two-decimal hours) so half-hour zones like India (UTC+5.30) or Nepal
-// (UTC+5.75) render cleanly. Matches github-profile-summary-cards' style.
+// utcOffsetLabel formats the location's current offset from UTC compactly:
+//
+//	integer hours  → "UTC+7"    (no ".00" padding — 3 chars shorter than
+//	                             the old "UTC+7.00" format, keeps the
+//	                             productive-time title at 15 px)
+//	half-hour zone → "UTC+5:30" (India)
+//	quarter-hour   → "UTC+5:45" (Nepal)
+//	negative zone  → "UTC-3"    / "UTC-3:30"
 func utcOffsetLabel(loc *time.Location) string {
 	_, offsetSec := time.Now().In(loc).Zone()
-	hours := float64(offsetSec) / 3600.0
-	return fmt.Sprintf("UTC%+.2f", hours)
+	sign := "+"
+	if offsetSec < 0 {
+		sign = "-"
+		offsetSec = -offsetSec
+	}
+	hours := offsetSec / 3600
+	minutes := (offsetSec % 3600) / 60
+	if minutes == 0 {
+		return fmt.Sprintf("UTC%s%d", sign, hours)
+	}
+	return fmt.Sprintf("UTC%s%d:%02d", sign, hours, minutes)
 }
 
 func resolveThemes(spec string) ([]theme.Theme, error) {

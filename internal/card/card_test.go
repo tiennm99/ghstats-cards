@@ -204,9 +204,9 @@ func TestFitTitleFontSize(t *testing.T) {
 		{"Top Starred Repos", 15},
 		{"Most Commit Language (all time)", 15},             // 31 chars
 		{"Contributions by Year", 15},
-		{"Commits by Hour (last year, UTC+7.00)", 14},       // 37 chars
-		{"Commits by Weekday (last year, UTC+7.00)", 13},    // 40 chars
-		{"Commits by Weekday (last year, UTC+12.75)", 12},   // 41 chars
+		{"Commits by Hour (last year, UTC+7)", 15},    // 34 chars, common integer-zone case
+		{"Commits by Hour (last year, UTC+5:45)", 14}, // 37 chars, quarter-hour zone (Kathmandu)
+		{"Commits by Weekday (last year)", 15},         // 30 chars — weekday titles never include UTC
 		{strings.Repeat("x", 200), 11},                       // pathological
 	}
 	for _, c := range cases {
@@ -369,7 +369,7 @@ func adversarialProfile() *github.Profile {
 	p := &github.Profile{
 		Login:                      "user-with-a-very-long-login-name",
 		Name:                       "A Very Long Display Name That Keeps Going",
-		UTCOffsetLabel:             "UTC+12.75", // half-hour / quarter-hour zones widen the title
+		UTCOffsetLabel:             "UTC+12:45", // quarter-hour zone — longest realistic UTC label
 
 		Company:                    "A-Company-With-An-Unusually-Long-Name Pty Ltd",
 		Location:                   "A Place With A Name That Is Way Too Long To Fit",

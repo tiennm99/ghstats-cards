@@ -70,7 +70,7 @@ When there's **exactly one slice** (one language at 100%), the renderer emits tw
 | Bar fill | `theme.Accent` for the peak bar; `mixHex(Background, Accent, 0.55)` dim for the rest so the busiest period reads at a glance |
 | Y-axis ticks | `niceTicks(max, 5)` — 1/2/5 × 10^k ladder. `last = ceil(max/step) × step` so `yMax ≥ dataMax` always (bars can't poke above chartH into the title) |
 | Axis caption | "hour of day" bottom-center on productive-time; weekday / by-year omit the caption since the x labels are self-describing |
-| Title format | `Commits by Hour (<window>, UTC±N.NN)` / `Commits by Weekday (<window>, UTC±N.NN)` / `Contributions by Year` |
+| Title format | `Commits by Hour (<window>, UTC±H[:MM])` / `Commits by Weekday (<window>)` — weekday drops the UTC so the title always fits at 15 px / `Contributions by Year` |
 | Hover | `<title>HH:00 — N commits</title>` / `<title>Mon — N commits</title>` / `<title>YYYY — N commits</title>` |
 
 ## Heatmap card (contributions-heatmap)

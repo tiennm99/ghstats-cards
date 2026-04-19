@@ -6,17 +6,17 @@ import (
 	"time"
 )
 
-// TestUTCOffsetLabel checks that half-hour and quarter-hour zones render
-// with a decimal, matching github-profile-summary-cards' "UTC+X.NN" style.
+// TestUTCOffsetLabel checks the compact format: integer hours drop the
+// minutes suffix, non-zero offsets render as `UTC±H:MM`.
 func TestUTCOffsetLabel(t *testing.T) {
 	cases := []struct {
 		zone string
 		want string // must appear in the label; exact value varies by DST
 	}{
-		{"UTC", "UTC+0.00"},
-		{"Asia/Saigon", "UTC+7.00"},
-		{"Asia/Kolkata", "UTC+5.50"},  // half-hour zone
-		{"Asia/Kathmandu", "UTC+5.75"}, // quarter-hour zone
+		{"UTC", "UTC+0"},
+		{"Asia/Saigon", "UTC+7"},
+		{"Asia/Kolkata", "UTC+5:30"},  // half-hour zone
+		{"Asia/Kathmandu", "UTC+5:45"}, // quarter-hour zone
 	}
 	for _, tc := range cases {
 		loc, err := time.LoadLocation(tc.zone)
