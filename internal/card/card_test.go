@@ -290,6 +290,8 @@ func adversarialProfile() *github.Profile {
 	p := &github.Profile{
 		Login:                      "user-with-a-very-long-login-name",
 		Name:                       "A Very Long Display Name That Keeps Going",
+		UTCOffsetLabel:             "UTC+12.75", // half-hour / quarter-hour zones widen the title
+
 		Company:                    "A-Company-With-An-Unusually-Long-Name Pty Ltd",
 		Location:                   "A Place With A Name That Is Way Too Long To Fit",
 		Website:                    "https://example-with-a-very-long-domain.example.com/profile",
