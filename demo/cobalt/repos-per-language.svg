@@ -13,16 +13,13 @@
   <text x="36" y="135" font-size="11" fill="#75eeb2">HTML 7.61%</text>
   <rect x="20" y="147" width="10" height="10" fill="#f34b7d" stroke="#193549" stroke-width="1"/>
   <text x="36" y="155" font-size="11" fill="#75eeb2">C++ 7.11%</text>
-  <rect x="20" y="167" width="10" height="10" fill="#3178c6" stroke="#193549" stroke-width="1"/>
-  <text x="36" y="175" font-size="11" fill="#75eeb2">TypeScript 4.57%</text>
-  <rect x="20" y="187" width="10" height="10" fill="#e683d9" stroke="#193549" stroke-width="1"/>
-  <text x="36" y="195" font-size="11" fill="#75eeb2">Other 17.77%</text>
+  <rect x="20" y="167" width="10" height="10" fill="#e683d9" stroke="#193549" stroke-width="1"/>
+  <text x="36" y="175" font-size="11" fill="#75eeb2">Other 22.34%</text>
   <path d="M250.00,55.00 A55.00,55.00 0 0 1 304.50,102.57 L279.72,105.95 A30.00,30.00 0 0 0 250.00,80.00 Z" fill="#f1e05a" stroke="#193549" stroke-width="1.5"/>
   <path d="M304.50,102.57 A55.00,55.00 0 0 1 282.04,154.70 L267.48,134.38 A30.00,30.00 0 0 0 279.72,105.95 Z" fill="#b07219" stroke="#193549" stroke-width="1.5"/>
   <path d="M282.04,154.70 A55.00,55.00 0 0 1 240.40,164.16 L244.76,139.54 A30.00,30.00 0 0 0 267.48,134.38 Z" fill="#00ADD8" stroke="#193549" stroke-width="1.5"/>
   <path d="M240.40,164.16 A55.00,55.00 0 0 1 210.04,147.79 L228.20,130.61 A30.00,30.00 0 0 0 244.76,139.54 Z" fill="#3572A5" stroke="#193549" stroke-width="1.5"/>
   <path d="M210.04,147.79 A55.00,55.00 0 0 1 197.13,125.15 L221.16,118.26 A30.00,30.00 0 0 0 228.20,130.61 Z" fill="#e34c26" stroke="#193549" stroke-width="1.5"/>
   <path d="M197.13,125.15 A55.00,55.00 0 0 1 195.77,100.83 L220.42,105.00 A30.00,30.00 0 0 0 221.16,118.26 Z" fill="#f34b7d" stroke="#193549" stroke-width="1.5"/>
-  <path d="M195.77,100.83 A55.00,55.00 0 0 1 200.58,85.85 L223.05,96.83 A30.00,30.00 0 0 0 220.42,105.00 Z" fill="#3178c6" stroke="#193549" stroke-width="1.5"/>
-  <path d="M200.58,85.85 A55.00,55.00 0 0 1 250.00,55.00 L250.00,80.00 A30.00,30.00 0 0 0 223.05,96.83 Z" fill="#e683d9" stroke="#193549" stroke-width="1.5"/>
+  <path d="M195.77,100.83 A55.00,55.00 0 0 1 250.00,55.00 L250.00,80.00 A30.00,30.00 0 0 0 220.42,105.00 Z" fill="#e683d9" stroke="#193549" stroke-width="1.5"/>
 </svg>
