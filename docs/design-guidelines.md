@@ -50,7 +50,7 @@ Cap rows at what fits: up to 7 rows per card. Stats splits commits into lifetime
 | Donut centre | `(250, 110)` |
 | Outer radius | 55 |
 | Inner radius | 30 |
-| Top-N entries shown | Up to 7 named languages, plus an "Other" row when the tail is non-zero (8 rows max) |
+| Top-N entries shown | 7 rows max, "Other" inclusive (6 named + "Other" when there's a tail, up to 7 named when there isn't) |
 | Slice stroke | `theme.Background`, 1.5 px (gap between slices) |
 | Legend origin | `(20, 55)` |
 | Legend row height | 20 px |
@@ -78,7 +78,7 @@ When there's **exactly one slice** (one language at 100%), the renderer emits tw
 | Metric | Value |
 | --- | --- |
 | Grid | 7 rows × 53 columns (Sunday → Saturday, oldest week → newest) |
-| Cell size | 5 × 5 px, 1 px gap (exact fit: `leftPad(22) + 53 × 6 = 340`) |
+| Cell size | 4 × 4 px, 1 px gap. Grid footprint = `53 × 5 = 265 px`; `leftPad(30) + 265 = 295 px`, leaving a 45 px right gutter so the grid doesn't bleed into the frame border |
 | Cell colour | 5-bucket ramp `mixHex(Background, Accent, k/4)` for `k ∈ 0..4` — no dedicated ramp field on the theme schema |
 | Weekday labels | Mon / Wed / Fri only, right-anchored in the `leftPad` gutter |
 | Month labels | Printed above the first week where a 1st-of-month day falls; skipped when `x > width − 20` so `Dec` / `Apr` can't spill past the frame |

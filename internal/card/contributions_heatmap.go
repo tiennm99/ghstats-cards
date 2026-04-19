@@ -22,15 +22,16 @@ func (contributionsHeatmapCard) SVG(p *github.Profile, t theme.Theme) ([]byte, e
 // theme.Accent in four intensity buckets so every palette inherits a usable
 // heatmap without a separate color ramp in the theme schema.
 //
-// Geometry is sized so 53 weeks fit inside the 340 px frame:
-// leftPad (22) + 53*(cellSize+cellGap)=53*6=318 → grid ends at x=340.
+// Geometry: 4 px cells + 1 px gap = 5 px per week column × 53 weeks = 265 px.
+// Left pad 30 (weekday labels), right pad 45 — both well clear of the frame
+// so the grid doesn't read as "bleeding" off the card.
 func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme) []byte {
 	const (
 		width    = 340
 		height   = 200
-		cellSize = 5
+		cellSize = 4
 		cellGap  = 1
-		leftPad  = 22
+		leftPad  = 30
 		topPad   = 62
 	)
 

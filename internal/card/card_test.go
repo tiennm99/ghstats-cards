@@ -141,11 +141,10 @@ func TestDonutEmpty(t *testing.T) {
 	}
 }
 
-// TestDonutTopSevenPlusOther confirms the "7 named + Other" contract: when
-// the input has more than 7 languages, the legend shows all 7 real entries
-// followed by a single "Other" bucket. Regression guard against anyone
-// sliding topN back to "N-1 real + Other" packing.
-func TestDonutTopSevenPlusOther(t *testing.T) {
+// TestDonutMaxSevenRows confirms the legend caps at 7 rows (Other inclusive):
+// 9 input languages collapse to the top 6 named + "Other". Regression guard
+// against anyone flipping the collapse semantic back to "7 named + Other".
+func TestDonutMaxSevenRows(t *testing.T) {
 	th, _ := theme.Lookup("dracula")
 	stats := []github.LangStat{
 		{Name: "Go", Color: "#00ADD8", Value: 100},
@@ -159,13 +158,13 @@ func TestDonutTopSevenPlusOther(t *testing.T) {
 		{Name: "Java", Color: "#b07219", Value: 20},
 	}
 	svg := string(renderDonutCard("Test", stats, th))
-	for _, want := range []string{"Go", "TypeScript", "Python", "Rust", "JavaScript", "HTML", "Shell", "Other"} {
+	for _, want := range []string{"Go", "TypeScript", "Python", "Rust", "JavaScript", "HTML", "Other"} {
 		if !strings.Contains(svg, ">"+want+" ") {
 			t.Errorf("expected legend row for %q; not found in:\n%s", want, svg)
 		}
 	}
-	// Kotlin + Java spill into Other (they must NOT appear as named rows).
-	for _, dropped := range []string{">Kotlin ", ">Java "} {
+	// Shell, Kotlin, Java are outside the top 6 and roll into Other.
+	for _, dropped := range []string{">Shell ", ">Kotlin ", ">Java "} {
 		if strings.Contains(svg, dropped) {
 			t.Errorf("expected %q to be collapsed into Other, but it renders:\n%s", dropped, svg)
 		}

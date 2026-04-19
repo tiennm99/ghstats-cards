@@ -99,23 +99,21 @@ func polar(cx, cy float64, r, angle float64) (float64, float64) {
 	return cx + r*math.Cos(angle), cy + r*math.Sin(angle)
 }
 
-// collapseOther returns the top n named entries, optionally followed by an
-// "Other" row summing everything past that. "Top N" means N actual languages
-// — the Other row is a bonus when there's a non-zero tail, not one of the N.
-// When the input fits in N entries the caller gets the slice back as-is.
+// collapseOther caps the legend at n rows. If there are more than n inputs
+// it keeps the top (n-1) named slices and folds everything past that into a
+// single "Other" row — so n counts TOTAL rows (Other inclusive), matching
+// what readers count when they glance at the legend.
 func collapseOther(in []github.LangStat, n int) []github.LangStat {
 	if len(in) <= n {
 		return in
 	}
-	out := make([]github.LangStat, 0, n+1)
-	out = append(out, in[:n]...)
+	out := make([]github.LangStat, 0, n)
+	out = append(out, in[:n-1]...)
 	var rest int64
-	for _, s := range in[n:] {
+	for _, s := range in[n-1:] {
 		rest += s.Value
 	}
-	if rest > 0 {
-		out = append(out, github.LangStat{Name: "Other", Value: rest})
-	}
+	out = append(out, github.LangStat{Name: "Other", Value: rest})
 	return out
 }
 
