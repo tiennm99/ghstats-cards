@@ -78,7 +78,8 @@ When there's **exactly one slice** (one language at 100%), the renderer emits tw
 | Metric | Value |
 | --- | --- |
 | Grid | 7 rows × 53 columns (Sunday → Saturday, oldest week → newest) |
-| Cell size | 4 × 4 px, 1 px gap. Grid footprint = `53 × 5 = 265 px`; `leftPad(30) + 265 = 295 px`, leaving a 45 px right gutter so the grid doesn't bleed into the frame border |
+| Cell size | 4 wide × 12 tall, 1 px gap. Width is constrained (`leftPad 30 + 53 × 5 = 295 px`, 45 px right gutter); height has headroom so cells are rectangular — makes each weekday row a distinct horizontal band instead of a postage-stamp blur |
+| Grid y-range | `topPad(62) .. 62 + 7 × 13 = 153 px`; 32 px gap to the legend at y ≈ 185 |
 | Cell colour | 5-bucket ramp `mixHex(Background, Accent, k/4)` for `k ∈ 0..4` — no dedicated ramp field on the theme schema |
 | Weekday labels | Mon / Wed / Fri only, right-anchored in the `leftPad` gutter |
 | Month labels | Printed above the first week where a 1st-of-month day falls; skipped when `x > width − 20` so `Dec` / `Apr` can't spill past the frame |
