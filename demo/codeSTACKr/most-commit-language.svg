@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="200" viewBox="0 0 340 200" font-family="'Segoe UI', Ubuntu, Sans-Serif">
+  <rect x="0.5" y="0.5" width="339" height="199" rx="6" fill="#09131b" stroke="#0c1a25" stroke-opacity="1.00"/>
+  <text x="20" y="30" font-size="15" font-weight="600" fill="#ff652f">Most Commit Language (last year)</text>
+  <rect x="20" y="47" width="10" height="10" fill="#f1e05a" stroke="#09131b" stroke-width="1"/>
+  <text x="36" y="55" font-size="11" fill="#ffffff">JavaScript 44.92%</text>
+  <rect x="20" y="67" width="10" height="10" fill="#00ADD8" stroke="#09131b" stroke-width="1"/>
+  <text x="36" y="75" font-size="11" fill="#ffffff">Go 12.81%</text>
+  <rect x="20" y="87" width="10" height="10" fill="#b07219" stroke="#09131b" stroke-width="1"/>
+  <text x="36" y="95" font-size="11" fill="#ffffff">Java 10.78%</text>
+  <rect x="20" y="107" width="10" height="10" fill="#e34c26" stroke="#09131b" stroke-width="1"/>
+  <text x="36" y="115" font-size="11" fill="#ffffff">HTML 9.76%</text>
+  <rect x="20" y="127" width="10" height="10" fill="#ff652f" stroke="#09131b" stroke-width="1"/>
+  <text x="36" y="135" font-size="11" fill="#ffffff">Other 21.72%</text>
+  <path d="M250.00,55.00 A55.00,55.00 0 0 1 267.27,162.22 L259.42,138.48 A30.00,30.00 0 0 0 250.00,80.00 Z" fill="#f1e05a" stroke="#09131b" stroke-width="1.5"/>
+  <path d="M267.27,162.22 A55.00,55.00 0 0 1 224.32,158.64 L235.99,136.53 A30.00,30.00 0 0 0 259.42,138.48 Z" fill="#00ADD8" stroke="#09131b" stroke-width="1.5"/>
+  <path d="M224.32,158.64 A55.00,55.00 0 0 1 199.51,131.80 L222.46,121.89 A30.00,30.00 0 0 0 235.99,136.53 Z" fill="#b07219" stroke="#09131b" stroke-width="1.5"/>
+  <path d="M199.51,131.80 A55.00,55.00 0 0 1 196.16,98.75 L220.63,103.87 A30.00,30.00 0 0 0 222.46,121.89 Z" fill="#e34c26" stroke="#09131b" stroke-width="1.5"/>
+  <path d="M196.16,98.75 A55.00,55.00 0 0 1 250.00,55.00 L250.00,80.00 A30.00,30.00 0 0 0 220.63,103.87 Z" fill="#ff652f" stroke="#09131b" stroke-width="1.5"/>
+</svg>

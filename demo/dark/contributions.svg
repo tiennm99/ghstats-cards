@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="200" viewBox="0 0 340 200" font-family="'Segoe UI', Ubuntu, Sans-Serif">
+  <rect x="0.5" y="0.5" width="339" height="199" rx="6" fill="#151515" stroke="#000000" stroke-opacity="0.00"/>
+  <text x="20" y="30" font-size="15" font-weight="600" fill="#ffffff">Contributions (last year)</text>
+  <line x1="28" y1="45" x2="28" y2="150" stroke="#79ff97"/>
+  <line x1="312" y1="45" x2="312" y2="150" stroke="#79ff97"/>
+  <line x1="24" y1="150" x2="28" y2="150" stroke="#79ff97"/>
+  <text x="22" y="153" font-size="10" fill="#79ff97" text-anchor="end">0</text>
+  <line x1="312" y1="150" x2="316" y2="150" stroke="#79ff97"/>
+  <text x="318" y="153" font-size="10" fill="#79ff97" text-anchor="start">0</text>
+  <line x1="24" y1="129" x2="28" y2="129" stroke="#79ff97"/>
+  <text x="22" y="132" font-size="10" fill="#79ff97" text-anchor="end">100</text>
+  <line x1="312" y1="129" x2="316" y2="129" stroke="#79ff97"/>
+  <text x="318" y="132" font-size="10" fill="#79ff97" text-anchor="start">100</text>
+  <line x1="24" y1="108" x2="28" y2="108" stroke="#79ff97"/>
+  <text x="22" y="111" font-size="10" fill="#79ff97" text-anchor="end">200</text>
+  <line x1="312" y1="108" x2="316" y2="108" stroke="#79ff97"/>
+  <text x="318" y="111" font-size="10" fill="#79ff97" text-anchor="start">200</text>
+  <line x1="24" y1="87" x2="28" y2="87" stroke="#79ff97"/>
+  <text x="22" y="90" font-size="10" fill="#79ff97" text-anchor="end">300</text>
+  <line x1="312" y1="87" x2="316" y2="87" stroke="#79ff97"/>
+  <text x="318" y="90" font-size="10" fill="#79ff97" text-anchor="start">300</text>
+  <line x1="24" y1="66" x2="28" y2="66" stroke="#79ff97"/>
+  <text x="22" y="69" font-size="10" fill="#79ff97" text-anchor="end">400</text>
+  <line x1="312" y1="66" x2="316" y2="66" stroke="#79ff97"/>
+  <text x="318" y="69" font-size="10" fill="#79ff97" text-anchor="start">400</text>
+  <line x1="24" y1="45" x2="28" y2="45" stroke="#79ff97"/>
+  <text x="22" y="48" font-size="10" fill="#79ff97" text-anchor="end">500</text>
+  <line x1="312" y1="45" x2="316" y2="45" stroke="#79ff97"/>
+  <text x="318" y="48" font-size="10" fill="#79ff97" text-anchor="start">500</text>
+  <line x1="28" y1="150" x2="312" y2="150" stroke="#79ff97"/>
+  <line x1="28" y1="150" x2="28" y2="154" stroke="#79ff97"/>
+  <text x="28" y="166" font-size="10" fill="#79ff97" text-anchor="middle">04/25</text>
+  <line x1="75" y1="150" x2="75" y2="154" stroke="#79ff97"/>
+  <text x="75" y="166" font-size="10" fill="#79ff97" text-anchor="middle">06/25</text>
+  <line x1="122" y1="150" x2="122" y2="154" stroke="#79ff97"/>
+  <text x="122" y="166" font-size="10" fill="#79ff97" text-anchor="middle">08/25</text>
+  <line x1="170" y1="150" x2="170" y2="154" stroke="#79ff97"/>
+  <text x="170" y="166" font-size="10" fill="#79ff97" text-anchor="middle">10/25</text>
+  <line x1="217" y1="150" x2="217" y2="154" stroke="#79ff97"/>
+  <text x="217" y="166" font-size="10" fill="#79ff97" text-anchor="middle">12/25</text>
+  <line x1="264" y1="150" x2="264" y2="154" stroke="#79ff97"/>
+  <text x="264" y="166" font-size="10" fill="#79ff97" text-anchor="middle">02/26</text>
+  <line x1="312" y1="150" x2="312" y2="154" stroke="#79ff97"/>
+  <text x="312" y="166" font-size="10" fill="#79ff97" text-anchor="middle">04/26</text>
+  <path d="M28.00,142.23 C31.94,140.16 43.78,130.12 51.67,129.84 C59.56,129.56 67.44,138.98 75.33,140.55 C83.22,142.12 91.11,140.23 99.00,139.29 C106.89,138.34 114.78,134.42 122.67,134.88 C130.56,135.34 138.44,143.63 146.33,142.02 C154.22,140.41 162.11,132.68 170.00,125.22 C177.89,117.77 185.78,99.25 193.67,97.29 C201.56,95.33 209.44,105.94 217.33,113.46 C225.22,120.99 233.11,140.06 241.00,142.44 C248.89,144.82 256.78,136.35 264.67,127.74 C272.56,119.13 280.44,106.84 288.33,90.78 C296.22,74.72 308.06,41.25 312.00,31.35 L312.00,150.00 L28.00,150.00 Z" fill="#ffffff" fill-opacity="0.25" stroke="none"/>
+  <path d="M28.00,142.23 C31.94,140.16 43.78,130.12 51.67,129.84 C59.56,129.56 67.44,138.98 75.33,140.55 C83.22,142.12 91.11,140.23 99.00,139.29 C106.89,138.34 114.78,134.42 122.67,134.88 C130.56,135.34 138.44,143.63 146.33,142.02 C154.22,140.41 162.11,132.68 170.00,125.22 C177.89,117.77 185.78,99.25 193.67,97.29 C201.56,95.33 209.44,105.94 217.33,113.46 C225.22,120.99 233.11,140.06 241.00,142.44 C248.89,144.82 256.78,136.35 264.67,127.74 C272.56,119.13 280.44,106.84 288.33,90.78 C296.22,74.72 308.06,41.25 312.00,31.35" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <text x="170" y="184" font-size="11" fill="#79ff97" text-anchor="middle">mm/yy</text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="200" viewBox="0 0 340 200" font-family="'Segoe UI', Ubuntu, Sans-Serif">
+  <rect x="0.5" y="0.5" width="339" height="199" rx="6" fill="#050f2c" stroke="#000000" stroke-opacity="0.00"/>
+  <text x="20" y="30" font-size="15" font-weight="600" fill="#00aeff">Most Commit Language (all time)</text>
+  <rect x="20" y="47" width="10" height="10" fill="#f1e05a" stroke="#050f2c" stroke-width="1"/>
+  <text x="36" y="55" font-size="11" fill="#ffffff">JavaScript 31.61%</text>
+  <rect x="20" y="67" width="10" height="10" fill="#b07219" stroke="#050f2c" stroke-width="1"/>
+  <text x="36" y="75" font-size="11" fill="#ffffff">Java 18.83%</text>
+  <rect x="20" y="87" width="10" height="10" fill="#e34c26" stroke="#050f2c" stroke-width="1"/>
+  <text x="36" y="95" font-size="11" fill="#ffffff">HTML 18.79%</text>
+  <rect x="20" y="107" width="10" height="10" fill="#00ADD8" stroke="#050f2c" stroke-width="1"/>
+  <text x="36" y="115" font-size="11" fill="#ffffff">Go 7.16%</text>
+  <rect x="20" y="127" width="10" height="10" fill="#00aeff" stroke="#050f2c" stroke-width="1"/>
+  <text x="36" y="135" font-size="11" fill="#ffffff">Other 23.62%</text>
+  <path d="M250.00,55.00 A55.00,55.00 0 0 1 300.33,132.19 L277.45,122.10 A30.00,30.00 0 0 0 250.00,80.00 Z" fill="#f1e05a" stroke="#050f2c" stroke-width="1.5"/>
+  <path d="M300.33,132.19 A55.00,55.00 0 0 1 248.50,164.98 L249.18,139.99 A30.00,30.00 0 0 0 277.45,122.10 Z" fill="#b07219" stroke="#050f2c" stroke-width="1.5"/>
+  <path d="M248.50,164.98 A55.00,55.00 0 0 1 198.58,129.52 L221.95,120.65 A30.00,30.00 0 0 0 249.18,139.99 Z" fill="#e34c26" stroke="#050f2c" stroke-width="1.5"/>
+  <path d="M198.58,129.52 A55.00,55.00 0 0 1 195.21,105.23 L220.11,107.40 A30.00,30.00 0 0 0 221.95,120.65 Z" fill="#00ADD8" stroke="#050f2c" stroke-width="1.5"/>
+  <path d="M195.21,105.23 A55.00,55.00 0 0 1 250.00,55.00 L250.00,80.00 A30.00,30.00 0 0 0 220.11,107.40 Z" fill="#00aeff" stroke="#050f2c" stroke-width="1.5"/>
+</svg>
