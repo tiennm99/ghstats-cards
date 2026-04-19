@@ -33,12 +33,14 @@ ghstats/
 │   │   ├── donut_chart.go               # renderDonutCard — shared by language cards
 │   │   └── card_test.go                 # Rendering + escape + format tests
 │   └── theme/
-│       └── theme.go                     # 61-palette map ported from github-profile-summary-cards
+│       └── theme.go                     # 65-palette map ported from github-profile-summary-cards
 ├── .github/workflows/
 │   ├── ci.yml                           # go vet + go test on push/PR
-│   └── release.yml                      # GHCR image + cross-platform binaries on tag
+│   ├── release.yml                      # GHCR image + cross-platform binaries on tag
+│   └── demo.yml                         # Renders every theme for the repo owner on push to main
 ├── docs/                                # This directory
 ├── plans/                               # Research reports + implementation plans
+├── demo/                                # Auto-generated gallery — every card × every theme + README
 └── output/dracula/                      # Sample committed; other themes gitignored
 ```
 
@@ -78,7 +80,7 @@ Shared helpers:
 
 ### `internal/theme`
 
-Static map of 61 themes. Each theme specifies title/text/background/stroke/accent/muted plus `StrokeOpacity` for correct light-theme borders.
+Static map of 65 themes. Each theme specifies title/text/background/stroke/accent/muted plus `StrokeOpacity` for correct light-theme borders.
 
 ## Card ↔ data flow
 

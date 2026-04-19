@@ -108,7 +108,7 @@ Tension = 0.5 (d3's default).
 
 ## Theme model
 
-`theme.Theme` is a pure-data struct — no methods. Cards pull `t.Background`, `t.Text`, `t.Title`, `t.Accent`, `t.Muted`, `t.Stroke`, `t.StrokeOpacity`. The 61 palettes live in a map keyed by snake_case ID.
+`theme.Theme` is a pure-data struct — no methods. Cards pull `t.Background`, `t.Text`, `t.Title`, `t.Accent`, `t.Muted`, `t.Stroke`, `t.StrokeOpacity`. The 65 palettes live in a map keyed by snake_case ID.
 
 Light themes (`default`, `github`, `nord_bright`, etc.) use `StrokeOpacity: 1` with a visible stroke color; dark themes often use `StrokeOpacity: 0` or a stroke that blends into the background.
 

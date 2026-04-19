@@ -26,7 +26,7 @@ Cards rendered:
 | 7 | **Productive time (all time)** | Same as #4 but over lifetime commits |
 | 8 | **Contributions (all time)** | Area chart across every active year, auto-thinned x-axis labels |
 
-Live dracula sample ships in [`output/dracula/`](./output/dracula).
+Live `dracula` sample ships in [`output/dracula/`](./output/dracula). Every available theme rendered against the author's profile — profile details, stats, language donuts, productive-time, contributions — is browsable in the auto-generated [**demo gallery**](./demo). Regenerated on every push to `main` by [`.github/workflows/demo.yml`](./.github/workflows/demo.yml).
 
 ## In the wild
 
@@ -146,11 +146,12 @@ ghstats -user tiennm99 -themes dracula,github_dark -tz Asia/Saigon -out output
 
 ## Themes
 
-Run `ghstats -list-themes` for the full list (60+ themes ported from
+Run `ghstats -list-themes` for the full list (65 themes ported from
 github-profile-summary-cards). Built-ins include `default`, `dark`, `dracula`,
 `github`, `github_dark`, `tokyonight`, `onedark`, `nord_dark`, `nord_bright`,
 `gruvbox`, `radical`, `synthwave`, `monokai`, `solarized`, `solarized_dark`,
-`transparent`, and more.
+`transparent`, and more. Preview every one against real profile data in the
+[demo gallery](./demo).
 
 ## Output
 

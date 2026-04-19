@@ -8,7 +8,7 @@
 
 - Profile details, repos-per-language, most-commit-language, stats, productive-time.
 - GraphQL profile query + per-repo commit history.
-- Docker-based Action wrapper, release workflow, 61-theme palette.
+- Docker-based Action wrapper, release workflow, 65-theme palette.
 
 ## Phase 2 — Chart quality (✅ done)
 
@@ -61,6 +61,13 @@ Follow-up after the full-project review (`plans/reports/code-review-260418-2223-
 - README badges (Marketplace / Release / License) + direct Marketplace link for cross-navigation.
 - Repo topics expanded for Marketplace discoverability (`ghstats-cards`, `profile-readme`, `stats-cards`, etc.).
 - An attempted repo rename to `tiennm99/ghstats-cards` was committed and reverted (commits `399a3dc` + `8bd2128` on record) — GHCR path immutability and the cost of breaking pinned consumers outweighed the Marketplace-name cosmetic benefit.
+
+## Phase 7.5 — Demo gallery for theme discovery (✅ done)
+
+- New `.github/workflows/demo.yml` renders every card for every theme against the repo owner's profile on each push to `main`.
+- Output lands in `demo/<theme>/`, with an auto-generated `demo/README.md` TOC so reviewers can browse palettes side-by-side with real data instead of cloning and running the CLI.
+- Loop prevention: workflow skips pushes that only touch `demo/**`, `output/**`, `**.md`, or `LICENSE`; `GITHUB_TOKEN`-driven pushes don't retrigger workflows by design.
+- Consumer impact: none — this is a repo-internal discovery aid, not a shipped feature.
 
 ---
 

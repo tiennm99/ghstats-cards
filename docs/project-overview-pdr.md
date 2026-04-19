@@ -35,7 +35,7 @@ Distinguishing traits:
 | # | Requirement |
 | --- | --- |
 | F1 | Render 9 cards per selected theme (see `docs/system-architecture.md`) |
-| F2 | Support 60+ themes ported from github-profile-summary-cards |
+| F2 | Support 65 themes ported from github-profile-summary-cards |
 | F3 | Handle the full username→profile→cards flow in a single invocation |
 | F4 | Package as GitHub Action with `commit_changes` auto-commit of output |
 | F5 | Expose `-include-forks` / `-include-private` toggles |
