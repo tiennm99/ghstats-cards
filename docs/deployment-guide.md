@@ -56,10 +56,16 @@ Create one at <https://github.com/settings/tokens> → "Generate new token (clas
 ![most-commit-language](./output/dracula/most-commit-language.svg)
 ![stats](./output/dracula/stats.svg)
 ![productive-time](./output/dracula/productive-time.svg)
+![productive-weekday](./output/dracula/productive-weekday.svg)
 ![contributions](./output/dracula/contributions.svg)
+![contributions-heatmap](./output/dracula/contributions-heatmap.svg)
+![top-starred-repos](./output/dracula/top-starred-repos.svg)
+![streak](./output/dracula/streak.svg)
 ![most-commit-language-all-time](./output/dracula/most-commit-language-all-time.svg)
 ![productive-time-all-time](./output/dracula/productive-time-all-time.svg)
+![productive-weekday-all-time](./output/dracula/productive-weekday-all-time.svg)
 ![contributions-all-time](./output/dracula/contributions-all-time.svg)
+![contributions-by-year](./output/dracula/contributions-by-year.svg)
 ```
 
 The Action commits SVGs to `output/<theme>/` on the default branch. GitHub serves them from the raw URL the README references.

@@ -46,9 +46,11 @@ FetchContributionsAllTime(ctx, profile, opts)
 FetchProductive(ctx, profile, profile.SeedRepos, loc, commitsPerRepo)
   │  commitHistoryQuery × (#seeds × pages)
   │  per commit: t = committedDate in loc
-  │              ProductiveAllTime[t.Hour]++  + language votes
-  │              if t.After(yearAgo): Productive[t.Hour]++ + language votes
-  │  yields: Productive, ProductiveAllTime,
+  │              ProductiveAllTime[t.Hour]++
+  │              WeekdayAllTime[t.Weekday]++  + language votes
+  │              if t.After(yearAgo): Productive[t.Hour]++
+  │                                   Weekday[t.Weekday]++ + language votes
+  │  yields: Productive, Weekday, ProductiveAllTime, WeekdayAllTime,
   │          CommitsByLanguage, CommitsByLanguageAllTime
   │
   ▼

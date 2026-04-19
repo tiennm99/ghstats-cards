@@ -59,7 +59,7 @@ All network I/O. Exposes a `*Client` with three fetchers; every call takes a `co
 | --- | --- | --- |
 | `FetchProfile(ctx, login, opts)` | username, visibility flags | Profile basics, totals, owned-repos aggregation, last-year daily calendar, `TopRepos` |
 | `FetchContributionsAllTime(ctx, p, opts)` | Profile | `SeedRepos`, `DailyContributionsAllTime`, `TotalCommitsAllTime` |
-| `FetchProductive(ctx, p, repos, loc, cap)` | Profile + seed + tz + cap | `Productive`, `CommitsByLanguage`, `ProductiveAllTime`, `CommitsByLanguageAllTime` |
+| `FetchProductive(ctx, p, repos, loc, cap)` | Profile + seed + tz + cap | `Productive`, `Weekday`, `CommitsByLanguage`, `ProductiveAllTime`, `WeekdayAllTime`, `CommitsByLanguageAllTime` |
 
 Call order in `main.go`: Profile → AllTime → Productive. `Client.query` handles GitHub rate limits transparently — on 429 or 403 with `X-RateLimit-Remaining: 0`, it honors `Retry-After` / `X-RateLimit-Reset` (capped at 5 minutes) and retries once.
 
@@ -78,8 +78,11 @@ type Card interface {
 
 Shared helpers:
 - `renderDonutCard` — language donut + legend (used by 3 language cards)
-- `renderProductiveTime` — 24h bar chart (used by both productive cards)
+- `renderProductiveTime` — 24h bar chart (used by both productive-time cards)
+- `renderWeekday` — 7-bar day-of-week chart (used by both productive-weekday cards)
 - `renderContributions` — smooth area chart (used by both contributions cards)
+- `renderHeatmap` — 7×N calendar grid with `mixHex`-derived intensity ramp
+- `mixHex` / `parseHex` — `#rrggbb` blending (used by heatmap, by-year, weekday for peak-vs-dim bars)
 - `header`, `footer` — SVG chrome
 - `niceTicks`, `formatTick` — axis math
 
