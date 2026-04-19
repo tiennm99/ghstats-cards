@@ -18,6 +18,19 @@ func escapeXML(s string) string {
 	return r.Replace(s)
 }
 
+// truncate returns s clamped to at most n runes, appending "…" when the
+// input was longer. Operates on runes so multi-byte strings (emoji, CJK)
+// don't split mid-codepoint. Used by every row-style card to make sure a
+// pathological name / company / location can't push the card's right edge
+// out past the 340 px frame.
+func truncate(s string, n int) string {
+	r := []rune(s)
+	if len(r) <= n {
+		return s
+	}
+	return strings.TrimRight(string(r[:n-1]), ".") + "…"
+}
+
 // formatInt renders n with thousands separators (e.g. 12345 → "12,345").
 func formatInt(n int) string {
 	neg := n < 0
