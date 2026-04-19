@@ -98,6 +98,42 @@ Missing months in the `[first, last]` range are inserted as zero-count rows to k
 
 Add new icons by copying the `<path>` from Octicons and appending to `icons.go`. Keep them to the same 16×16 viewBox so the existing scale math applies.
 
+## Fit-the-frame invariant (MUST hold before release)
+
+Every card MUST render entirely inside the 340 × 200 frame **for every profile the card can encounter**, not just the author's. That means:
+
+| Thing that varies | Worst case to design for |
+| --- | --- |
+| Star counts, commit counts, streak lengths, active days | 10-digit formatted integer (e.g. `1,234,567,890`) |
+| Repo / language / company / location names | 40+ char strings with CJK / emoji |
+| Number of active years | 20+ years (contribution history can start in 2008) |
+| Contribution calendar weeks | 53 — not 52 — when the window spans a year transition |
+
+Concrete rules this implies:
+
+- **Reserve columns.** When a card has `N` equal-width columns, treat `340 / N` as the hard limit for each column's widest element. No centered text can be wider than its column.
+- **Right-anchored values** (stats rows, top-starred bars) must leave a safety margin. Right edge ≤ `width − 6`; do not place an icon to the right of a right-anchored number (they collide on multi-digit values).
+- **Long strings get truncated, not wrapped.** Use `truncateName` (top-starred) or pick a layout that allows clipping via `text-overflow` semantics. Never let a wide string push a later element off-screen.
+- **Variable-count grids** (heatmap 7×N, by-year N bars) must compute cell size from the container width, not the other way round. Don't hardcode a cell size that only works for the author's profile.
+- **Month / year tick labels** within `~20 px` of the right edge must be skipped (they read past the frame otherwise).
+
+### Review checklist (before merging any card change)
+
+Render the **dracula** theme against at least three profiles or synthetic fixtures:
+
+1. **Tiny**: a brand-new account with 0 commits, 0 stars, 1 repo.
+2. **Typical**: the author's profile (`tiennm99` via `demo/` regeneration).
+3. **Adversarial**: seven-digit commit counts, 40-char repo / company / location names, 20 active years, 53-week span. A small synthetic `*.json` fixture is fine; it doesn't need a token.
+
+Then open every affected SVG at 1× and 2× zoom and verify:
+
+- [ ] No `<text>`, `<rect>`, `<circle>`, `<line>`, or path coordinate exceeds `x=340` or `y=200`, or falls below `x=0` / `y=0`.
+- [ ] No two elements overlap in a way that makes either unreadable.
+- [ ] Right-anchored numbers don't collide with icons, swatches, or bars.
+- [ ] Peak-vs-dim highlighting still reads at a glance (dracula `Background → Accent` contrast is fine; light themes like `github` or `nord_bright` need a separate check).
+
+The `demo/<theme>/` gallery auto-regenerates on every push to `main`; use the last CI run as the dracula reference, and stress-test the adversarial case locally before pushing.
+
 ## Accessibility
 
 - Contrast is the theme author's responsibility — we don't validate at runtime.

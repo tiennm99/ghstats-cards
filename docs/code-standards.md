@@ -84,6 +84,17 @@ go build ./...
 
 All three must pass. If a test is failing, fix the test before committing — don't skip.
 
+## Card review checklist (pre-release)
+
+In addition to the compile/test gate above, any change that touches files under `internal/card/` **must** be reviewed against `docs/design-guidelines.md` → "Fit-the-frame invariant" before merging. Specifically:
+
+- Render the dracula theme against the **tiny / typical / adversarial** profile fixtures and visually verify nothing overflows or overlaps.
+- No hard-coded dimensions that only work for the reviewer's own profile (names, digit counts, year spans).
+- Every right-anchored value or text-anchor="middle" element fits inside its column / safety margin.
+- The CI-built `demo/<theme>/` gallery is the canonical "dracula on the author's profile" view; don't rely on a local run alone.
+
+This is a hard gate: a card that overflows on a realistic profile does not ship, even if tests pass.
+
 ## Dependency policy
 
 - **Stdlib only.** `go.mod` lists no `require` entries.

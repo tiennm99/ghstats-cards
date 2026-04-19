@@ -21,15 +21,17 @@ func (contributionsHeatmapCard) SVG(p *github.Profile, t theme.Theme) ([]byte, e
 // bottom, oldest week on the left. Cell color mixes theme.Background with
 // theme.Accent in four intensity buckets so every palette inherits a usable
 // heatmap without a separate color ramp in the theme schema.
+//
+// Geometry is sized so 53 weeks fit inside the 340 px frame:
+// leftPad (22) + 53*(cellSize+cellGap)=53*6=318 → grid ends at x=340.
 func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme) []byte {
 	const (
-		width      = 340
-		height     = 200
-		cellSize   = 9
-		cellGap    = 2
-		leftPad    = 28
-		topPad     = 55
-		dayLabelDX = 22 // where weekday labels anchor (right of grid start)
+		width    = 340
+		height   = 200
+		cellSize = 5
+		cellGap  = 1
+		leftPad  = 22
+		topPad   = 62
 	)
 
 	var b strings.Builder
@@ -70,6 +72,9 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 
 	// Month labels across the top. We print each month the first time its
 	// first day appears in a week column, skipping consecutive duplicates.
+	// Labels within ~20 px of the right edge are dropped so a trailing "Dec"
+	// or "Apr" can't extend past the card frame.
+	const monthLabelMaxX = width - 20
 	lastMonth := time.Month(0)
 	for w := 0; w < weeks; w++ {
 		first := cells[w*7].Date
@@ -81,6 +86,9 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 		}
 		lastMonth = first.Month()
 		x := leftPad + w*(cellSize+cellGap)
+		if x > monthLabelMaxX {
+			continue
+		}
 		fmt.Fprintf(&b, `
   <text x="%d" y="%d" font-size="9" fill="%s">%s</text>`,
 			x, topPad-4, t.Muted, first.Month().String()[:3])

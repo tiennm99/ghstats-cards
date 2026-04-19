@@ -18,16 +18,16 @@ const maxTopRepoRows = 5
 
 func (topStarredReposCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	const (
-		width    = 340
-		height   = 200
-		rowX     = 20
-		rowY0    = 60
-		rowDY    = 22
-		iconSize = 12
-		barX     = 160
-		barW     = 140 // max bar width; the top repo fills this
-		barH     = 10
-		nameMax  = 18 // truncate long repo names at this many characters
+		width   = 340
+		height  = 200
+		rowX    = 20
+		rowY0   = 60
+		rowDY   = 22
+		barX    = 150
+		barW    = 120 // max bar width; the top repo fills this
+		barH    = 10
+		valueX  = 334 // right-aligned anchor for the star count
+		nameMax = 17  // truncate long repo names at this many characters
 	)
 
 	repos := ownedNonForkRepos(p.TopRepos)
@@ -50,20 +50,17 @@ func (topStarredReposCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error)
 		maxStars = 1
 	}
 
-	scale := float64(iconSize) / 16.0
+	// Row layout: language swatch + name on the left, a proportional bar in
+	// the middle, star count right-anchored at valueX. The card title already
+	// says "Top Starred Repos", so the per-row star icon would just be noise.
 	for i, r := range repos {
 		y := rowY0 + i*rowDY
-		lang := r.PrimaryLanguage
-		if lang == "" {
-			lang = "—"
-		}
 		langColor := r.PrimaryColor
 		if langColor == "" {
 			langColor = t.Accent
 		}
 		name := truncateName(r.Name, nameMax)
 
-		// Language swatch + repo name on the left; horizontal bar + star count on the right.
 		fmt.Fprintf(&b, `
   <circle cx="%d" cy="%d" r="4" fill="%s"/>
   <text x="%d" y="%d" font-size="12" fill="%s">%s</text>`,
@@ -78,10 +75,8 @@ func (topStarredReposCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error)
 			barX, y-barH+2, bw, barH, t.Accent)
 
 		fmt.Fprintf(&b, `
-  <g transform="translate(%d,%.2f) scale(%.3f)" fill="%s">%s</g>
-  <text x="%d" y="%d" font-size="11" font-weight="600" fill="%s" text-anchor="end">%s</text>`,
-			barX+barW+6, float64(y-iconSize+2), scale, t.Muted, iconStar,
-			width-6, y, t.Accent, escapeXML(formatInt(r.Stars)))
+  <text x="%d" y="%d" font-size="12" font-weight="600" fill="%s" text-anchor="end">%s ★</text>`,
+			valueX, y, t.Accent, escapeXML(formatInt(r.Stars)))
 	}
 
 	b.WriteString(footer)

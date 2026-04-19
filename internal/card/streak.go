@@ -25,16 +25,18 @@ func (streakCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, "Streak"))
 
 	// Three large stat columns (current / longest / active-days) side by side,
-	// each with a big number on top and a smaller label underneath. Mirrors
-	// the classic "streak" card layout so embedders recognise it instantly.
+	// each with a big number on top, a label underneath, and a small detail
+	// line. Keeping the big number to a single formatted integer per column
+	// means no column can overflow regardless of magnitude (formatInt adds
+	// thousands separators and even 10-digit counts fit ≤113 px at 28 px).
 	cols := []struct {
-		value string
-		label string
-		end   string // optional date annotation beneath the label
+		value  string
+		label  string
+		detail string
 	}{
 		{formatInt(stats.Current), "Current streak", streakRange(stats.CurrentStart, stats.CurrentEnd)},
 		{formatInt(stats.Longest), "Longest streak", streakRange(stats.LongestStart, stats.LongestEnd)},
-		{fmt.Sprintf("%d / %d", stats.Active, stats.Total), "Active days", ""},
+		{formatInt(stats.Active), "Active days", activeDaysDetail(stats.Active, stats.Total)},
 	}
 	colW := width / len(cols)
 	for i, c := range cols {
@@ -44,10 +46,10 @@ func (streakCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
   <text x="%d" y="%d" font-size="12" fill="%s" text-anchor="middle">%s</text>`,
 			cx, 95, t.Accent, escapeXML(c.value),
 			cx, 120, t.Text, escapeXML(c.label))
-		if c.end != "" {
+		if c.detail != "" {
 			fmt.Fprintf(&b, `
   <text x="%d" y="%d" font-size="10" fill="%s" text-anchor="middle">%s</text>`,
-				cx, 140, t.Muted, escapeXML(c.end))
+				cx, 140, t.Muted, escapeXML(c.detail))
 		}
 	}
 
@@ -111,6 +113,17 @@ func computeStreak(days []github.DailyContribution) streakStats {
 		s.CurrentStart = days[i].Date
 	}
 	return s
+}
+
+// activeDaysDetail renders the "/ total" denominator as a small sub-line so
+// the big number in the column stays a single formatted integer — that way
+// a user with 10,000+ active days never squeezes against the column edges.
+func activeDaysDetail(active, total int) string {
+	if total <= 0 {
+		return ""
+	}
+	pct := 100 * active / total
+	return fmt.Sprintf("of %s total (%d%%)", formatInt(total), pct)
 }
 
 // streakRange formats the open/close dates of a streak as "Mon 2 — Wed 11"

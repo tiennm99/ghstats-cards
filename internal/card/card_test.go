@@ -3,6 +3,8 @@ package card
 import (
 	"os"
 	"path/filepath"
+	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -162,4 +164,133 @@ func TestEscapeXML(t *testing.T) {
 	if got != want {
 		t.Errorf("escapeXML=%q want %q", got, want)
 	}
+}
+
+// TestCardsFitFrame renders every card against an adversarial profile and
+// asserts every positional attribute stays inside the 340×200 frame. This is
+// the automated half of the "fit-the-frame invariant" from
+// docs/design-guidelines.md — a guard against future card changes that would
+// silently overflow only for non-author profiles.
+func TestCardsFitFrame(t *testing.T) {
+	p := adversarialProfile()
+	th, _ := theme.Lookup("dracula")
+	dir := t.TempDir()
+	if err := RenderAll(p, th, dir); err != nil {
+		t.Fatalf("RenderAll: %v", err)
+	}
+
+	entries, err := os.ReadDir(filepath.Join(dir, "dracula"))
+	if err != nil {
+		t.Fatalf("ReadDir: %v", err)
+	}
+
+	for _, e := range entries {
+		data, err := os.ReadFile(filepath.Join(dir, "dracula", e.Name()))
+		if err != nil {
+			t.Fatal(err)
+		}
+		assertInFrame(t, e.Name(), string(data))
+	}
+}
+
+// attrCoord captures the numeric value of any positional SVG attribute that
+// could push content outside the frame. We ignore path `d` attributes — their
+// coordinates are always clamped by the chart geometry, and the regex would
+// be fragile against the Catmull-Rom Bezier output.
+var attrCoord = regexp.MustCompile(`(?:x|y|x1|y1|x2|y2|cx|cy)="(-?\d+(?:\.\d+)?)"`)
+
+func assertInFrame(t *testing.T, name, svg string) {
+	t.Helper()
+	const (
+		maxX = 340
+		maxY = 200
+	)
+	for _, m := range attrCoord.FindAllStringSubmatch(svg, -1) {
+		v, err := strconv.ParseFloat(m[1], 64)
+		if err != nil {
+			continue
+		}
+		// Distinguish x-ish vs y-ish by the first attr char.
+		isX := strings.HasPrefix(m[0], "x") || strings.HasPrefix(m[0], "cx")
+		limit := float64(maxY)
+		if isX {
+			limit = float64(maxX)
+		}
+		if v < -1 || v > limit+0.5 {
+			t.Errorf("%s: attribute %q value %v outside frame (limit %v)", name, m[0], v, limit)
+		}
+	}
+}
+
+// adversarialProfile exercises every card against the worst-case inputs a
+// real user might have: huge counts, long names, 20 active years, 53-week
+// calendar. Kept alongside the stress test so updates stay colocated.
+func adversarialProfile() *github.Profile {
+	p := &github.Profile{
+		Login:                      "user-with-a-very-long-login-name",
+		Name:                       "A Very Long Display Name That Keeps Going",
+		Company:                    "A-Company-With-An-Unusually-Long-Name Pty Ltd",
+		Location:                   "A Place With A Name That Is Way Too Long To Fit",
+		Website:                    "https://example-with-a-very-long-domain.example.com/profile",
+		Followers:                  1_234_567,
+		Following:                  98_765,
+		PublicRepos:                4_321,
+		TotalStars:                 10_000_000,
+		TotalCommits:               123_456,
+		TotalCommitsAllTime:        9_876_543,
+		TotalPRs:                   12_345,
+		TotalIssues:                6_789,
+		TotalReviews:               54_321,
+		TotalContributedTo:         777,
+		TotalContributionsLastYear: 200_000,
+		CreatedAt:                  time.Date(2008, 1, 1, 0, 0, 0, 0, time.UTC),
+		ReposByLanguage: []github.LangStat{
+			{Name: "JavaScript", Color: "#f1e05a", Value: 1234},
+			{Name: "TypeScript", Color: "#3178c6", Value: 999},
+			{Name: "Go", Color: "#00ADD8", Value: 500},
+			{Name: "Rust", Color: "#dea584", Value: 321},
+			{Name: "Python", Color: "#3572A5", Value: 200},
+		},
+		CommitsByLanguage: []github.LangStat{
+			{Name: "JavaScript", Color: "#f1e05a", Value: 1_000_000},
+			{Name: "Rust", Color: "#dea584", Value: 500_000},
+		},
+		CommitsByLanguageAllTime: []github.LangStat{
+			{Name: "JavaScript", Color: "#f1e05a", Value: 5_000_000},
+			{Name: "Java", Color: "#b07219", Value: 2_000_000},
+		},
+	}
+	for i := range p.Productive {
+		p.Productive[i] = 9999
+		p.ProductiveAllTime[i] = 999_999
+	}
+	for i := range p.Weekday {
+		p.Weekday[i] = 9999
+		p.WeekdayAllTime[i] = 999_999
+	}
+
+	// Top repos with very long names — truncateName must kick in.
+	for i := 0; i < 8; i++ {
+		p.TopRepos = append(p.TopRepos, github.RepoInfo{
+			Owner:           "user",
+			Name:            "a-repository-with-an-absurdly-long-slug-" + strings.Repeat("x", 20),
+			Stars:           1_000_000 - i*123_456,
+			PrimaryLanguage: "TypeScript",
+			PrimaryColor:    "#3178c6",
+		})
+	}
+
+	// 20-year history ending today so the heatmap sees exactly 53 weeks and
+	// the by-year card gets 20 bars.
+	base := time.Date(time.Now().Year()-20, 1, 1, 0, 0, 0, 0, time.UTC)
+	for i := 0; i < 365*20+5; i++ {
+		p.DailyContributionsAllTime = append(p.DailyContributionsAllTime,
+			github.DailyContribution{Date: base.AddDate(0, 0, i), Count: i % 17})
+	}
+	yearStart := time.Now().AddDate(-1, 0, 0)
+	for i := 0; i < 371; i++ {
+		p.DailyContributions = append(p.DailyContributions,
+			github.DailyContribution{Date: yearStart.AddDate(0, 0, i), Count: i % 23})
+	}
+	return p
 }
