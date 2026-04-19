@@ -77,9 +77,9 @@ When there's **exactly one slice** (one language at 100%), the renderer emits tw
 
 | Metric | Value |
 | --- | --- |
-| Grid | 7 rows × 53 columns (Sunday → Saturday, oldest week → newest) |
-| Cell size | 4 × 4 px square, 1 px gap. 4 is the largest square that fits with breathing room on both sides (`leftPad 30 + 53 × 5 = 295 px`, 45 px right gutter). 5 × 5 with a gap overflows; 5 × 5 touching cells loses visible separation; rectangular cells look stretched. Card has vertical headroom to spare — we accept that in exchange for a clean square grid |
-| Grid y-range | `topPad(70) .. 70 + 7 × 5 = 105 px` |
+| Layout | **Two stacked halves** of ~27 weeks each. One-row 53-week layout forces cells down to 4 × 4 to fit in 340 px; splitting in half lets each half be 27 weeks wide at **8 × 8 square cells** — 4× the cell area. Year still reads top-to-bottom, left-to-right. |
+| Cell size | 8 × 8 px square, 1 px gap |
+| Grid geometry | `leftPad 30`, `topPadA 45` (top half), `halfGap 13`, `topPadB 120`. Each half is 7 × 9 − 1 = 62 px tall. Grid bottom at y=182 leaves 18 px for the frame border. |
 | Cell colour | 5-bucket ramp `mixHex(Background, Accent, k/4)` for `k ∈ 0..4` — no dedicated ramp field on the theme schema |
 | Weekday labels | Mon / Wed / Fri only, right-anchored in the `leftPad` gutter |
 | Month labels | Printed above the first week where a 1st-of-month day falls; skipped when `x > width − 20` so `Dec` / `Apr` can't spill past the frame |

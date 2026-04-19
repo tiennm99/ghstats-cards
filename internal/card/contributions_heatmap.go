@@ -17,26 +17,25 @@ func (contributionsHeatmapCard) SVG(p *github.Profile, t theme.Theme) ([]byte, e
 	return renderHeatmap("Contributions (last year)", p.DailyContributions, t), nil
 }
 
-// renderHeatmap draws the classic 7×N week grid. Sunday at top, Saturday at
-// bottom, oldest week on the left. Cell color mixes theme.Background with
-// theme.Accent in four intensity buckets so every palette inherits a usable
-// heatmap without a separate color ramp in the theme schema.
-//
-// Cells are square. 53 weeks at (cellSize + gap) = 5 px per column fills
-// 265 px, which leaves comfortable left (30) and right (45) gutters inside
-// the 340 px card. 6 × 6 cells would overflow; 5 × 5 cells with a gap push
-// back to the right edge. 4 × 4 is the largest square that keeps breathing
-// room on both sides. The resulting grid is short (35 px tall) — the card
-// has lots of vertical headroom — but short beats awkwardly stretched.
+// renderHeatmap draws the 53-week contribution calendar as two stacked
+// halves of ~27 weeks each. A single-row version has to shrink cells to
+// 4×4 to fit 53 weeks inside the 340 px width; splitting the year into two
+// halves lets each half be 27 weeks wide at 8×8 cells — 4× the cell area
+// and distinctly more readable, while the year still reads top-to-bottom
+// left-to-right. Cell color mixes theme.Background with theme.Accent in
+// four intensity buckets so every palette inherits a usable heatmap.
 func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme) []byte {
 	const (
 		width    = 340
 		height   = 200
-		cellSize = 4 // square
+		cellSize = 8
 		cellGap  = 1
 		leftPad  = 30
-		topPad   = 70
+		topPadA  = 45 // top half origin (month labels land at topPadA - 4)
+		halfGap  = 13 // vertical space between the two halves
 	)
+	halfH := 7*(cellSize+cellGap) - cellGap // 7 rows of cells occupy this many px
+	topPadB := topPadA + halfH + halfGap
 
 	var b strings.Builder
 	b.WriteString(header(width, height, t.Background, t.Stroke, t.StrokeOpacity, t.Title, title))
@@ -51,8 +50,6 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 	cells := padToWeekGrid(days)
 	weeks := len(cells) / 7
 
-	// Determine intensity buckets from non-zero percentiles so sparse users
-	// still get visible cells and prolific users don't saturate the top bucket.
 	buckets := intensityThresholds(cells)
 	ramp := [5]string{
 		mixHex(t.Background, t.Accent, 0.00),
@@ -62,78 +59,76 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 		mixHex(t.Background, t.Accent, 1.00),
 	}
 
-	// Weekday labels (Mon, Wed, Fri) printed only on alternating rows to
-	// avoid visual clutter; matches GitHub's own layout.
+	// Split the year at the week boundary nearest the middle — the top half
+	// gets the ceiling so the first half holds ≥ the second when weeks is odd.
+	mid := (weeks + 1) / 2
+	halves := [2]struct {
+		startWeek int
+		endWeek   int
+		topPad    int
+	}{
+		{0, mid, topPadA},
+		{mid, weeks, topPadB},
+	}
+
+	for _, h := range halves {
+		renderHeatmapHalf(&b, cells, h.startWeek, h.endWeek, h.topPad, leftPad, cellSize, cellGap, ramp, buckets, t)
+	}
+
+	b.WriteString(footer)
+	return []byte(b.String())
+}
+
+// renderHeatmapHalf draws one half of the heatmap: weekday labels on the
+// left, month labels above, and the 7×(endWeek-startWeek) grid itself.
+func renderHeatmapHalf(b *strings.Builder, cells []github.DailyContribution, startWeek, endWeek, topPad, leftPad, cellSize, cellGap int, ramp [5]string, buckets [4]int, t theme.Theme) {
+	// Weekday labels (Mon/Wed/Fri) anchored to the right of the gutter.
 	for i, label := range [7]string{"", "Mon", "", "Wed", "", "Fri", ""} {
 		if label == "" {
 			continue
 		}
 		y := topPad + i*(cellSize+cellGap) + cellSize - 1
-		fmt.Fprintf(&b, `
-  <text x="%d" y="%d" font-size="9" fill="%s" text-anchor="end">%s</text>`,
-			leftPad-4, y, t.Muted, label)
+		fmt.Fprintf(b, `
+  <text x="%d" y="%d" font-size="%d" fill="%s" text-anchor="end">%s</text>`,
+			leftPad-4, y, fontAxis, t.Muted, label)
 	}
 
-	// Month labels across the top. We print each month the first time its
-	// first day appears in a week column, skipping consecutive duplicates.
-	// Labels within ~20 px of the right edge are dropped so a trailing "Dec"
-	// or "Apr" can't extend past the card frame.
-	const monthLabelMaxX = width - 20
+	// Month labels printed the first time each month's 1st-of-the-month day
+	// appears in a week column within this half. Labels that would land
+	// within ~20 px of the right edge are skipped.
+	monthLabelMaxX := 340 - 20
 	lastMonth := time.Month(0)
-	for w := 0; w < weeks; w++ {
+	for w := startWeek; w < endWeek; w++ {
 		first := cells[w*7].Date
-		if first.Day() > 7 {
-			continue // the 1st of the month falls in an earlier week
-		}
-		if first.Month() == lastMonth {
+		if first.Day() > 7 || first.Month() == lastMonth {
 			continue
 		}
 		lastMonth = first.Month()
-		x := leftPad + w*(cellSize+cellGap)
+		x := leftPad + (w-startWeek)*(cellSize+cellGap)
 		if x > monthLabelMaxX {
 			continue
 		}
-		fmt.Fprintf(&b, `
-  <text x="%d" y="%d" font-size="9" fill="%s">%s</text>`,
-			x, topPad-4, t.Muted, first.Month().String()[:3])
+		fmt.Fprintf(b, `
+  <text x="%d" y="%d" font-size="%d" fill="%s">%s</text>`,
+			x, topPad-4, fontAxis, t.Muted, first.Month().String()[:3])
 	}
 
-	// Cells.
-	for w := 0; w < weeks; w++ {
+	// Cells for this half.
+	for w := startWeek; w < endWeek; w++ {
 		for d := 0; d < 7; d++ {
 			cell := cells[w*7+d]
 			if cell.Date.IsZero() {
-				continue // padding slot before the first real day
+				continue
 			}
 			fill := ramp[bucketFor(cell.Count, buckets)]
-			x := leftPad + w*(cellSize+cellGap)
+			x := leftPad + (w-startWeek)*(cellSize+cellGap)
 			y := topPad + d*(cellSize+cellGap)
-			fmt.Fprintf(&b, `
+			fmt.Fprintf(b, `
   <rect x="%d" y="%d" width="%d" height="%d" rx="1.5" fill="%s"><title>%s — %d</title></rect>`,
 				x, y, cellSize, cellSize, fill,
 				cell.Date.Format("2006-01-02"), cell.Count)
 		}
 	}
-
-	// Legend at the bottom right uses square swatches so "Less ▢▢▢▢▢ More"
-	// reads as a classic intensity legend rather than a stretched echo of the
-	// rectangular data cells.
-	const legendCell = 8
-	legendX := width - 110
-	legendY := height - 15
-	fmt.Fprintf(&b, `
-  <text x="%d" y="%d" font-size="9" fill="%s">Less</text>`, legendX, legendY, t.Muted)
-	for i, c := range ramp {
-		fmt.Fprintf(&b, `
-  <rect x="%d" y="%d" width="%d" height="%d" rx="1.5" fill="%s"/>`,
-			legendX+28+i*(legendCell+2), legendY-legendCell+2, legendCell, legendCell, c)
-	}
-	fmt.Fprintf(&b, `
-  <text x="%d" y="%d" font-size="9" fill="%s">More</text>`,
-		legendX+28+5*(legendCell+2)+2, legendY, t.Muted)
-
-	b.WriteString(footer)
-	return []byte(b.String())
 }
 
 // padToWeekGrid prepends zero-date slots so the returned slice is a clean

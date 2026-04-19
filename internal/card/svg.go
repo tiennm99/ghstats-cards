@@ -116,11 +116,22 @@ func fitTitleFontSize(title string, width int) int {
 // Title-sizing constants are exported to package-private so the unit test
 // can reference them without duplicating magic numbers.
 const (
-	titleLeftInset    = 20
-	titleRightSafety  = 4
-	titleMinFont      = 11
-	titleMaxFont      = 15
-	titleCharRatio    = 0.6
+	titleLeftInset   = 20
+	titleRightSafety = 4
+	titleMinFont     = 11
+	titleMaxFont     = 15
+	titleCharRatio   = 0.6
+)
+
+// Shared body / label / axis font sizes. Any card adding a new text element
+// should pick one of these rather than invent a new size — the dracula demo
+// gallery looks noticeably more unified when every card uses the same
+// vocabulary of sizes.
+const (
+	fontBody   = 12 // primary row text: stats labels, names, stat labels
+	fontLabel  = 11 // legends, chart captions
+	fontAxis   = 10 // tick labels, small secondary text
+	fontBigNum = 28 // streak column hero numbers
 )
 
 const footer = `
