@@ -41,6 +41,11 @@ func (profileCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 	// scale factor to fit 16x16 octicon into iconSize box
 	scale := float64(iconSize) / 16.0
 
+	// Row text starts at rowX+iconSize+8 = 40; the right edge safety margin
+	// is width-10 = 330. Space = 290 px; at 12 px font × 0.6 char width =
+	// 7.2 px/char, so ~40 characters fit. Clamping here means a 200-char
+	// company name can't push the frame open.
+	const rowMaxChars = 40
 	for i, r := range rows {
 		y := rowY0 + i*rowDY
 		// icon glyph: translate to row position, scale down, fill with muted.
@@ -48,7 +53,7 @@ func (profileCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
   <g transform="translate(%d,%.2f) scale(%.3f)" fill="%s">%s</g>
   <text x="%d" y="%d" font-size="12" fill="%s">%s</text>`,
 			rowX, float64(y-iconSize+2), scale, t.Muted, r.icon,
-			rowX+iconSize+8, y, t.Text, escapeXML(r.value))
+			rowX+iconSize+8, y, t.Text, escapeXML(truncate(r.value, rowMaxChars)))
 	}
 
 	b.WriteString(footer)
@@ -56,12 +61,15 @@ func (profileCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
 }
 
 // cardTitle mirrors github-profile-summary-cards: "login (Name)" when name is
-// set, "login" otherwise.
+// set, "login" otherwise. Clamped to 34 runes — the title renders at 15 px
+// weight 600, so ~35 chars is the max that reliably fits in 340−20−10=310
+// px of title row.
 func cardTitle(p *github.Profile) string {
+	raw := p.Login
 	if p.Name != "" {
-		return p.Login + " (" + p.Name + ")"
+		raw = p.Login + " (" + p.Name + ")"
 	}
-	return p.Login
+	return truncate(raw, 34)
 }
 
 func buildProfileRows(p *github.Profile) []profileRow {

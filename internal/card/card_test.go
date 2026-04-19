@@ -199,6 +199,14 @@ func TestCardsFitFrame(t *testing.T) {
 // be fragile against the Catmull-Rom Bezier output.
 var attrCoord = regexp.MustCompile(`(?:x|y|x1|y1|x2|y2|cx|cy)="(-?\d+(?:\.\d+)?)"`)
 
+// textBlock captures the opening <text …> tag attributes and the inner text.
+// We parse individual attributes with separate regexes so attribute order
+// doesn't matter.
+var textBlock = regexp.MustCompile(`<text\s+([^>]*)>([^<]*)</text>`)
+var attrX = regexp.MustCompile(`\bx="(-?\d+(?:\.\d+)?)"`)
+var attrAnchor = regexp.MustCompile(`\btext-anchor="([^"]+)"`)
+var attrFontSize = regexp.MustCompile(`\bfont-size="(\d+)"`)
+
 func assertInFrame(t *testing.T, name, svg string) {
 	t.Helper()
 	const (
@@ -210,7 +218,6 @@ func assertInFrame(t *testing.T, name, svg string) {
 		if err != nil {
 			continue
 		}
-		// Distinguish x-ish vs y-ish by the first attr char.
 		isX := strings.HasPrefix(m[0], "x") || strings.HasPrefix(m[0], "cx")
 		limit := float64(maxY)
 		if isX {
@@ -220,6 +227,60 @@ func assertInFrame(t *testing.T, name, svg string) {
 			t.Errorf("%s: attribute %q value %v outside frame (limit %v)", name, m[0], v, limit)
 		}
 	}
+
+	// <text> elements: the x attribute is the anchor point, but the string
+	// actually extends outward from it. Right-anchored axis labels are the
+	// classic overflow trap — the attr x stays inside the frame while the
+	// rendered digits spill past x=0. Estimate width conservatively
+	// (0.6 × font-size per char; Segoe UI avg is ~0.55).
+	for _, m := range textBlock.FindAllStringSubmatch(svg, -1) {
+		attrs := m[1]
+		text := m[2]
+
+		xm := attrX.FindStringSubmatch(attrs)
+		if xm == nil {
+			continue
+		}
+		x, err := strconv.ParseFloat(xm[1], 64)
+		if err != nil {
+			continue
+		}
+		anchor := ""
+		if am := attrAnchor.FindStringSubmatch(attrs); am != nil {
+			anchor = am[1]
+		}
+		fontSize := 12.0
+		if fm := attrFontSize.FindStringSubmatch(attrs); fm != nil {
+			if f, err := strconv.ParseFloat(fm[1], 64); err == nil {
+				fontSize = f
+			}
+		}
+
+		width := float64(runeLen(text)) * fontSize * 0.6
+		var left, right float64
+		switch anchor {
+		case "end":
+			left, right = x-width, x
+		case "middle":
+			left, right = x-width/2, x+width/2
+		default:
+			left, right = x, x+width
+		}
+		if left < -2 {
+			t.Errorf("%s: <text>%q at x=%v anchor=%q extends to left=%.1f (outside frame)", name, text, x, anchor, left)
+		}
+		if right > maxX+2 {
+			t.Errorf("%s: <text>%q at x=%v anchor=%q extends to right=%.1f (outside frame)", name, text, x, anchor, right)
+		}
+	}
+}
+
+func runeLen(s string) int {
+	n := 0
+	for range s {
+		n++
+	}
+	return n
 }
 
 // adversarialProfile exercises every card against the worst-case inputs a

@@ -126,18 +126,22 @@ func activeDaysDetail(active, total int) string {
 	return fmt.Sprintf("of %s total (%d%%)", formatInt(total), pct)
 }
 
-// streakRange formats the open/close dates of a streak as "Mon 2 — Wed 11"
-// when both are present. Returns "" when the streak is zero-length so the
-// card renders cleanly.
+// streakRange formats the open/close dates of a streak for the small detail
+// line. Each column is ~113 px wide at font-size 10 (≤ ~18 chars), so we
+// aggressively drop year and redundant parts when they'd blow the budget.
+//
+//	same day     -> "Jan 2 2025"
+//	same year    -> "Jan 2 — Dec 31"
+//	different    -> "2024 — 2026"
 func streakRange(start, end time.Time) string {
 	if start.IsZero() || end.IsZero() {
 		return ""
 	}
 	if start.Equal(end) {
-		return start.Format("Jan 2, 2006")
+		return start.Format("Jan 2 2006")
 	}
-	if start.Year() == end.Year() {
-		return start.Format("Jan 2") + " — " + end.Format("Jan 2, 2006")
+	if start.Year() != end.Year() {
+		return fmt.Sprintf("%d — %d", start.Year(), end.Year())
 	}
-	return start.Format("Jan 2006") + " — " + end.Format("Jan 2006")
+	return start.Format("Jan 2") + " — " + end.Format("Jan 2")
 }

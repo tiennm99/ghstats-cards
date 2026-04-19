@@ -59,7 +59,7 @@ func (topStarredReposCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error)
 		if langColor == "" {
 			langColor = t.Accent
 		}
-		name := truncateName(r.Name, nameMax)
+		name := truncate(r.Name, nameMax)
 
 		fmt.Fprintf(&b, `
   <circle cx="%d" cy="%d" r="4" fill="%s"/>
@@ -100,12 +100,3 @@ func ownedNonForkRepos(repos []github.RepoInfo) []github.RepoInfo {
 	return out
 }
 
-// truncateName trims to n runes and appends an ellipsis. Operates on runes
-// so a multi-byte name (e.g. emoji) doesn't mid-cut.
-func truncateName(s string, n int) string {
-	r := []rune(s)
-	if len(r) <= n {
-		return s
-	}
-	return strings.TrimRight(string(r[:n-1]), ".") + "…"
-}
