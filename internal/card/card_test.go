@@ -158,6 +158,35 @@ func TestFormatInt(t *testing.T) {
 	}
 }
 
+// TestFitTitleFontSize locks in the title-sizing behavior for the set of
+// realistic titles the renderers actually emit. Any regression that shrinks
+// a short title below 15 px, or lets a 40-char title stay at 15 px when it
+// would overflow, will fail this test.
+func TestFitTitleFontSize(t *testing.T) {
+	const width = 340
+	cases := []struct {
+		title string
+		want  int
+	}{
+		{"", 15},
+		{"Stats", 15},
+		{"Streak", 15},
+		{"Top Starred Repos", 15},
+		{"Most Commit Language (all time)", 15},             // 31 chars
+		{"Contributions by Year", 15},
+		{"Commits by Hour (last year, UTC+7.00)", 14},       // 37 chars
+		{"Commits by Weekday (last year, UTC+7.00)", 13},    // 40 chars
+		{"Commits by Weekday (last year, UTC+12.75)", 12},   // 41 chars
+		{strings.Repeat("x", 200), 11},                       // pathological
+	}
+	for _, c := range cases {
+		got := fitTitleFontSize(c.title, width)
+		if got != c.want {
+			t.Errorf("fitTitleFontSize(%q)=%d want %d", c.title, got, c.want)
+		}
+	}
+}
+
 // TestNiceTicksCoversMax guards the key invariant: the last tick returned
 // must be ≥ the requested max, or bar-chart cards render bars taller than
 // the chart area and poke into the title. Regression case: max=625 step=100

@@ -2,6 +2,7 @@ package card
 
 import (
 	"fmt"
+	"math"
 	"strings"
 	"unicode/utf8"
 )
@@ -81,29 +82,46 @@ func header(width, height int, bg, stroke string, strokeOpacity float64, titleCo
 		fontSize, titleColor, escapeXML(title))
 }
 
-// fitTitleFontSize picks the largest title font (between 11 and 15 px) at
-// which the title still fits in width − leftInset − rightSafety. Uses the
-// same 0.6 × font-size char-width estimate as the fit-the-frame test.
+// fitTitleFontSize returns the largest integer font size in
+// [titleMinFont, titleMaxFont] at which the title still fits in
+// width − titleLeftInset − titleRightSafety, using the same 0.6 × fontSize
+// char-width estimate as the fit-the-frame test. Computed directly from
+// the budget: ideal = budget / (chars × 0.6), floored to an int, clamped
+// to the allowed range.
+//
+// Utilization for realistic dracula titles (width=340, budget=316):
+//
+//	"Stats" (5)                                        → 15 px (14 %)
+//	"Top Starred Repos" (17)                           → 15 px (48 %)
+//	"Most Commit Language (all time)" (32)             → 15 px (91 %)
+//	"Commits by Hour (last year, UTC+7.00)" (37)       → 14 px (98 %)
+//	"Commits by Weekday (last year, UTC+7.00)" (40)    → 13 px (99 %)
+//	"Commits by Weekday (last year, UTC+12.75)" (41)   → 12 px (93 %)
 func fitTitleFontSize(title string, width int) int {
-	const (
-		leftInset    = 20
-		rightSafety  = 4
-		minFont      = 11
-		maxFont      = 15
-		avgCharRatio = 0.6
-	)
-	budget := float64(width - leftInset - rightSafety)
 	chars := utf8.RuneCountInString(title)
 	if chars == 0 {
-		return maxFont
+		return titleMaxFont
 	}
-	for fs := maxFont; fs >= minFont; fs-- {
-		if float64(chars)*float64(fs)*avgCharRatio <= budget {
-			return fs
-		}
+	budget := float64(width - titleLeftInset - titleRightSafety)
+	ideal := int(math.Floor(budget / (float64(chars) * titleCharRatio)))
+	if ideal > titleMaxFont {
+		return titleMaxFont
 	}
-	return minFont
+	if ideal < titleMinFont {
+		return titleMinFont
+	}
+	return ideal
 }
+
+// Title-sizing constants are exported to package-private so the unit test
+// can reference them without duplicating magic numbers.
+const (
+	titleLeftInset    = 20
+	titleRightSafety  = 4
+	titleMinFont      = 11
+	titleMaxFont      = 15
+	titleCharRatio    = 0.6
+)
 
 const footer = `
 </svg>`
