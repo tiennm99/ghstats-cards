@@ -158,6 +158,26 @@ func TestFormatInt(t *testing.T) {
 	}
 }
 
+// TestNiceTicksCoversMax guards the key invariant: the last tick returned
+// must be ≥ the requested max, or bar-chart cards render bars taller than
+// the chart area and poke into the title. Regression case: max=625 step=100
+// previously gave ticks stopping at 600 and bars at 625/600 = 104 % of
+// chartH.
+func TestNiceTicksCoversMax(t *testing.T) {
+	cases := []float64{625, 99, 101, 1, 7, 49, 999, 1000, 1001}
+	for _, m := range cases {
+		ticks := niceTicks(m, 5)
+		if len(ticks) == 0 {
+			t.Errorf("niceTicks(%v): empty", m)
+			continue
+		}
+		last := ticks[len(ticks)-1]
+		if last < m {
+			t.Errorf("niceTicks(%v): last tick %v < max — bars will overflow", m, last)
+		}
+	}
+}
+
 func TestEscapeXML(t *testing.T) {
 	got := escapeXML(`<a & "b" 'c'>`)
 	want := "&lt;a &amp; &quot;b&quot; &apos;c&apos;&gt;"

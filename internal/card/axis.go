@@ -6,11 +6,17 @@ import (
 	"strconv"
 )
 
-// niceTicks returns evenly-spaced tick values in [0, max] such that the step
-// is a 1/2/5/10 × 10^k number and the tick count is roughly targetTicks.
+// niceTicks returns evenly-spaced tick values starting at 0 with a step of
+// 1/2/5/10 × 10^k and a tick count roughly targetTicks. The last tick is the
+// smallest step multiple ≥ max, so callers can safely use it as yMax without
+// data points ever exceeding the chart's height.
 //
-// Mirrors d3.scaleLinear().nice() / d3.axisLeft().ticks(n) so charts built
-// on top look visually consistent with the d3 reference.
+// Mirrors d3.scaleLinear().nice() / d3.axisLeft().ticks(n) so charts built on
+// top look visually consistent with the d3 reference.
+//
+// Example: niceTicks(625, 5) returns [0, 100, 200, 300, 400, 500, 600, 700]
+// — note 700 > 625, so a bar of 625 fits at 625/700 ≈ 89% of chart height
+// with a clean gap above it.
 func niceTicks(max float64, targetTicks int) []float64 {
 	if max <= 0 || targetTicks <= 0 {
 		return []float64{0}
@@ -30,8 +36,14 @@ func niceTicks(max float64, targetTicks int) []float64 {
 		step = 10 * exp
 	}
 
+	// Round the top tick up to the next step multiple so the chart's yMax
+	// always strictly covers the data. Without this, a data point of 625
+	// against a step of 100 would yield a last tick of 600 — bars for 625
+	// would render at 104% of chart height and poke into the title area.
+	last := math.Ceil(max/step) * step
+
 	out := []float64{}
-	for v := 0.0; v <= max+step/1e9; v += step {
+	for v := 0.0; v <= last+step/1e9; v += step {
 		out = append(out, v)
 	}
 	return out
