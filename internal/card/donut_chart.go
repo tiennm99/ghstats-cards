@@ -16,7 +16,7 @@ func renderDonutCard(title string, stats []github.LangStat, t theme.Theme) []byt
 	const (
 		width    = 340
 		height   = 200
-		topN     = 5
+		topN     = 7
 		cx       = 250  // donut centre x
 		cy       = 110  // donut centre y
 		outerR   = 55.0 // donut outer radius
