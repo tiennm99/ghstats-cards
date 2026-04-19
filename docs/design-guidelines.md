@@ -78,8 +78,8 @@ When there's **exactly one slice** (one language at 100%), the renderer emits tw
 | Metric | Value |
 | --- | --- |
 | Grid | 7 rows × 53 columns (Sunday → Saturday, oldest week → newest) |
-| Cell size | 4 wide × 12 tall, 1 px gap. Width is constrained (`leftPad 30 + 53 × 5 = 295 px`, 45 px right gutter); height has headroom so cells are rectangular — makes each weekday row a distinct horizontal band instead of a postage-stamp blur |
-| Grid y-range | `topPad(62) .. 62 + 7 × 13 = 153 px`; 32 px gap to the legend at y ≈ 185 |
+| Cell size | 4 × 4 px square, 1 px gap. 4 is the largest square that fits with breathing room on both sides (`leftPad 30 + 53 × 5 = 295 px`, 45 px right gutter). 5 × 5 with a gap overflows; 5 × 5 touching cells loses visible separation; rectangular cells look stretched. Card has vertical headroom to spare — we accept that in exchange for a clean square grid |
+| Grid y-range | `topPad(70) .. 70 + 7 × 5 = 105 px` |
 | Cell colour | 5-bucket ramp `mixHex(Background, Accent, k/4)` for `k ∈ 0..4` — no dedicated ramp field on the theme schema |
 | Weekday labels | Mon / Wed / Fri only, right-anchored in the `leftPad` gutter |
 | Month labels | Printed above the first week where a 1st-of-month day falls; skipped when `x > width − 20` so `Dec` / `Apr` can't spill past the frame |

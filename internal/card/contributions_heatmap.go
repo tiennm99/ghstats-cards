@@ -22,26 +22,20 @@ func (contributionsHeatmapCard) SVG(p *github.Profile, t theme.Theme) ([]byte, e
 // theme.Accent in four intensity buckets so every palette inherits a usable
 // heatmap without a separate color ramp in the theme schema.
 //
-// Cells are intentionally rectangular: width is constrained by 53 weeks
-// fitting in 340 − leftPad − rightPad, but height has lots of spare card
-// real estate, so we make cells ~3× taller than wide. That turns the grid
-// into distinct horizontal bands instead of a cramped postage-stamp.
-//
-// Geometry:
-//
-//	width per column  = cellW + cellGap = 4 + 1 = 5 px  → 53 * 5 = 265 px
-//	leftPad 30 + 265 = 295 px grid right edge, 45 px right gutter
-//	height per row    = cellH + cellGap = 12 + 1 = 13 px → 7 * 13 = 91 px
-//	grid y-range: 62 .. 153 (leaves 32 px gap to the legend at y ≈ 185)
+// Cells are square. 53 weeks at (cellSize + gap) = 5 px per column fills
+// 265 px, which leaves comfortable left (30) and right (45) gutters inside
+// the 340 px card. 6 × 6 cells would overflow; 5 × 5 cells with a gap push
+// back to the right edge. 4 × 4 is the largest square that keeps breathing
+// room on both sides. The resulting grid is short (35 px tall) — the card
+// has lots of vertical headroom — but short beats awkwardly stretched.
 func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme) []byte {
 	const (
-		width   = 340
-		height  = 200
-		cellW   = 4
-		cellH   = 12
-		cellGap = 1
-		leftPad = 30
-		topPad  = 62
+		width    = 340
+		height   = 200
+		cellSize = 4 // square
+		cellGap  = 1
+		leftPad  = 30
+		topPad   = 70
 	)
 
 	var b strings.Builder
@@ -74,7 +68,7 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 		if label == "" {
 			continue
 		}
-		y := topPad + i*(cellH+cellGap) + cellH - 3
+		y := topPad + i*(cellSize+cellGap) + cellSize - 1
 		fmt.Fprintf(&b, `
   <text x="%d" y="%d" font-size="9" fill="%s" text-anchor="end">%s</text>`,
 			leftPad-4, y, t.Muted, label)
@@ -95,7 +89,7 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 			continue
 		}
 		lastMonth = first.Month()
-		x := leftPad + w*(cellW+cellGap)
+		x := leftPad + w*(cellSize+cellGap)
 		if x > monthLabelMaxX {
 			continue
 		}
@@ -112,11 +106,11 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 				continue // padding slot before the first real day
 			}
 			fill := ramp[bucketFor(cell.Count, buckets)]
-			x := leftPad + w*(cellW+cellGap)
-			y := topPad + d*(cellH+cellGap)
+			x := leftPad + w*(cellSize+cellGap)
+			y := topPad + d*(cellSize+cellGap)
 			fmt.Fprintf(&b, `
   <rect x="%d" y="%d" width="%d" height="%d" rx="1.5" fill="%s"><title>%s — %d</title></rect>`,
-				x, y, cellW, cellH, fill,
+				x, y, cellSize, cellSize, fill,
 				cell.Date.Format("2006-01-02"), cell.Count)
 		}
 	}
