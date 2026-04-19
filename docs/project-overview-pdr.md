@@ -2,7 +2,7 @@
 
 ## One-liner
 
-Single-binary Go CLI + GitHub Action that renders 14 themed SVG cards summarising a GitHub user's public (and optionally private) profile, for embedding in a profile README.
+Single-binary Go CLI + GitHub Action that renders 15 themed SVG cards summarising a GitHub user's public (and optionally private) profile, for embedding in a profile README.
 
 ## Users
 
@@ -34,7 +34,7 @@ Distinguishing traits:
 
 | # | Requirement |
 | --- | --- |
-| F1 | Render 14 cards per selected theme (see `docs/system-architecture.md`) |
+| F1 | Render 15 cards per selected theme (see `docs/system-architecture.md`) |
 | F2 | Support 65 themes ported from github-profile-summary-cards |
 | F3 | Handle the full username→profile→cards flow in a single invocation |
 | F4 | Package as GitHub Action with `commit_changes` auto-commit of output |

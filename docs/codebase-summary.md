@@ -102,12 +102,12 @@ contributionYearQuery ─┬──► SeedRepos + DailyContributionsAllTime + To
 commitHistoryQuery ──► Productive + CommitsByLanguage (+ AllTime variants)
                                 │
                                 ▼
-                          14 SVG files per theme
+                          15 SVG files per theme
 ```
 
 ## Test coverage
 
-- `internal/card/card_test.go` — `RenderAll` produces 14 valid SVGs; XML escape through real render pipeline; `formatInt` cases; `TestDonutSingleSlice` (guards the empty-arc regression); `TestDonutEmpty` (no-data fallback).
+- `internal/card/card_test.go` — `RenderAll` produces 15 valid SVGs; XML escape through real render pipeline; `formatInt` cases; `TestDonutSingleSlice` (guards the empty-arc regression); `TestDonutEmpty` (no-data fallback).
 - `internal/github/profile_test.go` — `sortLangStats` ordering and tiebreak.
 - `main_test.go` — `TestUTCOffsetLabel` covers UTC, Asia/Saigon, half-hour (Kolkata), quarter-hour (Kathmandu) zones.
 

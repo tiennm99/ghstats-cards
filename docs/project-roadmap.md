@@ -72,7 +72,7 @@ Five new cards that ride on data already fetched — zero extra API calls:
 - `top-starred-repos` — top 5 owned non-fork repos by ⭐; required threading `Stars` through `RepoInfo`.
 - `streak` — current + longest streak + active days/total. Pure post-processing of `DailyContributionsAllTime`.
 
-Card count: 9 → 14. `FetchProductive` still pays for commit-history pagination once; the new cards are pure renderers.
+Card count: 9 → 15 (weekday adds LY + AT variants). `FetchProductive` still pays for commit-history pagination once; the new cards are pure renderers.
 
 ## Phase 7.5 — Demo gallery for theme discovery (✅ done)
 
