@@ -53,10 +53,16 @@ jobs:
             most-commit-language
             stats
             productive-time
+            productive-weekday
             contributions
+            contributions-heatmap
+            top-starred-repos
+            streak
             most-commit-language-all-time
             productive-time-all-time
+            productive-weekday-all-time
             contributions-all-time
+            contributions-by-year
           )
           themes=$(./ghstats -list-themes)
           {
