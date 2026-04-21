@@ -19,11 +19,11 @@
   <line x1="31" y1="45" x2="35" y2="45" stroke="#8fbcbb"/>
   <text x="29" y="48" font-size="10" fill="#8fbcbb" text-anchor="end">700</text>
   <line x1="35" y1="155" x2="325" y2="155" stroke="#8fbcbb"/>
-  <rect x="35.00" y="61.97" width="36.29" height="93.03" rx="2" fill="#5f818f"><title>Sun — 592 commits</title></rect>
+  <rect x="35.00" y="61.66" width="36.29" height="93.34" rx="2" fill="#5f818f"><title>Sun — 594 commits</title></rect>
   <text x="53.14" y="169" font-size="10" fill="#8fbcbb" text-anchor="middle">Sun</text>
-  <rect x="77.29" y="99.21" width="36.29" height="55.79" rx="2" fill="#5f818f"><title>Mon — 355 commits</title></rect>
+  <rect x="77.29" y="94.81" width="36.29" height="60.19" rx="2" fill="#5f818f"><title>Mon — 383 commits</title></rect>
   <text x="95.43" y="169" font-size="10" fill="#8fbcbb" text-anchor="middle">Mon</text>
-  <rect x="119.57" y="89.47" width="36.29" height="65.53" rx="2" fill="#5f818f"><title>Tue — 417 commits</title></rect>
+  <rect x="119.57" y="86.49" width="36.29" height="68.51" rx="2" fill="#5f818f"><title>Tue — 436 commits</title></rect>
   <text x="137.71" y="169" font-size="10" fill="#8fbcbb" text-anchor="middle">Tue</text>
   <rect x="161.86" y="100.94" width="36.29" height="54.06" rx="2" fill="#5f818f"><title>Wed — 344 commits</title></rect>
   <text x="180.00" y="169" font-size="10" fill="#8fbcbb" text-anchor="middle">Wed</text>
