@@ -83,6 +83,13 @@ type Profile struct {
 	// display on time-based cards (e.g. "UTC+7.00" for Asia/Saigon). Filled
 	// by the CLI after loading -tz.
 	UTCOffsetLabel string
+
+	// WeekStart is the weekday used as row 0 on the heatmap and the first
+	// bar on the productive-weekday chart. Defaults to time.Sunday to match
+	// GitHub's own contribution calendar; -start-of-week on the CLI can flip
+	// it to time.Monday (or any other weekday) without touching the data —
+	// only the presentation order changes.
+	WeekStart time.Weekday
 }
 
 // DailyContribution is a single day in the contributions calendar.

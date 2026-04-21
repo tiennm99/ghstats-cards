@@ -11,6 +11,7 @@ token="${INPUT_TOKEN:-${GITHUB_TOKEN:-}}"
 out="${INPUT_OUT:-output}"
 themes="${INPUT_THEMES:-dracula}"
 tz="${INPUT_TZ:-UTC}"
+start_of_week="${INPUT_START_OF_WEEK:-sunday}"
 top_repos="${INPUT_TOP_REPOS:-0}"
 commits_per_repo="${INPUT_COMMITS_PER_REPO:-500}"
 include_forks="${INPUT_INCLUDE_FORKS:-true}"
@@ -35,6 +36,7 @@ ghstats \
   -out "$out" \
   -themes "$themes" \
   -tz "$tz" \
+  -start-of-week "$start_of_week" \
   -top-repos "$top_repos" \
   -commits-per-repo "$commits_per_repo" \
   -include-forks="$include_forks" \

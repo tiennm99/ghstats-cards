@@ -28,6 +28,7 @@ func main() {
 		includeForks   = flag.Bool("include-forks", true, "include forked repos in stats and commit probing")
 		includePrivate = flag.Bool("include-private", true, "include private repos (requires PAT with repo scope; silently no-op otherwise)")
 		timeout        = flag.Duration("timeout", 30*time.Minute, "overall deadline for fetch phase (0 = no limit)")
+		startOfWeek    = flag.String("start-of-week", "sunday", "first day of week for heatmap rows and weekday bars (sunday|monday|tuesday|…)")
 		listThemes     = flag.Bool("list-themes", false, "print available theme ids and exit")
 	)
 	flag.Parse()
@@ -57,6 +58,12 @@ func main() {
 		loc = time.UTC
 	}
 
+	weekStart, err := parseWeekday(*startOfWeek)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "warn: %v, falling back to Sunday\n", err)
+		weekStart = time.Sunday
+	}
+
 	opts := github.FetchOptions{
 		IncludeForks:   *includeForks,
 		IncludePrivate: *includePrivate,
@@ -84,6 +91,7 @@ func main() {
 		os.Exit(1)
 	}
 	profile.UTCOffsetLabel = utcOffsetLabel(loc)
+	profile.WeekStart = weekStart
 
 	// Year-loop fetch populates SeedRepos from commitContributionsByRepository
 	// plus the all-time contribution calendar; must precede FetchProductive so
@@ -134,6 +142,29 @@ func utcOffsetLabel(loc *time.Location) string {
 		return fmt.Sprintf("UTC%s%d", sign, hours)
 	}
 	return fmt.Sprintf("UTC%s%d:%02d", sign, hours, minutes)
+}
+
+// parseWeekday maps a case-insensitive English weekday name (full or 3-letter)
+// to time.Weekday. Empty input → Sunday so a blank action input still works.
+func parseWeekday(s string) (time.Weekday, error) {
+	switch strings.ToLower(strings.TrimSpace(s)) {
+	case "", "sun", "sunday":
+		return time.Sunday, nil
+	case "mon", "monday":
+		return time.Monday, nil
+	case "tue", "tuesday":
+		return time.Tuesday, nil
+	case "wed", "wednesday":
+		return time.Wednesday, nil
+	case "thu", "thursday":
+		return time.Thursday, nil
+	case "fri", "friday":
+		return time.Friday, nil
+	case "sat", "saturday":
+		return time.Saturday, nil
+	default:
+		return time.Sunday, fmt.Errorf("unknown start-of-week %q", s)
+	}
 }
 
 func resolveThemes(spec string) ([]theme.Theme, error) {

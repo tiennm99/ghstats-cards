@@ -14,7 +14,7 @@ type contributionsHeatmapCard struct{}
 func (contributionsHeatmapCard) Filename() string { return "contributions-heatmap.svg" }
 
 func (contributionsHeatmapCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
-	return renderHeatmap("Contributions (last year)", p.DailyContributions, t), nil
+	return renderHeatmap("Contributions (last year)", p.DailyContributions, p.WeekStart, t), nil
 }
 
 // renderHeatmap draws the 53-week contribution calendar as two stacked
@@ -24,7 +24,8 @@ func (contributionsHeatmapCard) SVG(p *github.Profile, t theme.Theme) ([]byte, e
 // and distinctly more readable, while the year still reads top-to-bottom
 // left-to-right. Cell color mixes theme.Background with theme.Accent in
 // four intensity buckets so every palette inherits a usable heatmap.
-func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme) []byte {
+// weekStart controls which weekday sits on row 0 (default time.Sunday).
+func renderHeatmap(title string, days []github.DailyContribution, weekStart time.Weekday, t theme.Theme) []byte {
 	const (
 		width    = 340
 		height   = 200
@@ -47,7 +48,7 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 		return []byte(b.String())
 	}
 
-	cells := padToWeekGrid(days)
+	cells := padToWeekGrid(days, weekStart)
 	weeks := len(cells) / 7
 
 	buckets := intensityThresholds(cells)
@@ -72,7 +73,7 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 	}
 
 	for _, h := range halves {
-		renderHeatmapHalf(&b, cells, h.startWeek, h.endWeek, h.topPad, leftPad, cellSize, cellGap, ramp, buckets, t)
+		renderHeatmapHalf(&b, cells, h.startWeek, h.endWeek, h.topPad, leftPad, cellSize, cellGap, ramp, buckets, weekStart, t)
 	}
 
 	b.WriteString(footer)
@@ -81,12 +82,14 @@ func renderHeatmap(title string, days []github.DailyContribution, t theme.Theme)
 
 // renderHeatmapHalf draws one half of the heatmap: weekday labels on the
 // left, month labels above, and the 7×(endWeek-startWeek) grid itself.
-func renderHeatmapHalf(b *strings.Builder, cells []github.DailyContribution, startWeek, endWeek, topPad, leftPad, cellSize, cellGap int, ramp [5]string, buckets [4]int, t theme.Theme) {
-	// Weekday labels (Mon/Wed/Fri) anchored to the right of the gutter.
-	for i, label := range [7]string{"", "Mon", "", "Wed", "", "Fri", ""} {
-		if label == "" {
+// Labels are printed on odd rows (1, 3, 5) so the 3-per-column cadence
+// matches GitHub's own calendar regardless of which weekday starts the week.
+func renderHeatmapHalf(b *strings.Builder, cells []github.DailyContribution, startWeek, endWeek, topPad, leftPad, cellSize, cellGap int, ramp [5]string, buckets [4]int, weekStart time.Weekday, t theme.Theme) {
+	for i := 0; i < 7; i++ {
+		if i%2 == 0 {
 			continue
 		}
+		label := weekdayShort[(int(weekStart)+i)%7]
 		y := topPad + i*(cellSize+cellGap) + cellSize - 1
 		fmt.Fprintf(b, `
   <text x="%d" y="%d" font-size="%d" fill="%s" text-anchor="end">%s</text>`,
@@ -132,12 +135,14 @@ func renderHeatmapHalf(b *strings.Builder, cells []github.DailyContribution, sta
 }
 
 // padToWeekGrid prepends zero-date slots so the returned slice is a clean
-// weeks×7 grid starting on Sunday (index 0 = Sun, 6 = Sat).
-func padToWeekGrid(days []github.DailyContribution) []github.DailyContribution {
+// weeks×7 grid where row 0 corresponds to the configured weekStart. For
+// example, with weekStart = time.Monday, a series beginning on a Thursday
+// gets 3 leading blanks so row 0 stays Monday.
+func padToWeekGrid(days []github.DailyContribution, weekStart time.Weekday) []github.DailyContribution {
 	if len(days) == 0 {
 		return nil
 	}
-	offset := int(days[0].Date.Weekday())
+	offset := (int(days[0].Date.Weekday()) - int(weekStart) + 7) % 7
 	grid := make([]github.DailyContribution, offset+len(days))
 	copy(grid[offset:], days)
 	// Round trailing remainder up to a full week so the grid is rectangular.
@@ -146,6 +151,11 @@ func padToWeekGrid(days []github.DailyContribution) []github.DailyContribution {
 	}
 	return grid
 }
+
+// weekdayShort is the 3-letter weekday name at index = int(time.Weekday).
+// Shared by the heatmap row labels and the productive-weekday bars so the
+// two cards agree on spelling.
+var weekdayShort = [7]string{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}
 
 // intensityThresholds picks four cutoffs from the non-zero counts so cells
 // distribute across the 5-bucket ramp. Quartile-ish without a sort cost.

@@ -30,6 +30,7 @@ jobs:
           token: ${{ secrets.GHSTATS_TOKEN }}
           themes: dracula,github_dark,tokyonight
           tz: Asia/Saigon
+          # start_of_week: monday   # optional; default sunday — rotates heatmap rows + weekday bars
           include_forks: "false"
           include_private: "false"
           commit_changes: "true"

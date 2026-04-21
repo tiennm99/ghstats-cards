@@ -6,6 +6,35 @@ import (
 	"time"
 )
 
+// TestParseWeekday covers the common case-insensitive inputs and confirms
+// an unknown value errors (main.go then falls back to Sunday with a warn).
+func TestParseWeekday(t *testing.T) {
+	ok := []struct {
+		in   string
+		want time.Weekday
+	}{
+		{"", time.Sunday},
+		{"sunday", time.Sunday},
+		{"SUNDAY", time.Sunday},
+		{"Sun", time.Sunday},
+		{"  monday  ", time.Monday},
+		{"Mon", time.Monday},
+		{"saturday", time.Saturday},
+	}
+	for _, c := range ok {
+		got, err := parseWeekday(c.in)
+		if err != nil {
+			t.Errorf("parseWeekday(%q) err=%v", c.in, err)
+		}
+		if got != c.want {
+			t.Errorf("parseWeekday(%q)=%v want %v", c.in, got, c.want)
+		}
+	}
+	if _, err := parseWeekday("moonday"); err == nil {
+		t.Error("parseWeekday(moonday): want error, got nil")
+	}
+}
+
 // TestUTCOffsetLabel checks the compact format: integer hours drop the
 // minutes suffix, non-zero offsets render as `UTC±H:MM`.
 func TestUTCOffsetLabel(t *testing.T) {

@@ -72,6 +72,7 @@ When there's **exactly one slice** (one language at 100%), the renderer emits tw
 | Axis caption | "hour of day" bottom-center on productive-time; weekday / by-year omit the caption since the x labels are self-describing |
 | Title format | `Commits by Hour (<window>, UTC±H[:MM])` / `Commits by Weekday (<window>)` — weekday drops the UTC so the title always fits at 15 px / `Contributions by Year` |
 | Hover | `<title>HH:00 — N commits</title>` / `<title>Mon — N commits</title>` / `<title>YYYY — N commits</title>` |
+| Bar order | `productive-weekday`: position 0 = `Profile.WeekStart` (set via `-start-of-week`, default Sunday); remaining bars rotate forward `(WeekStart+i) % 7`. Peak highlight tracks the drawn position so it stays aligned with the visible tallest bar. |
 
 ## Heatmap card (contributions-heatmap)
 
@@ -81,7 +82,8 @@ When there's **exactly one slice** (one language at 100%), the renderer emits tw
 | Cell size | 8 × 8 px square, 1 px gap |
 | Grid geometry | `leftPad 30`, `topPadA 45` (top half), `halfGap 13`, `topPadB 120`. Each half is 7 × 9 − 1 = 62 px tall. Grid bottom at y=182 leaves 18 px for the frame border. |
 | Cell colour | 5-bucket ramp `mixHex(Background, Accent, k/4)` for `k ∈ 0..4` — no dedicated ramp field on the theme schema |
-| Weekday labels | Mon / Wed / Fri only, right-anchored in the `leftPad` gutter |
+| Weekday labels | Every other row (positions 1, 3, 5), right-anchored in the `leftPad` gutter. Label text is `weekdayShort[(int(WeekStart)+i) % 7]`, so Sunday-start renders Mon/Wed/Fri; Monday-start renders Tue/Thu/Sat. |
+| Row order | Row 0 = `Profile.WeekStart` (`-start-of-week` flag; default `time.Sunday` matches GitHub's own calendar). `padToWeekGrid` rotates the leading blank pad to match. |
 | Month labels | Printed above the first week where a 1st-of-month day falls; skipped when `x > width − 20` so `Dec` / `Apr` can't spill past the frame |
 | Legend | "Less ▢▢▢▢▢ More" bottom-right |
 | Hover | `<title>YYYY-MM-DD — N</title>` per cell |

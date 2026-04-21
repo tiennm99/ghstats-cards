@@ -27,6 +27,10 @@ inputs:
     description: IANA timezone for the productive-time heatmap (e.g. Asia/Saigon)
     required: false
     default: UTC
+  start_of_week:
+    description: First day of week for heatmap rows and weekday bars (sunday|monday|tuesday|…)
+    required: false
+    default: sunday
   top_repos:
     description: Optional cap on seed repos probed for commit history (0 = unlimited)
     required: false

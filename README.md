@@ -141,6 +141,7 @@ Then embed the cards in your `README.md`:
 | `out`              | `output`                         | Output directory                                                        |
 | `themes`           | `dracula`                        | Comma-separated theme ids, or `all`                                     |
 | `tz`               | `UTC`                            | IANA tz for the productive-time card (e.g. `Asia/Saigon`)               |
+| `start_of_week`    | `sunday`                         | First day of week for heatmap rows and weekday bars (`sunday`…`saturday`) |
 | `top_repos`        | `0`                              | Optional cap on seed repos probed for commit history (`0` = unlimited)  |
 | `commits_per_repo` | `500`                            | Max commits sampled per repo (covers last-year and all-time aggregates) |
 | `include_forks`    | `true`                           | Include forked repos in stats and commit probing                        |
@@ -179,6 +180,7 @@ ghstats -user tiennm99 -themes dracula,github_dark -tz Asia/Saigon -out output
 | `-out`              | `output`        | Output directory (`<out>/<theme>/…svg`)                                |
 | `-themes`           | `dracula`       | Comma-separated theme ids, or `all`                                    |
 | `-tz`               | `Local`         | IANA timezone for productive-time cards                                |
+| `-start-of-week`    | `sunday`        | First day of week for heatmap rows and weekday bars (`sunday`…`saturday`) |
 | `-top-repos`        | `0`             | Optional cap on seed repos probed (`0` = unlimited)                    |
 | `-commits-per-repo` | `500`           | Max commits sampled per repo                                           |
 | `-include-forks`    | `true`          | Include forked repos in the stats                                      |

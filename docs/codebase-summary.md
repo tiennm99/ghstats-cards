@@ -31,7 +31,7 @@ ghstats/
 │   │   ├── productive.go                # productive-time (+ all-time)
 │   │   ├── productive_weekday.go        # productive-weekday (+ all-time)
 │   │   ├── contributions.go             # contributions (+ all-time)
-│   │   ├── contributions_heatmap.go     # contributions-heatmap (7×53 calendar grid)
+│   │   ├── contributions_heatmap.go     # contributions-heatmap (7×53 calendar grid; row 0 = Profile.WeekStart)
 │   │   ├── contributions_by_year.go     # contributions-by-year bar chart
 │   │   ├── streak.go                    # streak (current/longest/active days)
 │   │   ├── top_starred_repos.go         # top-starred-repos bar list
@@ -110,8 +110,9 @@ commitHistoryQuery ──► Productive + Weekday + CommitsByLanguage (+ AllTime
 ## Test coverage
 
 - `internal/card/card_test.go` — `RenderAll` produces 15 valid SVGs; XML escape through real render pipeline; `formatInt` cases; `TestDonutSingleSlice` / `TestDonutEmpty` (donut edge cases); `TestCardsFitFrame` (renders every card against an adversarial profile and asserts text + coordinates stay in the 340×200 frame); `TestFitTitleFontSize` (pins the auto-shrink table for every real title); `TestNiceTicksCoversMax` (guards the `yMax ≥ dataMax` invariant so bars can't overflow chartH).
+- `internal/card/weekday_start_test.go` — `TestPadToWeekGridRotatesByWeekStart` (leading pad matches configured start day), `TestRenderWeekdayRespectsWeekStart` (bar order rotates with `WeekStart`), `TestRenderHeatmapLabelsRespectWeekStart` (heatmap row labels rotate accordingly).
 - `internal/github/profile_test.go` — `sortLangStats` ordering and tiebreak.
-- `main_test.go` — `TestUTCOffsetLabel` covers UTC, Asia/Saigon, half-hour (Kolkata), quarter-hour (Kathmandu) zones.
+- `main_test.go` — `TestUTCOffsetLabel` covers UTC, Asia/Saigon, half-hour (Kolkata), quarter-hour (Kathmandu) zones. `TestParseWeekday` covers the `-start-of-week` input parsing.
 
 No network-touching tests; real runs verified via `-token` + local build.
 
