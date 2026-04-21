@@ -40,6 +40,7 @@ jobs:
             -user "${{ github.repository_owner }}" \
             -themes all \
             -tz Asia/Saigon \
+            -start-of-week monday \
             -out demo
 
       - name: Write demo READMEs (index + per-theme)

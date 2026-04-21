@@ -34,47 +34,23 @@ Cards rendered:
 
 ## Preview — dracula theme
 
-Live render against the author's profile, committed by [`.github/workflows/demo.yml`](./.github/workflows/demo.yml) on every push to `main`. Other 64 themes in the [**demo gallery**](./demo).
+Live render against the author's profile, committed by [`.github/workflows/demo.yml`](./.github/workflows/demo.yml) on every push to `main`. Rendered with `start_of_week: monday` so the heatmap rows and weekday bars start on Mon. Other 64 themes in the [**demo gallery**](./demo).
+
+<div align="center">
 
 <table>
-<tr>
-<td><img src="./demo/dracula/profile-details.svg" alt="profile details" /></td>
-<td><img src="./demo/dracula/stats.svg" alt="stats" /></td>
-</tr>
-<tr>
-<td><img src="./demo/dracula/streak.svg" alt="streak" /></td>
-<td><img src="./demo/dracula/top-starred-repos.svg" alt="top starred repos" /></td>
-</tr>
-<tr>
-<td><img src="./demo/dracula/repos-per-language.svg" alt="repos per language" /></td>
-<td><img src="./demo/dracula/contributions-heatmap.svg" alt="contributions heatmap" /></td>
-</tr>
-<tr>
-<td colspan="2" align="center"><img src="./demo/dracula/contributions-by-year.svg" alt="contributions by year" /></td>
-</tr>
-</table>
-
-### Last year vs all time
-
-<table>
+<tr><td><img src="./demo/dracula/profile-details.svg" alt="profile-details" /></td><td><img src="./demo/dracula/stats.svg" alt="stats" /></td></tr>
+<tr><td><img src="./demo/dracula/repos-per-language.svg" alt="repos-per-language" /></td><td><img src="./demo/dracula/top-starred-repos.svg" alt="top-starred-repos" /></td></tr>
+<tr><td><img src="./demo/dracula/contributions-by-year.svg" alt="contributions-by-year" /></td><td><img src="./demo/dracula/contributions-heatmap.svg" alt="contributions-heatmap" /></td></tr>
+<tr><td colspan="2" align="center"><img src="./demo/dracula/streak.svg" alt="streak" /></td></tr>
 <tr><th>Last year</th><th>All time</th></tr>
-<tr>
-<td><img src="./demo/dracula/most-commit-language.svg" alt="most commit language last year" /></td>
-<td><img src="./demo/dracula/most-commit-language-all-time.svg" alt="most commit language all time" /></td>
-</tr>
-<tr>
-<td><img src="./demo/dracula/productive-time.svg" alt="productive time last year" /></td>
-<td><img src="./demo/dracula/productive-time-all-time.svg" alt="productive time all time" /></td>
-</tr>
-<tr>
-<td><img src="./demo/dracula/productive-weekday.svg" alt="productive weekday last year" /></td>
-<td><img src="./demo/dracula/productive-weekday-all-time.svg" alt="productive weekday all time" /></td>
-</tr>
-<tr>
-<td><img src="./demo/dracula/contributions.svg" alt="contributions last year" /></td>
-<td><img src="./demo/dracula/contributions-all-time.svg" alt="contributions all time" /></td>
-</tr>
+<tr><td><img src="./demo/dracula/most-commit-language.svg" alt="most-commit-language" /></td><td><img src="./demo/dracula/most-commit-language-all-time.svg" alt="most-commit-language-all-time" /></td></tr>
+<tr><td><img src="./demo/dracula/contributions.svg" alt="contributions" /></td><td><img src="./demo/dracula/contributions-all-time.svg" alt="contributions-all-time" /></td></tr>
+<tr><td><img src="./demo/dracula/productive-weekday.svg" alt="productive-weekday" /></td><td><img src="./demo/dracula/productive-weekday-all-time.svg" alt="productive-weekday-all-time" /></td></tr>
+<tr><td><img src="./demo/dracula/productive-time.svg" alt="productive-time" /></td><td><img src="./demo/dracula/productive-time-all-time.svg" alt="productive-time-all-time" /></td></tr>
 </table>
+
+</div>
 
 ## In the wild
 
