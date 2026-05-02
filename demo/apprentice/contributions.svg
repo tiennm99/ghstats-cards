@@ -7,50 +7,48 @@
   <text x="22" y="153" font-size="10" fill="#ffffaf" text-anchor="end">0</text>
   <line x1="312" y1="150" x2="316" y2="150" stroke="#ffffaf"/>
   <text x="318" y="153" font-size="10" fill="#ffffaf" text-anchor="start">0</text>
-  <line x1="24" y1="135" x2="28" y2="135" stroke="#ffffaf"/>
-  <text x="22" y="138" font-size="10" fill="#ffffaf" text-anchor="end">100</text>
-  <line x1="312" y1="135" x2="316" y2="135" stroke="#ffffaf"/>
-  <text x="318" y="138" font-size="10" fill="#ffffaf" text-anchor="start">100</text>
-  <line x1="24" y1="120" x2="28" y2="120" stroke="#ffffaf"/>
-  <text x="22" y="123" font-size="10" fill="#ffffaf" text-anchor="end">200</text>
-  <line x1="312" y1="120" x2="316" y2="120" stroke="#ffffaf"/>
-  <text x="318" y="123" font-size="10" fill="#ffffaf" text-anchor="start">200</text>
-  <line x1="24" y1="105" x2="28" y2="105" stroke="#ffffaf"/>
-  <text x="22" y="108" font-size="10" fill="#ffffaf" text-anchor="end">300</text>
-  <line x1="312" y1="105" x2="316" y2="105" stroke="#ffffaf"/>
-  <text x="318" y="108" font-size="10" fill="#ffffaf" text-anchor="start">300</text>
-  <line x1="24" y1="90" x2="28" y2="90" stroke="#ffffaf"/>
-  <text x="22" y="93" font-size="10" fill="#ffffaf" text-anchor="end">400</text>
-  <line x1="312" y1="90" x2="316" y2="90" stroke="#ffffaf"/>
-  <text x="318" y="93" font-size="10" fill="#ffffaf" text-anchor="start">400</text>
-  <line x1="24" y1="75" x2="28" y2="75" stroke="#ffffaf"/>
-  <text x="22" y="78" font-size="10" fill="#ffffaf" text-anchor="end">500</text>
-  <line x1="312" y1="75" x2="316" y2="75" stroke="#ffffaf"/>
-  <text x="318" y="78" font-size="10" fill="#ffffaf" text-anchor="start">500</text>
-  <line x1="24" y1="60" x2="28" y2="60" stroke="#ffffaf"/>
-  <text x="22" y="63" font-size="10" fill="#ffffaf" text-anchor="end">600</text>
-  <line x1="312" y1="60" x2="316" y2="60" stroke="#ffffaf"/>
-  <text x="318" y="63" font-size="10" fill="#ffffaf" text-anchor="start">600</text>
+  <line x1="24" y1="133" x2="28" y2="133" stroke="#ffffaf"/>
+  <text x="22" y="136" font-size="10" fill="#ffffaf" text-anchor="end">200</text>
+  <line x1="312" y1="133" x2="316" y2="133" stroke="#ffffaf"/>
+  <text x="318" y="136" font-size="10" fill="#ffffaf" text-anchor="start">200</text>
+  <line x1="24" y1="115" x2="28" y2="115" stroke="#ffffaf"/>
+  <text x="22" y="118" font-size="10" fill="#ffffaf" text-anchor="end">400</text>
+  <line x1="312" y1="115" x2="316" y2="115" stroke="#ffffaf"/>
+  <text x="318" y="118" font-size="10" fill="#ffffaf" text-anchor="start">400</text>
+  <line x1="24" y1="98" x2="28" y2="98" stroke="#ffffaf"/>
+  <text x="22" y="101" font-size="10" fill="#ffffaf" text-anchor="end">600</text>
+  <line x1="312" y1="98" x2="316" y2="98" stroke="#ffffaf"/>
+  <text x="318" y="101" font-size="10" fill="#ffffaf" text-anchor="start">600</text>
+  <line x1="24" y1="80" x2="28" y2="80" stroke="#ffffaf"/>
+  <text x="22" y="83" font-size="10" fill="#ffffaf" text-anchor="end">800</text>
+  <line x1="312" y1="80" x2="316" y2="80" stroke="#ffffaf"/>
+  <text x="318" y="83" font-size="10" fill="#ffffaf" text-anchor="start">800</text>
+  <line x1="24" y1="63" x2="28" y2="63" stroke="#ffffaf"/>
+  <text x="22" y="66" font-size="10" fill="#ffffaf" text-anchor="end">1k</text>
+  <line x1="312" y1="63" x2="316" y2="63" stroke="#ffffaf"/>
+  <text x="318" y="66" font-size="10" fill="#ffffaf" text-anchor="start">1k</text>
   <line x1="24" y1="45" x2="28" y2="45" stroke="#ffffaf"/>
-  <text x="22" y="48" font-size="10" fill="#ffffaf" text-anchor="end">700</text>
+  <text x="22" y="48" font-size="10" fill="#ffffaf" text-anchor="end">1.2k</text>
   <line x1="312" y1="45" x2="316" y2="45" stroke="#ffffaf"/>
-  <text x="318" y="48" font-size="10" fill="#ffffaf" text-anchor="start">700</text>
+  <text x="318" y="48" font-size="10" fill="#ffffaf" text-anchor="start">1.2k</text>
   <line x1="28" y1="150" x2="312" y2="150" stroke="#ffffaf"/>
   <line x1="28" y1="150" x2="28" y2="154" stroke="#ffffaf"/>
   <text x="28" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">04/25</text>
-  <line x1="75" y1="150" x2="75" y2="154" stroke="#ffffaf"/>
-  <text x="75" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">06/25</text>
-  <line x1="122" y1="150" x2="122" y2="154" stroke="#ffffaf"/>
-  <text x="122" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">08/25</text>
-  <line x1="170" y1="150" x2="170" y2="154" stroke="#ffffaf"/>
-  <text x="170" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">10/25</text>
-  <line x1="217" y1="150" x2="217" y2="154" stroke="#ffffaf"/>
-  <text x="217" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">12/25</text>
-  <line x1="264" y1="150" x2="264" y2="154" stroke="#ffffaf"/>
-  <text x="264" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">02/26</text>
+  <line x1="71" y1="150" x2="71" y2="154" stroke="#ffffaf"/>
+  <text x="71" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">06/25</text>
+  <line x1="115" y1="150" x2="115" y2="154" stroke="#ffffaf"/>
+  <text x="115" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">08/25</text>
+  <line x1="159" y1="150" x2="159" y2="154" stroke="#ffffaf"/>
+  <text x="159" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">10/25</text>
+  <line x1="202" y1="150" x2="202" y2="154" stroke="#ffffaf"/>
+  <text x="202" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">12/25</text>
+  <line x1="246" y1="150" x2="246" y2="154" stroke="#ffffaf"/>
+  <text x="246" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">02/26</text>
+  <line x1="290" y1="150" x2="290" y2="154" stroke="#ffffaf"/>
+  <text x="290" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">04/26</text>
   <line x1="312" y1="150" x2="312" y2="154" stroke="#ffffaf"/>
-  <text x="312" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">04/26</text>
-  <path d="M28.00,144.45 C31.94,142.97 43.78,135.80 51.67,135.60 C59.56,135.40 67.44,142.12 75.33,143.25 C83.22,144.38 91.11,143.03 99.00,142.35 C106.89,141.67 114.78,138.88 122.67,139.20 C130.56,139.52 138.44,145.45 146.33,144.30 C154.22,143.15 162.11,137.62 170.00,132.30 C177.89,126.98 185.78,113.75 193.67,112.35 C201.56,110.95 209.44,118.53 217.33,123.90 C225.22,129.28 233.11,142.90 241.00,144.60 C248.89,146.30 256.78,140.25 264.67,134.10 C272.56,127.95 280.44,122.08 288.33,107.70 C296.22,93.33 308.06,57.82 312.00,47.85 L312.00,150.00 L28.00,150.00 Z" fill="#ffffff" fill-opacity="0.25" stroke="none"/>
-  <path d="M28.00,144.45 C31.94,142.97 43.78,135.80 51.67,135.60 C59.56,135.40 67.44,142.12 75.33,143.25 C83.22,144.38 91.11,143.03 99.00,142.35 C106.89,141.67 114.78,138.88 122.67,139.20 C130.56,139.52 138.44,145.45 146.33,144.30 C154.22,143.15 162.11,137.62 170.00,132.30 C177.89,126.98 185.78,113.75 193.67,112.35 C201.56,110.95 209.44,118.53 217.33,123.90 C225.22,129.28 233.11,142.90 241.00,144.60 C248.89,146.30 256.78,140.25 264.67,134.10 C272.56,127.95 280.44,122.08 288.33,107.70 C296.22,93.33 308.06,57.82 312.00,47.85" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <text x="312" y="166" font-size="10" fill="#ffffaf" text-anchor="middle">05/26</text>
+  <path d="M28.00,148.07 C31.64,147.04 42.56,142.11 49.85,141.86 C57.13,141.61 64.41,145.90 71.69,146.59 C78.97,147.27 86.26,146.46 93.54,145.97 C100.82,145.49 108.10,143.58 115.38,143.70 C122.67,143.82 129.95,147.35 137.23,146.68 C144.51,146.00 151.79,142.78 159.08,139.68 C166.36,136.57 173.64,128.85 180.92,128.04 C188.21,127.22 195.49,131.64 202.77,134.78 C210.05,137.91 217.33,145.86 224.62,146.85 C231.90,147.84 239.18,144.31 246.46,140.72 C253.74,137.14 261.03,139.46 268.31,125.33 C275.59,111.19 282.87,52.01 290.15,55.94 C297.44,59.86 308.36,133.38 312.00,148.86 L312.00,150.00 L28.00,150.00 Z" fill="#ffffff" fill-opacity="0.25" stroke="none"/>
+  <path d="M28.00,148.07 C31.64,147.04 42.56,142.11 49.85,141.86 C57.13,141.61 64.41,145.90 71.69,146.59 C78.97,147.27 86.26,146.46 93.54,145.97 C100.82,145.49 108.10,143.58 115.38,143.70 C122.67,143.82 129.95,147.35 137.23,146.68 C144.51,146.00 151.79,142.78 159.08,139.68 C166.36,136.57 173.64,128.85 180.92,128.04 C188.21,127.22 195.49,131.64 202.77,134.78 C210.05,137.91 217.33,145.86 224.62,146.85 C231.90,147.84 239.18,144.31 246.46,140.72 C253.74,137.14 261.03,139.46 268.31,125.33 C275.59,111.19 282.87,52.01 290.15,55.94 C297.44,59.86 308.36,133.38 312.00,148.86" fill="none" stroke="#ffffff" stroke-width="2"/>
   <text x="170" y="184" font-size="11" fill="#ffffaf" text-anchor="middle">mm/yy</text>
 </svg>
