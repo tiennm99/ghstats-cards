@@ -14,7 +14,28 @@ type contributionsCard struct{}
 func (contributionsCard) Filename() string { return "contributions.svg" }
 
 func (contributionsCard) SVG(p *github.Profile, t theme.Theme) ([]byte, error) {
-	return renderContributions("Contributions (last year)", p.DailyContributions, t), nil
+	return renderContributions("Contributions (last year)", trimToLastYear(p.DailyContributions), t), nil
+}
+
+// trimToLastYear keeps only the trailing 13-month window ending at the
+// series' last day. GitHub's contributionCalendar is week-aligned, so a
+// "last year" query bleeds into the calendar month before today minus one
+// year (e.g. asking on 2026-05-02 returns days back to ~2025-04-27). That
+// extra partial month inflates the bucket count to 14 and forces the x-axis
+// stride logic to place the final two month labels right next to each other.
+// Trimming to start-of-(today.Month - 1y) restores a clean 13-bucket span.
+func trimToLastYear(days []github.DailyContribution) []github.DailyContribution {
+	if len(days) == 0 {
+		return days
+	}
+	last := days[len(days)-1].Date
+	cutoff := time.Date(last.Year()-1, last.Month(), 1, 0, 0, 0, 0, time.UTC)
+	for i, d := range days {
+		if !d.Date.Before(cutoff) {
+			return days[i:]
+		}
+	}
+	return nil
 }
 
 type contributionsAllTimeCard struct{}
