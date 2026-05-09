@@ -1,5 +1,10 @@
 {
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git push *)"
+    ]
   }
 }
