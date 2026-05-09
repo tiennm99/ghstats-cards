@@ -107,6 +107,35 @@ func TestRenderHeatmapLabelsRespectWeekStart(t *testing.T) {
 	}
 }
 
+// TestRenderHeatmapMonthLabelsSkipPaddedCells guards against the leading
+// zero-pad cell at week 0 leaking a bogus "Jan" label (zero time = 0001-01-01,
+// Day=1 ≤ 7, Month=Jan). When weekStart=Monday and data starts mid-week, the
+// pad cell would otherwise render an out-of-range month above the first column.
+func TestRenderHeatmapMonthLabelsSkipPaddedCells(t *testing.T) {
+	th, _ := theme.Lookup("dracula")
+	// Sunday 2025-04-27 — with weekStart=Monday this needs 6 leading zero pads,
+	// putting the bogus "Jan" label at week 0 in the buggy version.
+	start := time.Date(2025, 4, 27, 0, 0, 0, 0, time.UTC)
+	var days []github.DailyContribution
+	for i := 0; i < 200; i++ {
+		days = append(days, github.DailyContribution{Date: start.AddDate(0, 0, i), Count: i % 5})
+	}
+
+	svg := string(renderHeatmap("t", days, time.Monday, th))
+
+	// The data range is 2025-04-27 .. 2025-11-12 — none of which is January.
+	// Any "Jan" label is the leaked zero-time month from the leading pad.
+	if strings.Contains(svg, ">Jan</text>") {
+		t.Error("month-label loop leaked a Jan label from the leading zero-pad cell")
+	}
+	// Sanity: months actually in range should still appear.
+	for _, m := range []string{"May", "Jun", "Jul"} {
+		if !strings.Contains(svg, ">"+m+"</text>") {
+			t.Errorf("expected month label %q in heatmap, missing", m)
+		}
+	}
+}
+
 // extractWeekdayLabels pulls weekday 3-letter names out of <text …>…</text>
 // blocks in the order they appear. Good enough for bar-chart cards that emit
 // exactly 7 weekday labels and no colliding strings.

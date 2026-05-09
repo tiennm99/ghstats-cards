@@ -103,7 +103,7 @@ func renderHeatmapHalf(b *strings.Builder, cells []github.DailyContribution, sta
 	lastMonth := time.Month(0)
 	for w := startWeek; w < endWeek; w++ {
 		first := cells[w*7].Date
-		if first.Day() > 7 || first.Month() == lastMonth {
+		if first.IsZero() || first.Day() > 7 || first.Month() == lastMonth {
 			continue
 		}
 		lastMonth = first.Month()
