@@ -31,6 +31,7 @@ Cards rendered:
 | 12 | **Productive weekday (all time)** | Same as #5 but over lifetime commits |
 | 13 | **Contributions (all time)** | Area chart across every active year, auto-thinned x-axis labels |
 | 14 | **Contributions by year** | One bar per active year, peak year highlighted |
+| 15 | **Records (all time)** | Six personal-best rows: peak day, peak month, first contribution, lifetime active days, account age, languages used |
 
 ## Preview — dracula theme
 
@@ -42,7 +43,7 @@ Live render against the author's profile, committed by [`.github/workflows/demo.
 <tr><td><img src="./demo/dracula/profile-details.svg" alt="profile-details" /></td><td><img src="./demo/dracula/stats.svg" alt="stats" /></td></tr>
 <tr><td><img src="./demo/dracula/repos-per-language.svg" alt="repos-per-language" /></td><td><img src="./demo/dracula/top-starred-repos.svg" alt="top-starred-repos" /></td></tr>
 <tr><td><img src="./demo/dracula/contributions-by-year.svg" alt="contributions-by-year" /></td><td><img src="./demo/dracula/contributions-heatmap.svg" alt="contributions-heatmap" /></td></tr>
-<tr><td colspan="2" align="center"><img src="./demo/dracula/streak.svg" alt="streak" /></td></tr>
+<tr><td><img src="./demo/dracula/records.svg" alt="records" /></td><td><img src="./demo/dracula/streak.svg" alt="streak" /></td></tr>
 <tr><th>Last year</th><th>All time</th></tr>
 <tr><td><img src="./demo/dracula/most-commit-language.svg" alt="most-commit-language" /></td><td><img src="./demo/dracula/most-commit-language-all-time.svg" alt="most-commit-language-all-time" /></td></tr>
 <tr><td><img src="./demo/dracula/contributions.svg" alt="contributions" /></td><td><img src="./demo/dracula/contributions-all-time.svg" alt="contributions-all-time" /></td></tr>
@@ -106,6 +107,7 @@ Then embed the cards in your `README.md`:
 ![productive-weekday-all-time](./output/dracula/productive-weekday-all-time.svg)
 ![contributions-all-time](./output/dracula/contributions-all-time.svg)
 ![contributions-by-year](./output/dracula/contributions-by-year.svg)
+![records](./output/dracula/records.svg)
 ```
 
 ### Action inputs
@@ -205,6 +207,7 @@ output/
     productive-weekday-all-time.svg
     contributions-all-time.svg
     contributions-by-year.svg
+    records.svg
 ```
 
 `output/` is entirely gitignored — it's regenerated on each run. For a

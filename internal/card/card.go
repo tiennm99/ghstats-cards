@@ -36,6 +36,7 @@ var allCards = []Card{
 	productiveWeekdayAllTimeCard{},
 	contributionsAllTimeCard{},
 	contributionsByYearCard{},
+	recordsCard{},
 }
 
 // RenderAll writes every card into outDir/<themeID>/.
